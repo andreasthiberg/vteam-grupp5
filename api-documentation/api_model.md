@@ -2,22 +2,30 @@
 
 Infotext
 
+## Allmänt
+
+Hämta information om cyklar, kunder och kartor
+
 ## Elsparkcyklar
 
-### Attribut
-
-id
-position
-hastighet
-status
-kör (ja/nej)
-
-### Handlingar
+hämta information om cykeln
+skicka in information från cykeln
+skicka varning om lågt batteri
+spara logg efter avslutad resa
+stoppa cykeln från att köra
 
 ## Kunder
 
-## Kartor
+hämta information om kunden
+skapa nytt konto
+logga in
+fylla på pengar
+registrera månatlig betalning
+hyra cykel
+lämna tillbaka cykel
 
-## Laddstationer
+## Admin
 
-## Parkeringszoner
+Logga in som admin
+stoppa specifik cykel
+ta in cykel för laddning eller underhåll
