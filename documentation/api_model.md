@@ -20,26 +20,26 @@ Information som ska gå att hämta:
 * Loggade resor
 * Kartzoner, position för laddstationer, osv.
 
-Övra möjliga handlingar är listade nedan, kategoriserade enligt det berörda elementet/applikationen.
+Övra funktioner som ska stödjas av API:t är listade nedan, kategoriserade enligt det berörda elementet/applikationen.
 
 ## Elsparkcyklar
 
-skicka in information från cykeln
-skicka varning om lågt batteri
-spara logg efter avslutad resa
-stoppa cykeln från att köra
+* skicka in information från cykeln
+* skicka varning om lågt batteri
+* spara logg efter avslutad resa
+* stoppa cykeln från att köra
 
 ## Kunder
 
-skapa nytt konto
-logga in
-fylla på pengar
-registrera månatlig betalning
-hyra cykel/starta resa
-lämna tillbaka cykel/avsluta resa
+* Skapa nytt konto
+* Logga in som kund
+* Fylla på pengar
+* Registrera månatlig betalning
+* Hyra cykel/starta resa
+* Lämna tillbaka cykel/avsluta resa
 
 ## Admin
 
-Logga in som admin
-stoppa specifik cykel
-ta in cykel för laddning eller underhåll
+* Logga in som admin
+* Stoppa specifik cykel
+* Ta in specifik cykel för laddning eller underhåll
