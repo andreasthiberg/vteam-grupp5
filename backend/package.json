@@ -1,14 +1,14 @@
 {
-  "name": "vteam-backend",
+  "name": "high5-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend server for High5 electric scooter system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon app.js",
     "start": "node app.js"
   },
-  "author": "",
+  "author": "vteam grupp 5",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
