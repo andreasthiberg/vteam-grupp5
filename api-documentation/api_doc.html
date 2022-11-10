@@ -96,6 +96,24 @@ position
 status
 etc  
 </pre>
+
+<h3>Skicka ett kommando till en cykel</h3>
+
+<pre class="api-text">POST /scooters/command/:scooter_id</pre>
+    
+<p>Nödvändiga parametrar:</p>
+
+<pre class="api-text">
+id
+authetication?
+</pre>
+
+<p>Möjliga parametrar:</p>
+
+<pre class="api-text">
+status
+command
+</pre>
     
 <h2>Kartor</h2>
 
@@ -209,6 +227,81 @@ Attribut 3
     ]
 }
 </pre>
+
+<h2>Reselogg</h2>
+
+<p>Introtext.</p>
+<p>En reselogg har följande attribut:</p>
+
+<pre class="api-text">
+Attribut 1
+Attribut 2
+Attribut 3
+</pre>
+
+
+<h3>Hämta information om alla resor</h3>
+
+<pre class="api-text">GET /trips</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+        {
+            "id": 2,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        }
+    ]
+}
+    </pre>
+
+<h3>Hämta information om en specific resa</h3>
+
+<pre class="api-text">GET /trips/:trip</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+    ]
+}
+</pre>
+
+<h3>Skapa en ny resa</h3>
+
+<pre class="api-text">POST /trips/</pre>
+
+<p>Nödvändiga parametrar:</p>
+
+<pre class="api-text">
+att1
+att2
+</pre>
+
+<p>Möjliga parametrar:</p>
+
+<pre class="api-text">
+att3
+att4
+</pre>
+    
 
 
 </article>
