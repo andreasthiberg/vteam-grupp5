@@ -1,0 +1,13 @@
+version: "3"
+networks:
+    highfive:
+services:
+    server:
+        build: ./backend
+        container_name: "highfive-server"
+        ports:
+            - "3000:3000"
+        networks:
+            highfive:
+        restart:
+            "always"
