@@ -11,7 +11,6 @@ const port = process.env.NODE_DOCKER_PORT || 3000;
 /* Create db connection */
 const connection = mysql.createPool(dbConfig);
   
-
 /* Index route */
 app.get("/", (req, res) => {
     connection.query("SELECT * FROM Scooter", (err, rows) => {
