@@ -16,11 +16,11 @@ stoppa den.
 Information som ska gå att hämta:
 
 * Cyklars status, fart, position osv.
-* Registrede kunder och deras information
+* Registrerade kunder och deras information
 * Loggade resor
 * Kartzoner, position för laddstationer, osv.
 
-Övra funktioner som ska stödjas av API:t är listade nedan, kategoriserade enligt det berörda elementet/applikationen.
+Övriga funktioner som ska stödjas av API:t är listade nedan, kategoriserade enligt det berörda elementet/applikationen.
 
 ## Elsparkcyklar
 
