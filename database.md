@@ -25,6 +25,18 @@ I historiken ska det finnas detaljer om kundens gamla resor
 - slutposition,
 - resans pris
 
+## Städer
+- namn,
+- taxa,
+- straffavgift,
+- rabatt.
+
+## Parkeringszoner
+- position.
+
+## Laddstationer
+- position.
+
 
 ## Relationer i databasen
 Cykel -> kund: cykeln är uthyrd av en kund
