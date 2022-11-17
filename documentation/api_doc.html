@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Dokumentation API - Elsparkcykelsystem (Under arbete)</title>
+</head> 
+<body>
+<div class="page-container">
+<article class="content-div">
+<h1>Dokumentation för REST API - Elsparkcykelsystem - vteam grupp 5</h1>
+<p>Introtext!</p>
+
+<p>Mer text</p> 
+
+<h2>Om API:t</h2>
+
+<p>Mer text</p> 
+
+<h2>Autentisering</h2>
+
+<p>Om autentisering - en separat version av dokumentet för tredjeparts-aktörer?</p> 
+<br>
+<h1>API</h1>
+
+<h2>Elsparkcyklar</h2>
+
+<p>Introtext.</p>
+<p>En elsparkcykel har följande attribut:</p>
+
+<pre class="api-text">
+Attribut 1
+Attribut 2
+Attribut 3
+</pre>
+
+
+<h3>Hämta information om alla cyklar</h3>
+
+<pre class="api-text">GET /scooters</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+        {
+            "id": 2,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        }
+    ]
+}
+    </pre>
+
+<h3>Hämta information om en cykel</h3>
+
+<pre class="api-text">GET /scooters/:scooter_id</pre>
+    
+<p>Resultat:</p>
+    
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        }
+    ]
+}
+</pre>
+
+<h3>Skicka uppdaterad information om en särskild cykel</h3>
+
+<pre class="api-text">PUT /scooters/:scooter_id</pre>
+    
+<p>Nödvändiga parametrar:</p>
+
+<pre class="api-text">
+id
+authetication?
+</pre>
+
+<p>Möjliga parametrar:</p>
+
+<pre class="api-text">
+position
+status
+etc  
+</pre>
+
+<h3>Skicka ett kommando till en cykel</h3>
+
+<pre class="api-text">POST /scooters/command/:scooter_id</pre>
+    
+<p>Nödvändiga parametrar:</p>
+
+<pre class="api-text">
+id
+authetication?
+</pre>
+
+<p>Möjliga parametrar:</p>
+
+<pre class="api-text">
+status
+command
+</pre>
+    
+<h2>Kartor</h2>
+
+<p>(Oklart om kartor ska ligga i databasen, eller bara zoner/laddstationer?)</p>
+
+<p>En karta har följande attribut:</p>
+
+<pre class="api-text">
+Attribut 1
+Attribut 2
+Attribut 3
+</pre>
+
+
+<h3>Hämta alla kartor</h3>
+
+<pre class="api-text">GET /maps</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+    {
+        "data": [
+            {
+                "id": 1,
+                "att1": "?",
+                "att2": "?",
+                "att3": "?"
+            },
+            {
+                "id": 2,
+                "att1": "?",
+                "att2": "?",
+                "att3": "?"
+            }
+        ]
+    }
+</pre>
+
+<h3>Hämta en specific karta</h3>
+
+<pre class="api-text">GET /maps/:map_id</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+    ]
+}
+</pre>
+
+<h2>Kunder</h2>
+
+<p>Introtext.</p>
+<p>En kund har följande attribut:</p>
+
+<pre class="api-text">
+Attribut 1
+Attribut 2
+Attribut 3
+</pre>
+
+
+<h3>Hämta information om alla kunder</h3>
+
+<pre class="api-text">GET /customers</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+        {
+            "id": 2,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        }
+    ]
+}
+    </pre>
+
+<h3>Hämta information om en specific kund</h3>
+
+<pre class="api-text">GET /customers/:customer_id</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+    ]
+}
+</pre>
+
+<h2>Reselogg</h2>
+
+<p>Introtext.</p>
+<p>En reselogg har följande attribut:</p>
+
+<pre class="api-text">
+Attribut 1
+Attribut 2
+Attribut 3
+</pre>
+
+
+<h3>Hämta information om alla resor</h3>
+
+<pre class="api-text">GET /trips</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+        {
+            "id": 2,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        }
+    ]
+}
+    </pre>
+
+<h3>Hämta information om en specific resa</h3>
+
+<pre class="api-text">GET /trips/:trip</pre>
+
+<p>Resultat:</p>
+
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": 1,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+    ]
+}
+</pre>
+
+<h3>Skapa en ny resa</h3>
+
+<pre class="api-text">POST /trips/</pre>
+
+<p>Nödvändiga parametrar:</p>
+
+<pre class="api-text">
+att1
+att2
+</pre>
+
+<p>Möjliga parametrar:</p>
+
+<pre class="api-text">
+att3
+att4
+</pre>
+    
+
+
+</article>
+</div>
+</body>
+</html> 

@@ -1,0 +1,24 @@
+version: "3"
+networks:
+    highfive:
+services:
+    mariadb:
+        build: ./database
+        restart: unless-stopped
+        env_file: ./.env
+        environment:
+          - MYSQLDB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
+          - MYSQLDB_DATABASE=$MARIADB_DATABASE
+        networks:
+          highfive:
+    server:
+        depends_on:
+          - mariadb
+        build: ./backend
+        container_name: "highfive-server"
+        env_file: ./.env
+        ports:
+          - 3000:3000
+        networks:
+          highfive:
+        restart: "always"
