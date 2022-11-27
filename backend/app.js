@@ -13,10 +13,8 @@ const port = process.env.NODE_DOCKER_PORT || 3000;
 /* Create db connection */
 const connection = mysql.createPool(dbConfig);
 
-/* Setup GraphQL route */
-
+/* Setup GraphQL route with schema */
 const RootQueryType = require("./graphql/root.js");
-
 const schema = new GraphQLSchema({
     query: RootQueryType
 });
