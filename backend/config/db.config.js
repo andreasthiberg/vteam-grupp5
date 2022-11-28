@@ -1,3 +1,5 @@
+//Configuration for database connection - data comes from .env file included by docker compose
+
 module.exports = {
     host: process.env.DB_HOST,
     user: process.env.MARIADB_USER,

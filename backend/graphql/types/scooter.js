@@ -1,3 +1,5 @@
+//GraphQL type representing a scooter
+
 const {
     GraphQLObjectType,
     GraphQLString,
