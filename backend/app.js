@@ -26,20 +26,8 @@ app.use('/graphql', graphqlHTTP({
   
 /* Index route */
 app.get("/", (req, res) => {
-    connection.query("SELECT * FROM Scooter", (err, rows) => {
-      if (err) {
-        res.json({
-          success: false,
-          err,
-        });
-      } else {
-        res.json({
-          success: true,
-          rows,
-        });
-      }
-    });
-  });
+  res.json("Welcome to the High5 GraphQL API.")
+});
 
 /* Start server */
 app.listen(port, () => console.log("Listening on port " + port));

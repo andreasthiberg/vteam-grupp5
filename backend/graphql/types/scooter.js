@@ -8,8 +8,8 @@ const ScooterType = new GraphQLObjectType({
     name: 'Scooter',
     description: 'This represents a scooter',
     fields: () => ({
-        _id: { type: GraphQLNonNull(GraphQLString) },
-        position: { type: GraphQLNonNull(GraphQLString) }
+        _id: { type: new GraphQLNonNull(GraphQLString) },
+        position: { type: new GraphQLNonNull(GraphQLString) }
     })
 })
 
