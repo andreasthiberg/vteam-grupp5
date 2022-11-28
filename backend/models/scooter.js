@@ -1,6 +1,6 @@
 // Scooter model for communicating with scooters and getting scooter info from database
 
-const dbModel = require("../database.js");
+const dbModel = require("./database.js");
 
 const scooter = {
 
@@ -32,7 +32,7 @@ const scooter = {
                 }
             })
         } finally {
-            await db.end();
+            db.end();
         }
 
         return result;
