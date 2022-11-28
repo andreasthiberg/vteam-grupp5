@@ -37,10 +37,12 @@ const RootQueryType = new GraphQLObjectType({
         },
         apiTest: {
             type: GraphQLString,
-            description: 'Route for testing GraphQL API',
+            description: 'Rooute for testing GraphQL API',
             resolve: async function(parent, args) {
                 return "You connected to the High5 GraphQL API!"
             }
         }
     })
 });
+
+module.exports = RootQueryType;
