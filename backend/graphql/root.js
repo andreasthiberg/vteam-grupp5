@@ -20,7 +20,7 @@ const RootQueryType = new GraphQLObjectType({
             description: 'List of all scooters',
             resolve: async function(parent, args) {
                 let scooterArray = await scooterModel.getAll()
-    
+                console.log(scooterArray);
                 return scooterArray;
             }
         },

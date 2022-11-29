@@ -11,35 +11,14 @@ const scooter = {
     //Gets all scooters from database, or return error if request fails
     getAll: async function getAll() {
 
-        let db;
-        let sql = "select * from scooter";
-        let result;
+        let sql = "SELECT * FROM Scooter";
+        let res;
+        let db = await dbModel.getDb();
+    
+        res = await db.query(sql);
+    
+        return res;
 
-        try {
-            db = await dbModel.getDb();
-
-            dbConnection.query(sql, (error,data,fields) => {
-                if (error) {
-                    result = error;
-                    return; 
-                }
-                result = data;
-            });
-
-        } catch (e) {
-            return res.json({
-                errors: {
-                    status: 500,
-                    name: "Database Error",
-                    description: e.message,
-                    path: "/",
-                }
-            })
-        } finally {
-            db.end();
-        }
-
-        return result;
     },
 };
 
