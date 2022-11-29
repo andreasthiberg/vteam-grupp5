@@ -22,3 +22,17 @@ services:
         networks:
           highfive:
         restart: "always"
+    webapp_kund:
+        build: ./webapp_kund
+        container_name: "webapp_kund"
+        ports:
+          - '3001:3000'
+        networks:
+          highfive:
+    webapp_admin:
+        build: ./webapp_admin
+        container_name: "webapp_admin"
+        ports:
+          - '3002:3000'
+        networks:
+          highfive:
