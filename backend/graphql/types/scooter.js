@@ -1,18 +1,21 @@
-//GraphQL type representing a scooter
+// GraphQL type representing a scooter
 
 const {
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLNonNull
-} = require('graphql');
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLInt
+} = require('graphql')
 
 const ScooterType = new GraphQLObjectType({
-    name: 'Scooter',
-    description: 'This represents a scooter',
-    fields: () => ({
-        scooter_id: { type: new GraphQLNonNull(GraphQLString) },
-        scooter_pos: { type: new GraphQLNonNull(GraphQLString) }
-    })
+  name: 'Scooter',
+  description: 'This represents a scooter',
+  fields: () => ({
+    id: { type: new GraphQLNonNull(GraphQLString) },
+    pos: { type: new GraphQLNonNull(GraphQLString) },
+    status: { type: new GraphQLNonNull(GraphQLString) },
+    battery: { type: new GraphQLNonNull(GraphQLInt) }
+  })
 })
 
-module.exports = ScooterType;
+module.exports = ScooterType
