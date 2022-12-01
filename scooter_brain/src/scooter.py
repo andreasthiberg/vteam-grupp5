@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 """Scooter simulation class"""
 
 class Scooter():
@@ -7,4 +9,5 @@ class Scooter():
         self.id = id
         self.pos = pos
 
-    
+    def send_update(self):
+        print("Hej från scooter " + str(self.id))

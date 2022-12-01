@@ -39,7 +39,7 @@ const RootQueryType = new GraphQLObjectType({
             type: GraphQLString,
             description: 'Rooute for testing GraphQL API',
             resolve: async function(parent, args) {
-                return "You connected to the High5 GraphQL API!"
+                return "You connected to the High5 GraphQL API! Good job!"
             }
         }
     })
