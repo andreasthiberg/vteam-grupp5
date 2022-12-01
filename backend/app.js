@@ -12,9 +12,12 @@ const port = process.env.NODE_DOCKER_PORT || 3000;
 
 
 // Setup GraphQL route with schema
-const RootQueryType = require("./graphql/root.js");
+const RootQueryType = require("./graphql/root_query.js");
+const RootMutationType = require("./graphql/root_mutation.js");
+
 const schema = new GraphQLSchema({
-    query: RootQueryType
+    query: RootQueryType,
+    mutation: RootMutationType
 });
 
 // Add GraphQL route

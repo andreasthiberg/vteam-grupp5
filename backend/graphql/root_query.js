@@ -3,14 +3,20 @@
 const {
     GraphQLObjectType,
     GraphQLString,
-    GraphQLList
+    GraphQLList,
+    GraphQLInt
 } = require('graphql');
 
 const ScooterType = require('./types/scooter.js');
+const UserType = require('./types/user.js');
 
 const scooterModel = require("../models/scooter.js");
-const scooter = require('../models/scooter.js');
+const userModel = require("../models/user.js");
 
+
+let root = {
+    
+}
 const RootQueryType = new GraphQLObjectType({
     name: 'Query',
     description: 'Root Query',
@@ -20,7 +26,6 @@ const RootQueryType = new GraphQLObjectType({
             description: 'List of all scooters',
             resolve: async function(parent, args) {
                 let scooterArray = await scooterModel.getAll()
-                console.log(scooterArray);
                 return scooterArray;
             }
         },
@@ -28,11 +33,11 @@ const RootQueryType = new GraphQLObjectType({
             type: ScooterType,
             description: 'A single scooter',
             args: {
-                scooterId: { type: GraphQLString }
+                scooterId: { type: GraphQLInt }
             },
             resolve: async function(parent, args) {
                 let scooterArray = await scooterModel.getAll();
-                return scooterArray.find(document => scooter._id.equals(args.scooterId));
+                return scooterArray.find(document => scooter.scooter_id.equals(args.scooterId));
             }
         },
         apiTest: {
@@ -41,7 +46,26 @@ const RootQueryType = new GraphQLObjectType({
             resolve: async function(parent, args) {
                 return "You connected to the High5 GraphQL API! Good job!"
             }
-        }
+        },
+        user: {
+            type: UserType,
+            description: 'A single user',
+            args: {
+                userId: { type: GraphQLInt }
+            },
+            resolve: async function(parent, args) {
+                let userArray = await userModel.getAll();
+                return userArray.find(user => user.id.equals(args.userId));
+            }
+        },
+        users: {
+            type: new GraphQLList(UserType),
+            description: 'List of all users',
+            resolve: async function(parent, args) {
+                let userArray = await userModel.getAll();
+                return userArray;
+            }
+        },
     })
 });
 

@@ -1,8 +1,4 @@
-// Scooter model for communicating with scooters and getting scooter info from database (?)
-//
-// Här kan man antingen bara ha koden för att hämta/skriva info om cyklar till databasen,
-// eller också koden för att till exempel skicka kommandon till en cykel från admin. Den skulle
-// annars kunna ligga i en annan modul (typ scooterCommands.js)
+// Model for writing and reading scooter info from database
 
 const dbModel = require("./database.js");
 
@@ -16,7 +12,6 @@ const scooter = {
         let db = await dbModel.getDb();
     
         res = await db.query(sql);
-    
         return res;
 
     },
