@@ -16,19 +16,23 @@ class ScooterSimulation():
         numberOfScooters = 3
 
         # Create a scooter objects and appends them to the array
-        for x in range(3):
+        for x in range(numberOfScooters):
             newScooter = Scooter(x,[0,0])
             self.scooter_array.append(newScooter)
 
+        time.sleep(3)
+
+        # Call update method continuously
         while True:
             print("Uppdaterar...")
             self.get_update()
 
 
     def get_update(self):
+        """ Tells every scooter to send and update and then wait x seconds """
         for scooter in self.scooter_array:
             scooter.send_update()
-        time.sleep(1)
+        time.sleep(5)
         
     @staticmethod
     def quit():

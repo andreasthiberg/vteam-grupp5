@@ -15,7 +15,7 @@ services:
         depends_on:
           - mariadb
         build: ./backend
-        container_name: "highfive-backend"
+        container_name: "backend"
         volumes:
           - ./backend:/backend
         env_file: ./.env
@@ -38,3 +38,16 @@ services:
           - '3002:3000'
         networks:
           highfive:
+    scooter_brain:
+        depends_on:
+          - backend
+        build: ./scooter_brain
+        container_name: "scooter_brain"
+        volumes:
+          - ./scooter_brain:/scooter_brain
+        env_file: ./.env
+        networks:
+          highfive:
+        links:
+            - backend:backend
+        restart: "always"
