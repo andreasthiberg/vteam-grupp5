@@ -9,17 +9,17 @@ const dbModel = require("./database.js");
 const scooter = {
 
     //Gets all scooters from database, or return error if request fails
-    getAll: async function getAll() {
-
-        let sql = "SELECT * FROM Scooter";
-        let res;
+    getAllBikes: async function getAllBikes() {
         let db = await dbModel.getDb();
+        let res;
+
+        sql = `CALL get_all_bikes();
+        `;
     
         res = await db.query(sql);
     
         return res;
-
-    },
+    }
 };
 
-module.exports = scooter
+module.exports = scooter;
