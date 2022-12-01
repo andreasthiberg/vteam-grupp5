@@ -1,72 +1,110 @@
 // Root query object for GraphQL API.
 
 const {
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLList,
-    GraphQLInt
-} = require('graphql');
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt
+} = require('graphql')
 
-const ScooterType = require('./types/scooter.js');
-const UserType = require('./types/user.js');
+// Custom types
+const ScooterType = require('./types/scooter.js')
+const CustomerType = require('./types/customer.js')
+const TripType = require('./types/trip.js')
+const ParkingZoneType = require('./types/parking_zone.js')
+const ChargingStationType = require('./types/charging_station.js')
 
-const scooterModel = require("../models/scooter.js");
-const userModel = require("../models/user.js");
+// Models for database communication
+const scooterModel = require('../models/scooter.js')
+const customerModel = require('../models/customer.js')
+const tripModel = require('../models/trip.js')
+const mapModel = require('../models/map.js')
 
-
-let root = {
-    
-}
 const RootQueryType = new GraphQLObjectType({
-    name: 'Query',
-    description: 'Root Query',
-    fields: () => ({
-        scooters: {
-            type: new GraphQLList(ScooterType),
-            description: 'List of all scooters',
-            resolve: async function(parent, args) {
-                let scooterArray = await scooterModel.getAll()
-                return scooterArray;
-            }
-        },
-        scooter: {
-            type: ScooterType,
-            description: 'A single scooter',
-            args: {
-                scooterId: { type: GraphQLInt }
-            },
-            resolve: async function(parent, args) {
-                let scooterArray = await scooterModel.getAll();
-                return scooterArray.find(document => scooter.scooter_id.equals(args.scooterId));
-            }
-        },
-        apiTest: {
-            type: GraphQLString,
-            description: 'Rooute for testing GraphQL API',
-            resolve: async function(parent, args) {
-                return "You connected to the High5 GraphQL API! Good job!"
-            }
-        },
-        user: {
-            type: UserType,
-            description: 'A single user',
-            args: {
-                userId: { type: GraphQLInt }
-            },
-            resolve: async function(parent, args) {
-                let userArray = await userModel.getAll();
-                return userArray.find(user => user.id.equals(args.userId));
-            }
-        },
-        users: {
-            type: new GraphQLList(UserType),
-            description: 'List of all users',
-            resolve: async function(parent, args) {
-                let userArray = await userModel.getAll();
-                return userArray;
-            }
-        },
-    })
-});
+  name: 'Query',
+  description: 'Root Query',
+  fields: () => ({
+    scooters: {
+      type: new GraphQLList(ScooterType),
+      description: 'List of all scooters',
+      resolve: async function (parent, args) {
+        const scooterArray = await scooterModel.getAll()
+        return scooterArray
+      }
+    },
+    scooter: {
+      type: ScooterType,
+      description: 'A single scooter',
+      args: {
+        scooterId: { type: GraphQLInt }
+      },
+      resolve: async function (parent, args) {
+        const scooterArray = await scooterModel.getAll()
+        return scooterArray.find(scooter => scooter.scooter_id.equals(args.scooterId))
+      }
+    },
+    apiTest: {
+      type: GraphQLString,
+      description: 'Rooute for testing GraphQL API',
+      resolve: async function (parent, args) {
+        return 'You connected to the High5 GraphQL API! Good job!'
+      }
+    },
+    customer: {
+      type: CustomerType,
+      description: 'A single customer',
+      args: {
+        customerId: { type: GraphQLInt }
+      },
+      resolve: async function (parent, args) {
+        const customerArray = await customerModel.getAll()
+        return customerArray.find(customer => customer.id.equals(args.customerId))
+      }
+    },
+    customers: {
+      type: new GraphQLList(CustomerType),
+      description: 'List of all customers',
+      resolve: async function (parent, args) {
+        const customerArray = await customerModel.getAll()
+        return customerArray
+      }
+    },
+    trip: {
+      type: TripType,
+      description: 'A single trip',
+      args: {
+        tripId: { type: GraphQLInt }
+      },
+      resolve: async function (parent, args) {
+        const tripArray = await tripModel.getAll()
+        return tripArray.find(trip => trip.id.equals(trip.tripId))
+      }
+    },
+    trips: {
+      type: new GraphQLList(TripType),
+      description: 'List of all trips',
+      resolve: async function (parent, args) {
+        const tripArray = await tripModel.getAll()
+        return tripArray
+      }
+    },
+    parkingZones: {
+      type: new GraphQLList(ParkingZoneType),
+      description: 'List of all parking zones',
+      resolve: async function (parent, args) {
+        const parkingZoneArray = await mapModel.getParkingZones()
+        return parkingZoneArray
+      }
+    },
+    chargingStations: {
+      type: new GraphQLList(ChargingStationType),
+      description: 'List of all charging stations',
+      resolve: async function (parent, args) {
+        const chargingStationArray = await mapModel.getChargingStations()
+        return chargingStationArray
+      }
+    }
+  })
+})
 
-module.exports = RootQueryType;
+module.exports = RootQueryType
