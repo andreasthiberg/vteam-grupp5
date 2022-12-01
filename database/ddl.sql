@@ -1,16 +1,16 @@
 USE high5;
 
-DROP TABLE IF EXISTS `bike`;
+DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
 DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `charging_zone`;
 DROP TABLE IF EXISTS `city`;
 DROP TABLE IF EXISTS `history`;
 
-DROP PROCEDURE IF EXISTS `get_all_bikes`;
+DROP PROCEDURE IF EXISTS `get_all_scooters`;
 
 
-CREATE TABLE `bike`
+CREATE TABLE `scooter`
     (
     `id` INT AUTO_INCREMENT,
     `status` CHAR(20),
@@ -61,7 +61,7 @@ CREATE TABLE `city`
 CREATE TABLE `history`
     (
     `id` INT AUTO_INCREMENT,
-    `bike_id` INT,
+    `scooter_id` INT,
     `customer_id` INT,
     `start_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `end_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -70,16 +70,18 @@ CREATE TABLE `history`
     `price` FLOAT,
 
     PRIMARY KEY(`id`)
+    FOREIGN KEY(`scooter_id`) REFERENCES `scooter` (`id`),
+    FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`),
     );
 
 ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
 
 
--- Procedure to show all bikes
+-- Procedure to show all scooters
 DELIMITER ;;
-CREATE PROCEDURE get_all_bikes()
+CREATE PROCEDURE get_all_scooters()
 BEGIN
-    SELECT * FROM bikes;
+    SELECT * FROM scooter;
 END
 ;;
 DELIMITER ;
