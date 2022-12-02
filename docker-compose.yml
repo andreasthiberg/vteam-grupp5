@@ -40,3 +40,14 @@ services:
           - '3002:3000'
         networks:
           highfive:
+    mobilapp:
+        build: ./mobilapp
+        container_name: "mobilapp"
+        volumes:
+          - ./mobilapp:/app_mobil
+        env_file: .env
+        command: npm start
+        ports:
+          - '3003:3000'
+        networks:
+          highfive:
