@@ -1,13 +1,20 @@
+DROP DATABASE IF EXISTS high5;
+
+CREATE DATABASE IF NOT EXISTS high5;
+
 USE high5;
+
+
 
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
 DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `charging_zone`;
 DROP TABLE IF EXISTS `city`;
-DROP TABLE IF EXISTS `history`;
+DROP TABLE IF EXISTS `trip`;
 
 DROP PROCEDURE IF EXISTS `get_all_scooters`;
+
 
 
 CREATE TABLE `scooter`
@@ -58,7 +65,7 @@ CREATE TABLE `city`
     PRIMARY KEY (`id`)
     );
 
-CREATE TABLE `history`
+CREATE TABLE `trip`
     (
     `id` INT AUTO_INCREMENT,
     `scooter_id` INT,
@@ -74,7 +81,8 @@ CREATE TABLE `history`
     FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`),
     );
 
-ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
+-- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
+
 
 
 -- Procedure to show all scooters
