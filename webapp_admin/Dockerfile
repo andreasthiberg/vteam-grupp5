@@ -1,13 +1,5 @@
 FROM node:16
 
-WORKDIR /app_admin
-
-COPY package.json .
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
+WORKDIR /webapp_admin
 
 CMD ["npm", "start"]

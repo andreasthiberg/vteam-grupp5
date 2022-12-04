@@ -1,13 +1,5 @@
 FROM node:16
 
-WORKDIR /app_kund
-
-COPY package.json .
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
+WORKDIR /webapp_kund
 
 CMD ["npm", "start"]
