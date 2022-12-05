@@ -1,11 +1,5 @@
 FROM node:18
 
-WORKDIR /server
-
-COPY package.json ./
-
-RUN npm install --legacy-peer-deps
-
-COPY . ./
+WORKDIR /backend    
 
 ENTRYPOINT [ "node", "app.js" ]
