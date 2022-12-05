@@ -6,6 +6,7 @@ import History from './pages/History';
 import Payment from './pages/Payment';
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className="App">
