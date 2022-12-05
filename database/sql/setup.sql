@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS high5;
+-- DROP DATABASE IF EXISTS high5;
 
-CREATE DATABASE IF NOT EXISTS high5;
+-- CREATE DATABASE IF NOT EXISTS high5;
 
-USE high5;
+-- USE high5;
 
 
 
@@ -87,7 +87,7 @@ CREATE TABLE `trip`
 
 -- Procedure to show all scooters
 DELIMITER ;;
-CREATE PROCEDURE get_all_scooters()
+CREATE PROCEDURE get_all()
 BEGIN
     SELECT * FROM scooter;
 END

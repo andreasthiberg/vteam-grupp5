@@ -9,15 +9,15 @@ const dbModel = require("./database.js");
 const scooter = {
 
     //Gets all scooters from database, or return error if request fails
-    getAllBikes: async function getAllBikes() {
+    getAll: async function getAll() {
         let db = await dbModel.getDb();
         let res;
 
-        sql = `CALL get_all_bikes();
+        sql = `CALL get_all();
         `;
     
         res = await db.query(sql);
-    
+
         return res;
     }
 };
