@@ -1,42 +1,27 @@
 import { useState, useEffect } from 'react';
 //import fetchGraphQL from './fetchGraphQL';
-import scooterModel from '../models/scooters';
+import customerModel from '../models/customers';
 
 
-function GetHistory() {
-  const [scooters, setScooters] = useState([]);
+function Customers() {
+  const [customers, setCustomers] = useState(["Default"]);
 
   useEffect(() => {
-    scooterModel.getAllScooters()
+    customerModel.getAllCustomers()
     .then(response=> {
-      setScooters(response)
+      setCustomers(response)
     })
   })
-  console.log(scooters);
+
+  console.log(customers);
 
   return (
     <div>
       <h1>History Page</h1>
-      <h2>List of scooters</h2>
-      {scooters}
+      <h2>List of customers</h2>
+      {customers}
     </div>
-  )
-
-  // const allScooters = await scooterModel.getAllScooters();
+  );
 }
 
-export default GetHistory;
-
-// const History = () => {
-//     const [scooters, setScooters] = useState([]);
-
-//     async function fetchScooters() {
-//     const allScooters = await scooterModel.getAllScooters();
-
-//     setScooters(allScooters);
-//   }
-
-//     return <h1>History Page</h1>;
-// };
-
-// export default History;
+export default Customers;
