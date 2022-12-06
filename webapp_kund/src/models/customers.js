@@ -1,20 +1,20 @@
 // Fetch customer's info from graphql
 
-const cors = require('cors');
+//const cors = require('cors');
 
 const customers = {
     // baseUrl:
 
     getAllCustomers: async function getAllCustomers() {
         const query = `
-            {
+            query {
                 customers {
                     first_name
                 }
             }
         `;
 
-        const response = await fetch('/graphql', cors(), {
+        const response = await fetch('http://localhost:3000/graphql', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
