@@ -1,46 +1,29 @@
-// Scooter model for communicating with scooters and getting scooter info from database (?)
-//
-// Här kan man antingen bara ha koden för att hämta/skriva info om cyklar till databasen,
-// eller också koden för att till exempel skicka kommandon till en cykel från admin. Den skulle
-// annars kunna ligga i en annan modul (typ scooterCommands.js)
+// Model for writing and reading scooter info from database
 
-const dbModel = require("./database.js");
+const dbModel = require('./database.js')
 
 const scooter = {
 
-    //Gets all scooters from database, or return error if request fails
-    getAll: async function getAll() {
+  // Gets all scooters from database, or return error if request fails
+  getAll: async function getAll () {
+    const sql = 'SELECT * FROM scooter'
+    let res
+    const db = await dbModel.getDb()
 
-        let db;
-        let sql = "select * from scooter";
-        let result;
+    res = await db.query(sql)
+    return res
+  },
+  addScooter: async function addScooter () {
+    const sql = `
+            INSERT INTO scooter (status,pos,battery)
+            VALUES ("new","0,0",100)   
+        `
+    let res
+    const db = await dbModel.getDb()
 
-        try {
-            db = await dbModel.getDb();
-
-            dbConnection.query(sql, (error,data,fields) => {
-                if (error) {
-                    result = error;
-                    return; 
-                }
-                result = data;
-            });
-
-        } catch (e) {
-            return res.json({
-                errors: {
-                    status: 500,
-                    name: "Database Error",
-                    description: e.message,
-                    path: "/",
-                }
-            })
-        } finally {
-            db.end();
-        }
-
-        return result;
-    },
-};
+    res = await db.query(sql)
+    return res
+  }
+}
 
 module.exports = scooter
