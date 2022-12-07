@@ -50,6 +50,7 @@ services:
           highfive:
         links:
             - backend:backend
+<<<<<<< HEAD
         restart: "always"
     # mobilapp:
     #     build: ./mobilapp
@@ -62,3 +63,6 @@ services:
     #       - '3003:3000'
     #     networks:
     #       highfive:
+=======
+        restart: "always"
+>>>>>>> main
