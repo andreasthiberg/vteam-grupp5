@@ -4,18 +4,20 @@ import customerModel from '../models/customers';
 
 
 export default function Customers() {
-  const [customers, setCustomers] = useState(["default"]);
+  const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
-    customerModel.getAllCustomers()
-    .then(response=> {
+    (async () => {
+      const response = await customerModel.getAllCustomers();
       setCustomers(response);
     })();
   }, []);
 
   console.log(customers);
 
-  const customerList = customers.map(async (item) => <p>{item}</p>);
+ 
+  let customerList = customers.map(async (item) => <p>{item}</p>);
+  
 
   return (
     <div>

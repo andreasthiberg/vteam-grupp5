@@ -26,6 +26,7 @@ const customers = {
         });
 
         const result = await response.json();
+        
         console.log(result.data);
         return result.data;
     }
