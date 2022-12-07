@@ -1,7 +1,5 @@
 // Fetch customer's info from graphql
 
-//const cors = require('cors');
-
 const customers = {
     // baseUrl:
 
@@ -27,7 +25,6 @@ const customers = {
 
         const result = await response.json();
         
-        console.log(result.data);
         return result.data;
     }
 };

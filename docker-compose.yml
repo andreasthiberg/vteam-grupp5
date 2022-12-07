@@ -42,30 +42,14 @@ services:
           - '3002:3000'
         networks:
           highfive:
-<<<<<<< HEAD
-    mobilapp:
-        build: ./mobilapp
-        container_name: "mobilapp"
-        volumes:
-          - ./mobilapp:/app_mobil
-        env_file: .env
-        command: npm start
-        ports:
-          - '3003:3000'
-        networks:
-          highfive:
-=======
-    scooter_brain:
-        depends_on:
-          - backend
-        build: ./scooter_brain
-        container_name: "scooter_brain"
-        volumes:
-          - ./scooter_brain:/scooter_brain
-        env_file: ./.env
-        networks:
-          highfive:
-        links:
-            - backend:backend
-        restart: "always"
->>>>>>> main
+    # mobilapp:
+    #     build: ./mobilapp
+    #     container_name: "mobilapp"
+    #     volumes:
+    #       - ./mobilapp:/app_mobil
+    #     env_file: .env
+    #     command: npm start
+    #     ports:
+    #       - '3003:3000'
+    #     networks:
+    #       highfive:

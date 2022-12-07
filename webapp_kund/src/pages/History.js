@@ -4,27 +4,24 @@ import customerModel from '../models/customers';
 
 
 export default function Customers() {
-  const [customers, setCustomers] = useState([]);
+  const [customersInfo, setCustomersInfo] = useState([]);
 
   useEffect(() => {
     (async () => {
       const response = await customerModel.getAllCustomers();
-      setCustomers(response);
+
+      setCustomersInfo(response.customers);
+
     })();
   }, []);
 
-  console.log(customers);
+    let list = customersInfo.map((name, index) => <li key={index}>{name.first_name}</li>);
 
- 
-  let customerList = customers.map(async (item) => <p>{item}</p>);
-  
-
-  return (
-    <div>
-      <h1>History Page</h1>
-      <h2>List of customers</h2>
-      {customerList}
-    </div>
-  );
+    return (
+      <div>
+        <h1>History Page</h1>
+        <h2>List of customers</h2>
+        {list}
+      </div>
+    );
 }
-
