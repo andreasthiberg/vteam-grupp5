@@ -4,7 +4,7 @@
 
 -- USE high5;
 
-
+USE test;
 
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
@@ -24,7 +24,7 @@ CREATE TABLE `scooter`
     `pos` CHAR(50),
     `battery` INT(3),
 
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`id`)
     );
 
 CREATE TABLE `customer`
@@ -78,16 +78,20 @@ CREATE TABLE `trip`
 
     PRIMARY KEY(`id`)
     FOREIGN KEY(`scooter_id`) REFERENCES `scooter` (`id`),
-    FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`),
+    FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`)
     );
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
+
+INSERT INTO customer (first_name, last_name, e-mail, balance) VALUES ("fname","lname", "name@mail.se", 200);
+
+INSERT INTO scooter (`status`, pos, battery) VALUES ("new", "0,0", 100);
 
 
 
 -- Procedure to show all scooters
 DELIMITER ;;
-CREATE PROCEDURE get_all()
+CREATE PROCEDURE get_all_scooters()
 BEGIN
     SELECT * FROM scooter;
 END
