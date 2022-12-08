@@ -26,7 +26,6 @@ const customer = {
     const sql = "CALL add_customer(?,?,?,?)"
     const db = await dbModel.getDb()
     let res = await db.query(sql, [args.first_name, args.last_name, args.email, args.balance])
-    console.log(res);
     return res
   },
 
