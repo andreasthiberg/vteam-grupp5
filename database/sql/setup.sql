@@ -6,12 +6,13 @@
 
 USE test;
 
+DROP TABLE IF EXISTS `trip`;
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
 DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `charging_station`;
 DROP TABLE IF EXISTS `city`;
-DROP TABLE IF EXISTS `trip`;
+
 
 DROP PROCEDURE IF EXISTS `get_all_scooters`;
 DROP PROCEDURE IF EXISTS `get_one_scooter`;
@@ -53,7 +54,7 @@ CREATE TABLE `customer`
     `id` INT AUTO_INCREMENT,
     `first_name` CHAR(20),
     `last_name` CHAR(30),
-    `e-mail` CHAR(50),
+    `email` CHAR(50),
     `balance` FLOAT,
     
     PRIMARY KEY (`id`)
@@ -97,17 +98,17 @@ CREATE TABLE `trip`
     `end_pos` CHAR(50),
     `price` FLOAT,
 
-    PRIMARY KEY(`id`)
+    PRIMARY KEY(`id`),
     FOREIGN KEY(`scooter_id`) REFERENCES `scooter` (`id`),
     FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`)
     );
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
 
-INSERT INTO customer (first_name, last_name, e-mail, balance) VALUES ("fname","lname", "name@mail.se", 200);
+INSERT INTO customer (first_name, last_name, email, balance) VALUES ("fname","lname", "name@mail.se", 200);
 
 INSERT INTO scooter (`status`, pos, battery) VALUES ("new", "0,0", 100);
-
+det 
 
 
 -- Procedure to show all scooters
@@ -161,7 +162,7 @@ DELIMITER ;
 -- Procedure to show one customer
 DELIMITER ;;
 CREATE PROCEDURE get_one_customer(
-    `a_id`
+    `a_id` INT
 )
 BEGIN
     SELECT * FROM customer
@@ -176,12 +177,12 @@ DELIMITER ;;
 CREATE PROCEDURE add_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
-    `a_e-mail` CHAR(50),
+    `a_email` CHAR(50),
     `a_balance` FLOAT
 )
 BEGIN
-    INSERT INTO customer (`first_name`, `last_name`, `e-mail`, `balance`) 
-    VALUES (`a_first_name`, `a_last_name`, `a_e-mail`, `a_balance`);
+    INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) 
+    VALUES (`a_first_name`, `a_last_name`, `a_email`, `a_balance`);
 END
 ;;
 DELIMITER ;
@@ -200,7 +201,7 @@ DELIMITER ;
 -- Procedure to show one parking zone
 DELIMITER ;;
 CREATE PROCEDURE get_one_parking_zone(
-    `a_id`
+    `a_id` INT
 )
 BEGIN
     SELECT * FROM parking_zone
@@ -236,7 +237,7 @@ DELIMITER ;
 -- Procedure to show one charging station
 DELIMITER ;;
 CREATE PROCEDURE get_one_charging_station(
-    `a_id`
+    `a_id` INT
 )
 BEGIN
     SELECT * FROM charging_station
@@ -272,7 +273,7 @@ DELIMITER ;
 -- Procedure to show one city
 DELIMITER ;;
 CREATE PROCEDURE get_one_city(
-    `a_id`
+    `a_id` INT
 )
 BEGIN
     SELECT * FROM city
@@ -311,7 +312,7 @@ DELIMITER ;
 -- Procedure to show one trip
 DELIMITER ;;
 CREATE PROCEDURE get_one_trip(
-    `a_id`
+    `a_id` INT
 )
 BEGIN
     SELECT * FROM trip
@@ -326,7 +327,7 @@ DELIMITER ;;
 CREATE PROCEDURE add_trip(
     `a_scooter_id` INT,
     `a_customer_id` INT,
-    `a_start_pos` CHAR(50),
+    `a_start_pos` CHAR(50)
 )
 BEGIN
     INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `start_pos`) 
