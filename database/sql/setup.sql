@@ -16,10 +16,12 @@ DROP TABLE IF EXISTS `city`;
 DROP PROCEDURE IF EXISTS `get_all_scooters`;
 DROP PROCEDURE IF EXISTS `get_one_scooter`;
 DROP PROCEDURE IF EXISTS `add_scooter`;
+DROP PROCEDURE IF EXISTS `update_scooter`;
 
 DROP PROCEDURE IF EXISTS `get_all_customers`;
 DROP PROCEDURE IF EXISTS `get_one_customer`;
 DROP PROCEDURE IF EXISTS `add_customer`;
+DROP PROCEDURE IF EXISTS `update_customer`;
 
 DROP PROCEDURE IF EXISTS `get_all_parking_zones`;
 DROP PROCEDURE IF EXISTS `get_one_parking_zone`;
@@ -36,6 +38,7 @@ DROP PROCEDURE IF EXISTS `add_city`;
 DROP PROCEDURE IF EXISTS `get_all_trips`;
 DROP PROCEDURE IF EXISTS `get_one_trip`;
 DROP PROCEDURE IF EXISTS `add_trip`;
+DROP PROCEDURE IF EXISTS `update_trip`;
 
 
 CREATE TABLE `scooter`
@@ -92,10 +95,10 @@ CREATE TABLE `trip`
     `scooter_id` INT,
     `customer_id` INT,
     `start_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `end_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `end_time` TIMESTAMP DEFAULT NULL,
     `start_pos` CHAR(50),
-    `end_pos` CHAR(50),
-    `price` FLOAT,
+    `end_pos` DEFAULT NULL,
+    `price` DEFAULT NULL,
 
     PRIMARY KEY(`id`),
     FOREIGN KEY(`scooter_id`) REFERENCES `scooter` (`id`),
@@ -146,6 +149,27 @@ END
 DELIMITER ;
 
 
+-- Procedure to update one scooter
+DELIMITER ;;
+CREATE PROCEDURE update_scooter(
+    `a_id` INT,
+    `a_status` CHAR(20),
+    `a_pos` CHAR(50),
+    `a_battery` INT(3)
+    )
+BEGIN
+    UPDATE scooter
+    SET
+		`status` = `a_status`,
+		`pos` = `a_pos`,
+		`battery` = `a_battery`
+	WHERE `id` = `a_id`
+    ;
+END
+;;
+DELIMITER ;
+
+
 -- Procedure to show all customers
 DELIMITER ;;
 CREATE PROCEDURE get_all_customers()
@@ -180,6 +204,29 @@ CREATE PROCEDURE add_customer(
 BEGIN
     INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) 
     VALUES (`a_first_name`, `a_last_name`, `a_email`, `a_balance`);
+END
+;;
+DELIMITER ;
+
+
+-- Procedure to update one customer
+DELIMITER ;;
+CREATE PROCEDURE update_customer(
+    `a_id` INT,
+    `a_first_name` CHAR(20),
+    `a_last_name` CHAR(30),
+    `a_email` CHAR(50),
+    `a_balance` FLOAT
+    )
+BEGIN
+    UPDATE customer
+    SET
+		`first_name` = `a_first_name`,
+        `last_name` = `a_last_name`,
+        `email` = `a_email`,
+        `balance` = `a_balance`
+	WHERE `id` = `a_id`
+    ;
 END
 ;;
 DELIMITER ;
@@ -334,11 +381,43 @@ END
 DELIMITER ;
 
 
+-- Procedure to update one trip
+DELIMITER ;;
+CREATE PROCEDURE update_trip(
+    `a_id` INT,
+    `a_end_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `a_end_pos` CHAR(50),
+    `a_price` FLOAT,
+    )
+BEGIN
+    UPDATE trip
+    SET
+        `end_time` = CURRENT_TIMESTAMP,
+        `end_pos` = `a_end_pos`,
+        `price` = `a_price`
+	WHERE `id` = `a_id`
+    ;
+END
+;;
+DELIMITER ;
 
--- update scooter
+
+-- Function to calculate trips price
+-- DROP FUNCTION IF EXISTS calc_price;
+-- DELIMITER ;;
+-- CREATE FUNCTION calc_price(
+--     `a_trips_id` INT
+--     )
+-- RETURNS FLOAT
+-- DETERMINISTIC
+-- BEGIN
+	
+-- END
+-- ;;
+-- DELIMITER ;
+
+
 -- delete scooter
--- update customer
 -- delete customer
--- update trip (end time/position)
 -- get scooters by position
 -- triggers 
