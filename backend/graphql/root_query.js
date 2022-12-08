@@ -36,18 +36,11 @@ const RootQueryType = new GraphQLObjectType({
       type: ScooterType,
       description: 'A single scooter',
       args: {
-        scooterId: { type: GraphQLInt }
+        id: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        const scooterArray = await scooterModel.getAll()
-        return scooterArray.find(scooter => scooter.scooter_id.equals(args.scooterId))
-      }
-    },
-    apiTest: {
-      type: GraphQLString,
-      description: 'Rooute for testing GraphQL API',
-      resolve: async function (parent, args) {
-        return 'You connected to the High5 GraphQL API! Good job!'
+        const result = await scooterModel.getOne(args.id)
+        return result;
       }
     },
     customer: {

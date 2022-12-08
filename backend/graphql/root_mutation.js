@@ -19,14 +19,16 @@ const RootMutationType = new GraphQLObjectType({
   description: 'Root Mutation',
   fields: () => ({
     addScooter: {
-      type: ScooterType,
+      type: GraphQLString,
       description: 'Adds a new scooter',
       args: {
-        id: { type: GraphQLInt }
+        pos: { type: GraphQLString },
+        status: { type: GraphQLString },
+        battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        const result = await scooterModel.addScooter(args.id)
-        return result
+        const result = await scooterModel.addScooter(args)
+        return "Scooter added."
       }
     },
     updateScooter: {
