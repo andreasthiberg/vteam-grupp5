@@ -32,6 +32,25 @@ const customer = {
     const db = await dbModel.getDb()
     res = await db.query(sql, [firstName, lastName, email, balance])
     return res
+  },
+
+  updateCustomer: async function updateCustomer (args) {
+
+    const db = await dbModel.getDb()
+
+    let currentCustomer = await db.query("CALL get_one_customer(?)",[args.id]);
+    console.log(currentCustomer);
+
+    first_name = args.firstName ? args.firstName : "Hej";
+
+    const sql = `
+            UPDATE customer 
+            SET first_name = ?, last_name = ?, e-mail = ?, balance = ?
+            WHERE id = ?
+        `
+    
+    let res = await db.query(sql, [args.firstName, args.lastName, email, balance])
+    return res
   }
 }
 

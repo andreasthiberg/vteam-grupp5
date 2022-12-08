@@ -107,7 +107,7 @@ CREATE TABLE `trip`
 INSERT INTO customer (first_name, last_name, email, balance) VALUES ("fname","lname", "name@mail.se", 200);
 
 INSERT INTO scooter (`status`, pos, battery) VALUES ("new", "0,0", 100);
-
+det 
 
 
 -- Procedure to show all scooters
