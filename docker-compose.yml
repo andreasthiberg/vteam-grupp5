@@ -27,8 +27,6 @@ services:
     webapp_kund:
         build: ./webapp_kund
         container_name: "webapp_kund"
-        volumes:
-          - ./webapp_kund:/app_kund
         ports:
           - '3001:3000'
         networks:
@@ -36,12 +34,23 @@ services:
     webapp_admin:
         build: ./webapp_admin
         container_name: "webapp_admin"
-        volumes:
-          - ./webapp_admin:/app_admin
         ports:
           - '3002:3000'
         networks:
           highfive:
+    scooter_brain:
+        depends_on:
+          - backend
+        build: ./scooter_brain
+        container_name: "scooter_brain"
+        volumes:
+          - ./scooter_brain:/scooter_brain
+        env_file: ./.env
+        networks:
+          highfive:
+        links:
+            - backend:backend
+        restart: "always"
     # mobilapp:
     #     build: ./mobilapp
     #     container_name: "mobilapp"
