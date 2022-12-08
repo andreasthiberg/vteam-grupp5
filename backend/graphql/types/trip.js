@@ -12,12 +12,12 @@ const TripType = new GraphQLObjectType({
   description: 'This represents a finished scooter trip',
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLInt) },
-    scooter_id: { type: new GraphQLNonNull(GraphQLInt) },
-    customer_id: { type: new GraphQLNonNull(GraphQLInt) },
-    start_time: { type: new GraphQLNonNull(GraphQLString) },
-    end_time: { type: new GraphQLNonNull(GraphQLString) },
-    start_pos: { type: new GraphQLNonNull(GraphQLString) },
-    end_pos: { type: new GraphQLNonNull(GraphQLString) },
+    scooterId: { type: new GraphQLNonNull(GraphQLInt) },
+    customerId: { type: new GraphQLNonNull(GraphQLInt) },
+    startTime: { type: new GraphQLNonNull(GraphQLString) },
+    endTime: { type: new GraphQLNonNull(GraphQLString) },
+    startPos: { type: new GraphQLNonNull(GraphQLString) },
+    endPos: { type: new GraphQLNonNull(GraphQLString) },
     price: { type: new GraphQLNonNull(GraphQLInt) }
   })
 })

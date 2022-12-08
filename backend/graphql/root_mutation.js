@@ -46,16 +46,31 @@ const RootMutationType = new GraphQLObjectType({
       }
     },
     addCustomer: {
-      type: CustomerType,
+      type: GraphQLString,
       description: 'Adds a new customer',
       args: {
+        firstName: { type: GraphQLString, required: true},
+        lastName: { type: GraphQLString },
+        email: { type: GraphQLString },
+        balance: { type: GraphQLInt }   
+      },
+      resolve: async function (parent, args) {
+        const result = await customerModel.addCustomer(args)
+        return "Customer added."
+      }
+    },
+    updateCustomer: {
+      type: GraphQLString,
+      description: 'Updates a customer',
+      args: {
+        id: { type: GraphQLInt, required: true},
         firstName: { type: GraphQLString },
         lastName: { type: GraphQLString },
         email: { type: GraphQLString },
         balance: { type: GraphQLInt }   
       },
       resolve: async function (parent, args) {
-        const result = await customerModel.addCustomer(firstName,lastName,email,balance)
+        const result = await customerModel.updateCustomer(args)
         return result
       }
     }

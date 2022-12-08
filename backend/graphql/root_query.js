@@ -66,6 +66,7 @@ const RootQueryType = new GraphQLObjectType({
       description: 'List of all customers',
       resolve: async function (parent, args) {
         const customerArray = await customerModel.getAll()
+        console.log(customerArray);
         return customerArray
       }
     },
