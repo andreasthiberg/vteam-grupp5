@@ -25,7 +25,7 @@ const customer = {
 
     const sql = "CALL add_customer(?,?,?,?)"
     const db = await dbModel.getDb()
-    let res = await db.query(sql, [args.firstName, args.lastName, args.email, args.balance])
+    let res = await db.query(sql, [args.first_name, args.last_name, args.email, args.balance])
     console.log(res);
     return res
   },
@@ -43,8 +43,8 @@ const customer = {
     let currentCustomerData = currentDbResult[0][0];
 
     //Change info according to arguments
-    let firstName = args.firstName ? args.firstName : currentCustomerData.firstName
-    let lastName = args.lastName ? args.lastName : currentCustomerData.lastName
+    let first_name = args.first_name ? args.first_name : currentCustomerData.first_name
+    let last_name = args.last_name ? args.last_name : currentCustomerData.last_name
     let email = args.email ? args.email : currentCustomerData.email
     let balance = args.balance ? args.balance : currentCustomerData.balance
 
@@ -54,7 +54,7 @@ const customer = {
             WHERE id = ?
         `
     
-    let res = await db.query(sql, [firstName, lastName, email, balance, args.id])
+    let res = await db.query(sql, [first_name, last_name, email, balance, args.id])
     if(res.changedRows > 0){
       return "Updates made."
     }

@@ -49,8 +49,8 @@ const RootMutationType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'Adds a new customer',
       args: {
-        firstName: { type: GraphQLString, required: true},
-        lastName: { type: GraphQLString },
+        first_name: { type: GraphQLString},
+        last_name: { type: GraphQLString },
         email: { type: GraphQLString },
         balance: { type: GraphQLInt }   
       },
