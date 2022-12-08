@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS high5;
+
+CREATE DATABASE IF NOT EXISTS high5;
+
+USE high5;
+
 CREATE TABLE Scooter(
        scooter_id INT PRIMARY KEY AUTO_INCREMENT, 
        scooter_pos VARCHAR(20)

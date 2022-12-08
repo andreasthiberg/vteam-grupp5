@@ -19,6 +19,10 @@ const schema = new GraphQLSchema({
   mutation: RootMutationType
 })
 
+const cors = require('cors');
+
+app.use(cors());
+
 // Add GraphQL route
 app.use('/graphql', graphqlHTTP({
   schema,
