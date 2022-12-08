@@ -12,8 +12,8 @@ const CustomerType = new GraphQLObjectType({
   description: 'This represents a customer (user who rents scooters)',
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLInt) },
-    firstName: { type: GraphQLString},
-    lastName: { type: GraphQLString},
+    first_name: { type: GraphQLString},
+    last_name: { type: GraphQLString},
     email: { type: GraphQLString},
     balance: { type: GraphQLInt}
   })
