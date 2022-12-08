@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `charging_station`;
 DROP TABLE IF EXISTS `city`;
 
-
 DROP PROCEDURE IF EXISTS `get_all_scooters`;
 DROP PROCEDURE IF EXISTS `get_one_scooter`;
 DROP PROCEDURE IF EXISTS `add_scooter`;
@@ -124,7 +123,7 @@ DELIMITER ;
 -- Procedure to show one scooter
 DELIMITER ;;
 CREATE PROCEDURE get_one_scooter(
-    `a_id`
+    `a_id` INT
 )
 BEGIN
     SELECT * FROM scooter
