@@ -19,14 +19,16 @@ const RootMutationType = new GraphQLObjectType({
   description: 'Root Mutation',
   fields: () => ({
     addScooter: {
-      type: ScooterType,
+      type: GraphQLString,
       description: 'Adds a new scooter',
       args: {
-        id: { type: GraphQLInt }
+        pos: { type: GraphQLString },
+        status: { type: GraphQLString },
+        battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        const result = await scooterModel.addScooter(args.id)
-        return result
+        const result = await scooterModel.addScooter(args)
+        return "Scooter added."
       }
     },
     updateScooter: {
@@ -46,16 +48,31 @@ const RootMutationType = new GraphQLObjectType({
       }
     },
     addCustomer: {
-      type: CustomerType,
+      type: GraphQLString,
       description: 'Adds a new customer',
       args: {
+        first_name: { type: GraphQLString},
+        last_name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        balance: { type: GraphQLInt }   
+      },
+      resolve: async function (parent, args) {
+        const result = await customerModel.addCustomer(args)
+        return "Customer added."
+      }
+    },
+    updateCustomer: {
+      type: GraphQLString,
+      description: 'Updates a customer',
+      args: {
+        id: { type: GraphQLInt, required: true},
         firstName: { type: GraphQLString },
         lastName: { type: GraphQLString },
         email: { type: GraphQLString },
         balance: { type: GraphQLInt }   
       },
       resolve: async function (parent, args) {
-        const result = await customerModel.addCustomer(firstName,lastName,email,balance)
+        const result = await customerModel.updateCustomer(args)
         return result
       }
     }

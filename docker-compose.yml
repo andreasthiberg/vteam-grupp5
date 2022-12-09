@@ -27,6 +27,8 @@ services:
     webapp_kund:
         build: ./webapp_kund
         container_name: "webapp_kund"
+        volumes:
+          - ./webapp_kund:/webapp_kund
         ports:
           - '3001:3000'
         networks:
@@ -34,6 +36,8 @@ services:
     webapp_admin:
         build: ./webapp_admin
         container_name: "webapp_admin"
+        volumes:
+          - ./webapp_admin:/webapp_admin
         ports:
           - '3002:3000'
         networks:
@@ -51,3 +55,14 @@ services:
         links:
             - backend:backend
         restart: "always"
+    # mobilapp:
+    #     build: ./mobilapp
+    #     container_name: "mobilapp"
+    #     volumes:
+    #       - ./mobilapp:/app_mobil
+    #     env_file: .env
+    #     command: npm start
+    #     ports:
+    #       - '3003:3000'
+    #     networks:
+    #       highfive:
