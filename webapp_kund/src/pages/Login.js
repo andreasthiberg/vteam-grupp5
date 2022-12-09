@@ -1,28 +1,16 @@
-let url = "https://github.com/login/oauth/authorize"
-let stateString = "1021373719"
-let code = "";
-let clientId = "24530571d805bf20f230"
-let redirectURL = "http://mylocal.com:3001"
+import LoginForm from '../components/LoginForm'
+import LogoutButton from '../components/LogoutButton'
 
-//Send request to GitHub Oauth
-async function makeOAuthRequest(){
-  const response = await fetch((url + "?client_id=" + clientId + "&redirect_uri="+redirectURL), {
-     
-    method: "GET",
-     
-    // Adding headers to the request
-    headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Access-Control-Allow-Origin": "*"
-    }
-  });
-  console.log(response)
-};
+//Oauth URL
+const url = "https://github.com/login/oauth/authorize"
+const stateString = "1021373719"
+const clientId = "24530571d805bf20f230"
+const redirectURL = "http://mylocal.com:3001/login"
+const oAuthUrl = url + "?client_id=" + clientId + "&redirect_uri="+ redirectURL + "&state=" + stateString;
 
-
-//Get acess token from Github via backeknd
-async function getToken(){
-  const response = await fetch(("http://localhost:3000/auth/access"), {
+//Use code from Github oauth to login via backend
+async function oAuthLoginOrRegister(code,props){
+  const response = await fetch(("http://localhost:3000/auth/oauth"), {
      
     method: "POST",
      
@@ -35,24 +23,42 @@ async function getToken(){
         "Accept": "application/json"
     }
   });
-  console.log(await response.json())
-};
+  let loginResult = await response.json()
+  props.setJwt(loginResult.result.token)
+  props.setUserEmail(loginResult.result.email)
+  props.setLoggedIn(true)
+}
 
 
 
-const Login = () => {
+const Login = (props) => {
+
   const queryParameters = new URLSearchParams(window.location.search)
-  code = queryParameters.get("code")
+  const code = queryParameters.get("code")
   const state = queryParameters.get("state")
-  if(state == stateString && code != ""){
-    getToken();
+
+  //Make sure state string is correct
+  if(state === stateString && code !== "" && props.jwt === ""){
+    console.log("hej")
+    oAuthLoginOrRegister(code,props);
+    window.history.replaceState({}, document.title, "/");
   }
+
   return (
     <div>
-            <a href={url + "?client_id=" + clientId + "&redirect_uri="+redirectURL}>GITHUB-LÄNK</a>
-            <p>Code: {code}</p>
-            <p>State: {state}</p>
+            { props.jwt === "" ? 
+            <div>
+            <a href={oAuthUrl}>Klicka här för att logga in med GitHub</a>
+            <LoginForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+            </div>
+            :
+            <div>
+            <p>Du är inloggad som {props.userEmail}</p>
+            <LogoutButton setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn}/>
+            </div>
+            }
     </div>
+    
   );
 }
 

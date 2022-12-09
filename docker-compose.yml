@@ -25,6 +25,8 @@ services:
           highfive:
         restart: "always"
     webapp_kund:
+        depends_on:
+          - backend
         build: ./webapp_kund
         container_name: "webapp_kund"
         volumes:

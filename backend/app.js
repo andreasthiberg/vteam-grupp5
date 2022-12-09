@@ -4,26 +4,12 @@
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
 const { GraphQLSchema } = require('graphql')
-var bodyParser = require('body-parser');
-var OAuthServer = require('express-oauth-server');
 const cors = require('cors')
 require('dotenv').config()
 
 // Setup express server
 const app = express()
 const port = process.env.NODE_DOCKER_PORT || 3000
-
-// OAuth implementation
-/* app.oauth = new OAuthServer({
-  model: {},
-});
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(app.oauth.authorize());
-
-const Request = OAuthServer.Request;
-const Response = OAuthServer.Response; */
-
 
 // Setup GraphQL route with schema
 const RootQueryType = require('./graphql/root_query.js')
@@ -34,12 +20,8 @@ const schema = new GraphQLSchema({
   mutation: RootMutationType
 })
 
-
 app.use(express.json());
-
-
 app.use(cors());
-
 
 // Add GraphQL route
 app.use('/graphql', graphqlHTTP({
