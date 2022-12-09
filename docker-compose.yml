@@ -55,14 +55,23 @@ services:
         links:
             - backend:backend
         restart: "always"
-    # mobilapp:
-    #     build: ./mobilapp
-    #     container_name: "mobilapp"
-    #     volumes:
-    #       - ./mobilapp:/app_mobil
-    #     env_file: .env
-    #     command: npm start
-    #     ports:
-    #       - '3003:3000'
-    #     networks:
-    #       highfive:
+    mobilapp:
+        build: 
+          context: ./mobilapp_kund
+        container_name: "mobilapp_kund"
+        environment:
+          - EXPO_DEVTOOLS_LISTEN_ADRESS=0.0.0.0
+          - REACT_NATIVE_PACKAGER_HOSTNAME=${IP}
+        tty: true
+        volumes:
+          - ./mobilapp_kund:/mobilapp_kund
+        env_file: ./.env
+        # command: npm start
+        ports:
+          - '19001:19001'
+          - '19002:19002'
+          - '19000:19000'
+        healthcheck:
+          disable: true
+        networks:
+          highfive:
