@@ -1,24 +1,18 @@
 import React from "react";
 import { Marker, Popup, TileLayer, MapContainer } from "react-leaflet";
-// import { Icon } from "leaflet";
-//import * as parkData from "../data/skateboard-parks.json";
 import "../App.css";
 
-// export const icon = new Icon({
-//   iconUrl: "/skateboarding.svg",
-//   iconSize: [25, 25]
-// });
-
 export default function LeafletMap() {
-  // const [activePark, setActivePark] = React.useState(null);
 
   return (
     <div>
       <p>Ska ligga under scooters</p>
-      <MapContainer center={[45.4, -75.7]} zoom={12}>
-
+      <MapContainer center={[59.33, 18.055]} zoom={14}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      />
       </MapContainer>
-
 
     </div>
 
