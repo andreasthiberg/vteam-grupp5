@@ -9,6 +9,7 @@ services:
         environment:
           - MYSQLDB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
           - MYSQLDB_DATABASE=$MARIADB_DATABASE
+          - MYSQL_USER=$MARIADB_USER
         networks:
           highfive:
     backend:
