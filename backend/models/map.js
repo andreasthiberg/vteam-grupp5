@@ -17,7 +17,7 @@ const map = {
 
     res = await db.query(sql)
 
-    return res
+    return res[0]
   },
   // Gets all charging stations
   getChargingStations: async function getChargingStations () {
@@ -32,7 +32,7 @@ const map = {
 
     res = await db.query(sql)
 
-    return res
+    return res[0]
   }
 }
 

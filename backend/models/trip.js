@@ -26,7 +26,7 @@ const trip = {
 
     res = await db.query(sql)
 
-    return res
+    return res[0]
   },
   // Adds a new trip to trip log.
   // addTrip: async function addTrip (scooterId, customerId, startTime, endTime, startPos, endPos, price) {
