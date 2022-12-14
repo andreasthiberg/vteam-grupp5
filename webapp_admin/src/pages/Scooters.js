@@ -1,4 +1,5 @@
-import LeafletMap from './MapSto';
+import { Link } from 'react-router-dom';
+import MapSto from "../components/MapSto";
 
 
 
@@ -6,9 +7,8 @@ const Scooters = () => {
     return (
       <div>
         <h2>Välj stad:</h2>
-        <a href='/stockholm' element={<LeafletMap />}>
-          <button>Stockholm</button>
-        </a>
+          <button onClick={MapSto}>Stockholm</button>
+
 
       </div>
 
