@@ -1,4 +1,4 @@
-// Model for writing and reading customer info from database
+// Model for writing and reading customer info from database.
 
 const dbModel = require('./database.js')
 
@@ -13,6 +13,7 @@ const customer = {
     console.log(res);
     return res[0];
   },
+
   // Adds a new user.
   addCustomer: async function addCustomer (args) {
 
@@ -22,6 +23,7 @@ const customer = {
     return res
   },
 
+  // Updates an existing customer.
   updateCustomer: async function updateCustomer (args) {
 
     const db = await dbModel.getDb()
@@ -39,12 +41,6 @@ const customer = {
     let last_name = args.last_name ? args.last_name : currentCustomerData.last_name
     let email = args.email ? args.email : currentCustomerData.email
     let balance = args.balance ? args.balance : currentCustomerData.balance
-
-    // const sql = `
-    //         UPDATE customer 
-    //         SET first_name = ?, last_name = ?, email = ?, balance = ?
-    //         WHERE id = ?
-    //     `
 
     const sql = "CALL update_customer(?,?,?,?,?)"
     

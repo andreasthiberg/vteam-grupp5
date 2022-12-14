@@ -1,4 +1,4 @@
-// Model for writing and reading trip info from database
+// Model for writing and reading trip info from database.
 
 const dbModel = require('./database.js')
 
@@ -15,6 +15,8 @@ const trip = {
 
     return res[0]
   },
+
+  // Adds a new trip (when started?).
   addTrip: async function addTrip (scooter_id, customer_id, start_pos) {
     const sql = "CALL add_trip(?,?,?)"
 
@@ -23,6 +25,8 @@ const trip = {
     res = await db.query(sql, [scooter_id, customer_id, start_pos])
     return res
   },
+
+  // Updates an existing trip.
   updateTrip: async function updateTrip (id, end_time, end_pos, price) {
     const sql = "CALL update_trip(?,?,?,?)"
 
