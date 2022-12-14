@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Scooters from './pages/Scooters';
 import Customers from './pages/Customers';
-import MapPage from './pages/MapPage';
+
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/scooters' element={<Scooters />} />
         <Route path='/customers' element={<Customers />}/>
-        <Route path='/map' element={<MapPage />}/>
       </Routes>
     </BrowserRouter>
   );
