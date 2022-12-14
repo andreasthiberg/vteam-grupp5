@@ -1,2 +1,3 @@
 .DS_Store
-/oauth_test_app
+oauth_test_app/
+.env

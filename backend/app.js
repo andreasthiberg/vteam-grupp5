@@ -1,9 +1,10 @@
-// Express server setup
+// Express server setup with GraphQL and Oauth
 
 // Import packages
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
 const { GraphQLSchema } = require('graphql')
+const cors = require('cors')
 require('dotenv').config()
 
 // Setup express server
@@ -19,8 +20,7 @@ const schema = new GraphQLSchema({
   mutation: RootMutationType
 })
 
-const cors = require('cors');
-
+app.use(express.json());
 app.use(cors());
 
 // Add GraphQL route
@@ -29,10 +29,16 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }))
 
+// Oauth router
+const authRouter = require('./routes/auth');
+app.use('/auth', authRouter);
+
 // Index route
 app.get('/', (req, res) => {
   res.json('Welcome to the High5 GraphQL API.')
 })
+
+
 
 // Start server
 app.listen(port, () => console.log('Listening on port ' + port))

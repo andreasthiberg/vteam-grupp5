@@ -11,3 +11,10 @@ export const base = {
     paddingLeft:12,
     paddingRight:12
 };
+
+export const image = {
+    width: "100%",
+    //height: "100%",
+    //width:340,
+    // height:240,
+};

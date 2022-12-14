@@ -47,13 +47,16 @@ const customer = {
     let email = args.email ? args.email : currentCustomerData.email
     let balance = args.balance ? args.balance : currentCustomerData.balance
 
-    const sql = `
-            UPDATE customer 
-            SET first_name = ?, last_name = ?, email = ?, balance = ?
-            WHERE id = ?
-        `
+    // const sql = `
+    //         UPDATE customer 
+    //         SET first_name = ?, last_name = ?, email = ?, balance = ?
+    //         WHERE id = ?
+    //     `
+
+    const sql = "CALL update_customer(?,?,?,?,?)"
     
-    let res = await db.query(sql, [first_name, last_name, email, balance, args.id])
+    let res = await db.query(sql, [args.id, first_name, last_name, email, balance])
+
     if(res.changedRows > 0){
       return "Updates made."
     }
