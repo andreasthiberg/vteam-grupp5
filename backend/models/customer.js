@@ -6,13 +6,6 @@ const customer = {
 
   // Gets all customers from database.
   getAll: async function getAll () {
-    /*
-    return [{ firstName: 'Marie', lastName: 'Almeling', id: 0, email: 'marie@email.com', balance: 700 },
-      { firstName: 'Marlena', lastName: 'Bazan', id: 1, email: 'marlena@email.com', balance: 1500 },
-      { firstName: 'Tomoko', lastName: 'Svedlund Ishii', id: 2, email: 'tomoko@email.com', balance: 1200 },
-      { firstName: 'Andreas', lastName: 'Thiberg', id: 3, email: 'andreas@email.com', balance: 900 }]
-    */
-
     const sql = 'CALL get_all_customers()'
     const db = await dbModel.getDb()
 

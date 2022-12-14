@@ -45,12 +45,6 @@ const scooter = {
     let pos = args.pos ? args.pos : currentScooterData.pos
     let battery = args.battery ? args.battery : currentScooterData.battery
 
-    // const sql = `
-    //         UPDATE scooter 
-    //         SET status = ?, pos = ?, battery = ?
-    //         WHERE id = ?
-    //     `
-
     const sql = "CALL update_scooter(?,?,?,?)"
     
     let res = await db.query(sql, [args.id, status, pos, battery])
