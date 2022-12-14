@@ -1,9 +1,9 @@
 import { View, Button, Text } from 'react-native';
-import { Typography } from '../styles';
+import { Typography, Base } from '../styles';
 
 export default function CityList({navigation}) {
     return (
-        <View>
+        <View style={Base.base}>
             <Text style={Typography.header2}>Please select your city</Text>
             <Button
                 title="Stockholm"

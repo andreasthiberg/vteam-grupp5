@@ -7,7 +7,7 @@ import MapView from 'react-native-maps';
 export default function LundMap() {
     return (
         <View style={Base.base}>
-            <Text style={Typography.header2}>Stockholm Map</Text>
+            <Text style={Typography.header2}>Lund Map</Text>
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
