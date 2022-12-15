@@ -408,7 +408,6 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE update_trip(
     `a_id` INT,
-    `a_end_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `a_end_pos` CHAR(50),
     `a_price` FLOAT
     )
