@@ -1,4 +1,5 @@
 import LoginForm from '../components/LoginForm'
+import RegisterForm from '../components/RegisterForm'
 import LogoutButton from '../components/LogoutButton'
 
 //Oauth URL
@@ -39,7 +40,6 @@ const Login = (props) => {
 
   //Make sure state string is correct
   if(state === stateString && code !== "" && props.jwt === ""){
-    console.log("hej")
     oAuthLoginOrRegister(code,props);
     window.history.replaceState({}, document.title, "/");
   }
@@ -48,8 +48,9 @@ const Login = (props) => {
     <div>
             { props.jwt === "" ? 
             <div>
-            <a href={oAuthUrl}>Klicka här för att logga in med GitHub</a>
+            <div><a href={oAuthUrl}>Klicka här för att logga in med GitHub</a></div>
             <LoginForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+            <RegisterForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
             </div>
             :
             <div>

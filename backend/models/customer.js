@@ -10,7 +10,7 @@ const customer = {
     const db = await dbModel.getDb()
 
     let res = await db.query(sql)
-    console.log(res);
+    db.end()
     return res[0];
   },
 
@@ -20,6 +20,7 @@ const customer = {
     const sql = "CALL add_customer(?,?,?,?)"
     const db = await dbModel.getDb()
     let res = await db.query(sql, [args.first_name, args.last_name, args.email, args.balance])
+    db.end()
     return res
   },
 
@@ -29,7 +30,6 @@ const customer = {
     const db = await dbModel.getDb()
 
     let currentDbResult = await db.query("CALL get_one_customer(?)",[args.id]);
-    console.log(currentDbResult);
     if(currentDbResult[0].length == 0){
       return "No customer with matching ID."
     }
@@ -45,6 +45,7 @@ const customer = {
     const sql = "CALL update_customer(?,?,?,?,?)"
     
     let res = await db.query(sql, [args.id, first_name, last_name, email, balance])
+    db.end()
 
     if(res.changedRows > 0){
       return "Updates made."

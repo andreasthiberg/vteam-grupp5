@@ -52,15 +52,6 @@ const auth = {
     })
     return await response.json();
   },
-  
-  // Registers a new user.
-  createUser: async function createUser(args){
-    const sql = 'CALL add_login(?,?,?)'
-    let res
-    const db = await dbModel.getDb()
-    res = await db.query(sql,[args.email,args.password,args.type])
-    return res
-  },
 
   // Creates and returns new JWT token when user login is approved.
   loginUser: async function loginUser(email,password=""){
@@ -72,28 +63,55 @@ const auth = {
   // Attempts to log in based on given email and password (not Oauth).
   attemptLogin: async function attemptLogin(email,password){
 
-      // Här ska det skrivas kod för att kontrollera en manuell inloggning mot användare i databasen.
-      // Lösenordet lagras med hash.
-
-      return await this.loginUser(email,password);
-
       // Check if user exists.
-      let customers = customerModel.getAll()
-      let matchingCustomerInfo;
+      let customers = await customerModel.getAll()
+      let matchingCustomerInfo
+      let matchFound = false
 
       // Look for matching customer email.
       for(key in customers){
         if(customers[key].email === email){
+          matchFound = true
           matchingCustomerInfo = customers[key];
         }
       }
 
       // Check password if match is found.
-      if (typeof matchingCustomerInfo !== 'undefined') {
+      if (matchFound) {
         matchingCustomerInfo.password = "testlösenord";
         if("testlösenord" === matchingCustomerInfo.password){
             loginUser(email);
+        } else {
+          return ({loginMessage:"Fel lösenord!"})
         }
+      } else {
+        return ({loginMessage:"Användaren finns inte!"})
+      }
+
+  },
+
+  // Attempts to register new account based on given email and password (not Oauth).
+  attemptRegistration: async function attemptRegistration(userInfo){
+
+      // Check if user already exists.
+      let customers = await customerModel.getAll()
+      let matchingCustomerInfo
+      let matchFound = false
+
+      // Look for matching customer email.
+      for(key in customers){
+        if(customers[key].email === userInfo.email){
+          matchFound = true
+          matchingCustomerInfo = customers[key];
+        }
+      }
+
+      // Check password if match is found.
+      if (matchFound) {
+        return ({registerMessage:"En användare med din e-mail finns redan."})
+      } else {
+        customerModel.addCustomer(userInfo)
+        return ({registerMessage:"Registrerad!"})
       }
 
   },

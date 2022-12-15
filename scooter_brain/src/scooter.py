@@ -30,6 +30,7 @@ class Scooter():
         print("response status code: ", response.status_code)
         print("response : ", response.content)
 
+    # Change current lat and long with factors dLa and dLo
     def change_pos(self,dLa,dLo):
         oldLa = self.pos[0]
         oldLo = self.pos[1]

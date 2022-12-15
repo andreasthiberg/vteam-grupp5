@@ -12,6 +12,7 @@ const trip = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
+    db.end()
 
     return res[0]
   },
@@ -23,6 +24,8 @@ const trip = {
     let res
     const db = await dbModel.getDb()
     res = await db.query(sql, [args.scooter_id, args.customer_id, arg.sstart_pos])
+    db.end()
+
     return res
   },
 
@@ -33,6 +36,8 @@ const trip = {
     let res
     const db = await dbModel.getDb()
     res = await db.query(sql, [args.id, args.end_time, args.end_pos, args.price])
+    db.end()
+
     return res
   }
 }

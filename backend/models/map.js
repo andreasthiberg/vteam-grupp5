@@ -11,7 +11,7 @@ const map = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
-
+    db.end()
     return res[0]
   },
   // Gets all charging stations.
@@ -21,7 +21,7 @@ const map = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
-
+    db.end()
     return res[0]
   }
 }
