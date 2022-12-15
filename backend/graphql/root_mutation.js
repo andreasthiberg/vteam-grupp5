@@ -3,16 +3,15 @@
 const {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLFloat
 } = require('graphql')
 
-// Custom types
-const ScooterType = require('./types/scooter.js')
-const CustomerType = require('./types/customer.js')
 
 // Models for database communication
 const scooterModel = require('../models/scooter.js')
 const customerModel = require('../models/customer.js')
+const tripModel = require('../models/trip')
 
 const RootMutationType = new GraphQLObjectType({
   name: 'Mutation',
@@ -27,6 +26,7 @@ const RootMutationType = new GraphQLObjectType({
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
+        console.log("HEJ");
         const result = await scooterModel.addScooter(args)
         return "Scooter added."
       }
@@ -41,8 +41,6 @@ const RootMutationType = new GraphQLObjectType({
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        console.log("Cykeluppdatering mottagen!");
-        return("Hej!");
         const result = await scooterModel.updateScooter(args)
         return result
       }
@@ -57,7 +55,7 @@ const RootMutationType = new GraphQLObjectType({
         balance: { type: GraphQLInt }   
       },
       resolve: async function (parent, args) {
-        const result = await customerModel.addCustomer(args)
+        await customerModel.addCustomer(args)
         return "Customer added."
       }
     },
@@ -73,6 +71,41 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: async function (parent, args) {
         const result = await customerModel.updateCustomer(args)
+        return result
+      }
+    },
+    addTrip: {
+      type: GraphQLString,
+      description: 'Adds a new trip',
+      args: {
+        scooter_id: { type: GraphQLInt},
+        customer_id: { type: GraphQLInt },
+        start_time: { type: GraphQLString },
+        end_time: { type: GraphQLString },
+        start_pos: { type: GraphQLString },
+        end_pos: { type: GraphQLString },
+        price: { type: GraphQLFloat }
+      },
+      resolve: async function (parent, args) {
+        const result = await tripModel.addTrip(args)
+        return "Trip added."
+      }
+    },
+    updateTrip: {
+      type: GraphQLString,
+      description: 'Updates a trip',
+      args: {
+        id: { type: GraphQLInt, required: true},
+        scooter_id: { type: GraphQLInt},
+        customer_id: { type: GraphQLInt },
+        start_time: { type: GraphQLString },
+        end_time: { type: GraphQLString },
+        start_pos: { type: GraphQLString },
+        end_pos: { type: GraphQLString },
+        price: { type: GraphQLFloat }
+      },
+      resolve: async function (parent, args) {
+        const result = await tripModel.updateTrip(args)
         return result
       }
     }
