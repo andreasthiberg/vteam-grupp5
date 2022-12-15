@@ -110,7 +110,7 @@ const auth = {
       if (matchFound) {
         return ({registerMessage:"En användare med din e-mail finns redan."})
       } else {
-        customerModel.addCustomer(userInfo)
+        await customerModel.addCustomer(userInfo)
         return ({registerMessage:"Registrerad!"})
       }
 
@@ -118,13 +118,35 @@ const auth = {
 
   // Login or register (if no matching user) using an OAuth response code.
   loginOrRegisterWithOAuthCode: async function loginOrRegisterWithOAuthCode(code){
-    // Här ska det skrivas mer kod: Om användaren inte finns ska den skapas i databasen
 
     // Get access token from Github.
     let accessTokenResult = await this.getAccessToken(code);
     let infoResult = await this.getUserInfoFromAPI(accessTokenResult.access_token);
     let email = infoResult.email;
-    let loginResult = await this.loginUser(email);
+
+    // Check if user exists.
+    let customers = await customerModel.getAll()
+    let matchingCustomerInfo
+    let matchFound = false
+
+    for(key in customers){
+      if(customers[key].email === email){
+        matchFound = true
+        matchingCustomerInfo = customers[key];
+      }
+    }
+
+    // Login or add user and then login.
+    let loginResult;
+    if (matchFound) {
+      loginResult = await this.loginUser(email);
+    } else {
+      console.log("Hej")
+      await customerModel.addCustomer({email:email})
+      loginResult = await this.loginUser(email);
+      loginResult.loginMessage = "Konto skapat!"
+    }
+    console.log(loginResult)
     return loginResult;
 }
 }
