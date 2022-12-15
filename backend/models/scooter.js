@@ -55,8 +55,6 @@ const scooter = {
     
     let res = await db.query(sql, [args.id, status, pos, battery])
     
-    console.log(res);
-    //Close db connection
     db.end()
 
     return "Updates."
