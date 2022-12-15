@@ -1,25 +1,34 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import CityList from './CityList';
+import StockholmMap from './StockholmMap';
+import MalmoMap from './MalmoMap.tsx';
+import LundMap from './LundMap.tsx';
 import { Text, View, StyleSheet } from "react-native";
 import { Base, Typography } from '../styles';
 import MapView from 'react-native-maps';
 // import { Marker } from "react-native-maps";
 
+const Stack = createNativeStackNavigator();
 
 export default function ShowMap() {
     return (
-        <View style={Base.base}>
-            <Text style={Typography.header2}>City Map</Text>
-            <View style={styles.container}>
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: 56.1612,
-                        longitude: 15.5869,
-                        latitudeDelta: 0.1,
-                        longitudeDelta: 0.1,
-                    }}>
-                </MapView>
-            </View>
-        </View>
+        // <View style={Base.base}>
+        //     <Text style={Typography.header2}>Select a city</Text>
+        // </View>
+        <Stack.Navigator initialRouteName="List">
+            
+            <Stack.Screen name="List" component={CityList}>
+            </Stack.Screen>
+
+            <Stack.Screen name="Stockholm" component={StockholmMap}></Stack.Screen>
+
+            <Stack.Screen name="Malmo" component={MalmoMap}>
+            </Stack.Screen>
+
+            <Stack.Screen name="Lund" component={LundMap}>
+            </Stack.Screen>
+
+        </Stack.Navigator>
     );
 };
 

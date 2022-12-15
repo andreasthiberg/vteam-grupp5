@@ -7,30 +7,32 @@ const map = {
   // Gets all parking zones
   getParkingZones: async function getParkingZones () {
     // Temporary example result
-    return [{ id: 0, pos: '10,10' }]
+    // return [{ id: 0, pos: '10,10' }]
     // -----------
 
-    const sql = 'SELECT * FROM trip'
+    // const sql = 'SELECT * FROM trip'
+    const sql = "CALL get_all_parking_zones()"
     let res
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
 
-    return res
+    return res[0]
   },
   // Gets all charging stations
   getChargingStations: async function getChargingStations () {
     // Temporary example result
-    return [{ id: 0, pos: '20,20' }]
+    // return [{ id: 0, pos: '20,20' }]
     // -----------
 
-    const sql = 'SELECT * FROM trip'
+    // const sql = 'SELECT * FROM trip'
+    const sql = "CALL get_all_charging_stations()"
     let res
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
 
-    return res
+    return res[0]
   }
 }
 
