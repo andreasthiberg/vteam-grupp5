@@ -119,8 +119,8 @@ INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("new", "10,0", 200);
 INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", 200);
 INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", 50);
 
-INSERT INTO parking_zone (`pos`) VALUES ("10, 10");
-INSERT INTO parking_zone (`pos`) VALUES ("10, 15");
+-- INSERT INTO parking_zone (`pos`) VALUES ("10, 10");
+-- INSERT INTO parking_zone (`pos`) VALUES ("10, 15");
 
 INSERT INTO charging_station (`pos`) VALUES ("15, 10");
 INSERT INTO charging_station (`pos`) VALUES ("15, 15");
