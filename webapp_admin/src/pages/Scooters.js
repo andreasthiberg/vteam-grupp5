@@ -1,18 +1,21 @@
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Marker, Popup, TileLayer, MapContainer } from "react-leaflet";
+import "../App.css";
+import MapLun from "../components/MapLun";
 import MapSto from "../components/MapSto";
+import MapMal from "../components/MapMal";
 
 
-
-const Scooters = () => {
-    return (
-      <div>
-        <h2>Välj stad:</h2>
-          <button onClick={MapSto}>Stockholm</button>
+function Scooters () {
 
 
-      </div>
+  return (
+    <div>
+      <p>Här skall valen göras för de olika städer</p>
+      <h2>Stockholm</h2>
+      <MapSto />
+    </div>
+  )
+}
 
-    );
-};
-
-export default Scooters;
+export default { Scooters };

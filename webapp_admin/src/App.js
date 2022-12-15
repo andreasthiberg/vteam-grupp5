@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Scooters from './pages/Scooters';
 import Customers from './pages/Customers';
-// import MapSto from './components/MapSto';
+
 
 
 function App() {
