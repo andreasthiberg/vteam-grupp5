@@ -9,30 +9,29 @@ const clientId = "24530571d805bf20f230"
 const redirectURL = "http://mylocal.com:3001/login"
 const oAuthUrl = url + "?client_id=" + clientId + "&redirect_uri="+ redirectURL + "&state=" + stateString;
 
-//Use code from Github oauth to login via backend
-async function oAuthLoginOrRegister(code,props){
-  const response = await fetch(("http://localhost:3000/auth/oauth"), {
-     
-    method: "POST",
-     
-    body: JSON.stringify({code:code}),
 
-    // Adding headers to the request
-    headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Access-Control-Allow-Origin": "*",
-        "Accept": "application/json"
-    }
-  });
-  let loginResult = await response.json()
-  props.setJwt(loginResult.result.token)
-  props.setUserEmail(loginResult.result.email)
-  props.setLoggedIn(true)
-}
+export default function Login(props) {
 
+  //Use code from Github oauth to login via backend
+  async function oAuthLoginOrRegister(code,props){
+    const response = await fetch(("http://localhost:3000/auth/oauth"), {
+      
+      method: "POST",
+      
+      body: JSON.stringify({code:code}),
 
-
-const Login = (props) => {
+      // Adding headers to the request
+      headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Access-Control-Allow-Origin": "*",
+          "Accept": "application/json"
+      }
+    });
+    let loginResult = await response.json()
+    props.setJwt(loginResult.result.token)
+    props.setUserEmail(loginResult.result.email)
+    props.setLoggedIn(true)
+  }
 
   const queryParameters = new URLSearchParams(window.location.search)
   const code = queryParameters.get("code")
@@ -62,5 +61,3 @@ const Login = (props) => {
     
   );
 }
-
-export default Login;
