@@ -26,11 +26,11 @@ const RootMutationType = new GraphQLObjectType({
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
+        console.log("HEJ");
         const result = await scooterModel.addScooter(args)
         return "Scooter added."
       }
     },
-    // NOT IMPLEMENTED! TEMPORARY RETURN
     updateScooter: {
       type: GraphQLString,
       description: 'Update a scooter',
@@ -41,8 +41,6 @@ const RootMutationType = new GraphQLObjectType({
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        console.log("Cykeluppdatering mottagen!");
-        return("Hej!");
         const result = await scooterModel.updateScooter(args)
         return result
       }
@@ -57,7 +55,7 @@ const RootMutationType = new GraphQLObjectType({
         balance: { type: GraphQLInt }   
       },
       resolve: async function (parent, args) {
-        const result = await customerModel.addCustomer(args)
+        await customerModel.addCustomer(args)
         return "Customer added."
       }
     },

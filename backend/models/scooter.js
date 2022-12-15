@@ -11,6 +11,7 @@ const scooter = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
+    db.end();
     return res[0]
   },
   // Gets a single scooter from database based on input id.
@@ -20,6 +21,7 @@ const scooter = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql,[id])
+    db.end();
     return res[0]
   },
   // Adds a new scooter with given data to database.
@@ -29,14 +31,15 @@ const scooter = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql,[args.status,args.pos,args.battery])
-    return res
+    db.end();
   },
   // Updates an existing scooter based on arguments, using given ID.
   updateScooter: async function updateCustomer(args){
+    console.log(args);
     const db = await dbModel.getDb()
 
     let currentDbResult = await db.query("CALL get_one_scooter(?)",[args.id]);
-    console.log(currentDbResult);
+
     if(currentDbResult[0].length == 0){
       return "No scooter with matching ID."
     }
@@ -51,10 +54,12 @@ const scooter = {
     const sql = "CALL update_scooter(?,?,?,?)"
     
     let res = await db.query(sql, [args.id, status, pos, battery])
-    if(res.changedRows > 0){
-      return "Updates made."
-    }
-    return "No updates made."
+    
+    console.log(res);
+    //Close db connection
+    db.end()
+
+    return "Updates."
   }
 }
 
