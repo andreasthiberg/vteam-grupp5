@@ -26,7 +26,6 @@ const RootMutationType = new GraphQLObjectType({
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        console.log("HEJ");
         const result = await scooterModel.addScooter(args)
         return "Scooter added."
       }

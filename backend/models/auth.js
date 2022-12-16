@@ -11,7 +11,11 @@ const clientId = "24530571d805bf20f230"
 const clientSecret = "44d3dad7e30600442f213974aac34bff0df1bf90"
 
 // Secret used for generating JWTs.
-const secret = "TempSecret"
+const secret = "tempJWTsecret"
+
+// Hash password tools.
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 
 const auth = {
 
@@ -65,25 +69,28 @@ const auth = {
 
       // Check if user exists.
       let customers = await customerModel.getAll()
-      let matchingCustomerInfo
+      let matchingCustomerInfo = {}
       let matchFound = false
 
       // Look for matching customer email.
-      for(key in customers){
+      for(let key in customers){
         if(customers[key].email === email){
           matchFound = true
           matchingCustomerInfo = customers[key];
         }
       }
 
-      // Check password if match is found.
+      // Check password against stored hash if match is found.
       if (matchFound) {
-        matchingCustomerInfo.password = "testlösenord";
-        if("testlösenord" === matchingCustomerInfo.password){
-            loginUser(email);
-        } else {
-          return ({loginMessage:"Fel lösenord!"})
-        }
+        hash = matchingCustomerInfo.password
+        bcrypt.compare(password, hash, async(err, check) => {
+            if(check){
+              loginUser(email);
+              return ({loginMessage:"Inloggad!"})
+            } else {
+              return ({loginMessage:"Fel lösenord!"})
+            }
+        })
       } else {
         return ({loginMessage:"Användaren finns inte!"})
       }
@@ -95,25 +102,28 @@ const auth = {
 
       // Check if user already exists.
       let customers = await customerModel.getAll()
-      let matchingCustomerInfo
       let matchFound = false
 
       // Look for matching customer email.
-      for(key in customers){
+      for(let key in customers){
         if(customers[key].email === userInfo.email){
           matchFound = true
-          matchingCustomerInfo = customers[key];
         }
       }
 
-      // Check password if match is found.
+      // Register if email isn't already in database
       if (matchFound) {
         return ({registerMessage:"En användare med din e-mail finns redan."})
-      } else {
-        await customerModel.addCustomer(userInfo)
-        return ({registerMessage:"Registrerad!"})
       }
 
+      let hashedPassword;
+        
+      bcrypt.hash(password, saltRounds, async(err, hash) => {
+           hashedPassword = hash;
+           userInfo.hashedPassword = hashedPassword
+          await customerModel.addCustomer(userInfo)
+          return ({registerMessage:"Registrerad!"})
+      });
   },
 
   // Login or register (if no matching user) using an OAuth response code.
@@ -126,13 +136,11 @@ const auth = {
 
     // Check if user exists.
     let customers = await customerModel.getAll()
-    let matchingCustomerInfo
     let matchFound = false
 
-    for(key in customers){
+    for(let key in customers){
       if(customers[key].email === email){
         matchFound = true
-        matchingCustomerInfo = customers[key];
       }
     }
 
@@ -141,7 +149,6 @@ const auth = {
     if (matchFound) {
       loginResult = await this.loginUser(email);
     } else {
-      console.log("Hej")
       await customerModel.addCustomer({email:email})
       loginResult = await this.loginUser(email);
       loginResult.loginMessage = "Konto skapat!"

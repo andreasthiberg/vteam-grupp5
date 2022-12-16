@@ -63,6 +63,7 @@ CREATE TABLE `customer`
     `first_name` CHAR(20),
     `last_name` CHAR(30),
     `email` CHAR(50),
+    `password` CHAR(50),
     `balance` FLOAT,
     
     PRIMARY KEY (`id`)
@@ -116,8 +117,8 @@ CREATE TABLE `trip`
 INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("old", "0,0", 100);
 INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("new", "10,0", 200);
 
-INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", 200);
-INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", 50);
+INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
+INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
 
 INSERT INTO parking_zone (`pos`) VALUES ("10, 10");
 INSERT INTO parking_zone (`pos`) VALUES ("10, 15");
@@ -222,11 +223,12 @@ CREATE PROCEDURE add_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
+    `a_password` CHAR(50),
     `a_balance` FLOAT
 )
 BEGIN
-    INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) 
-    VALUES (`a_first_name`, `a_last_name`, `a_email`, `a_balance`);
+    INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) 
+    VALUES (`a_first_name`, `a_last_name`, `a_email`, `a_password`, `a_balance`);
 END
 ;;
 DELIMITER ;
@@ -239,6 +241,7 @@ CREATE PROCEDURE update_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
+    `a_password` CHAR(50),
     `a_balance` FLOAT
     )
 BEGIN
@@ -247,6 +250,7 @@ BEGIN
 		`first_name` = `a_first_name`,
         `last_name` = `a_last_name`,
         `email` = `a_email`,
+        `password` = `a_password`,
         `balance` = `a_balance`
 	WHERE `id` = `a_id`
     ;

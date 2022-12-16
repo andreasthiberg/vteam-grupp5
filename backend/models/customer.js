@@ -15,11 +15,12 @@ const customer = {
   },
 
   // Adds a new user.
-  addCustomer: async function addCustomer (args) {
+  addCustomer: async function addCustomer (customerInfo) {
 
-    const sql = "CALL add_customer(?,?,?,?)"
+    const sql = "CALL add_customer(?,?,?,?,?)"
     const db = await dbModel.getDb()
-    let res = await db.query(sql, [args.first_name, args.last_name, args.email, args.balance])
+    let res = await db.query(sql, [customerInfo.first_name, customerInfo.last_name, 
+      customerInfo.email, customerInfo.password, customerInfo.balance])
     db.end()
     return res
   },
@@ -30,7 +31,7 @@ const customer = {
     const db = await dbModel.getDb()
 
     let currentDbResult = await db.query("CALL get_one_customer(?)",[args.id]);
-    if(currentDbResult[0].length == 0){
+    if(currentDbResult[0].length === 0){
       return "No customer with matching ID."
     }
 
