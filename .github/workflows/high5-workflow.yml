@@ -25,5 +25,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
     - run: npm install --legacy-peer-deps
     - run: npm test
