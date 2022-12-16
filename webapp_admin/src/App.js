@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import Scooters from './pages/Scooters';
 import Customers from './pages/Customers';
 
+
+
 function App() {
   return (
     <BrowserRouter>
