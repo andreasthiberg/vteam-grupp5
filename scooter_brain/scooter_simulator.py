@@ -13,18 +13,23 @@ class ScooterSimulation():
     def start(self):
         """ Start simulation """
 
+        # Wait for backend to start fully
+        time.sleep(3)
+
         numberOfScooters = 3
+        startId = 3
+        startCoords = [[5570000, 1319000],[5560500, 1300380],[5933000, 1805500]]
 
         # Create a scooter objects and appends them to the array
         for x in range(numberOfScooters):
-            newScooter = Scooter(x,[0,0])
+            newScooter = Scooter(startId+x,startCoords[x])
+            newScooter.add_to_database()
             self.scooter_array.append(newScooter)
 
         time.sleep(3)
 
         # Call update method continuously
         while True:
-            print("Uppdaterar...")
             self.get_update()
 
 

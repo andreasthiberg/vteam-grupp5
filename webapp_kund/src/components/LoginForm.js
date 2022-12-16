@@ -4,6 +4,7 @@ export default function LoginForm(props) {
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [loginMessage,setLoginMessage] = useState("");
 
     //Attempts to manually log in with given email and password
     async function handleSubmit(){
@@ -21,7 +22,8 @@ export default function LoginForm(props) {
         }
         });
         let loginResult = await response.json()
-        if(loginResult.result.loginMessage="Inloggad!"){
+        setLoginMessage(loginResult.result.loginMessage);
+        if(loginResult.result.loginMessage==="Inloggad!"){
         props.setJwt(loginResult.result.token)
         props.setUserEmail(loginResult.result.email)
         props.setLoggedIn(true)
@@ -36,6 +38,7 @@ export default function LoginForm(props) {
             Lösenord<br />
             <input required className="login-field" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br />
             <button onClick={handleSubmit}>Logga in</button>
+            {loginMessage}
         </div>
       ); 
 }
