@@ -17,8 +17,13 @@ const customer = {
   // Adds a new user.
   addCustomer: async function addCustomer (customerInfo) {
 
+    if(!customerInfo.hasOwnProperty("balance")){
+      customerInfo.balance = 1000;
+    }
+
     const sql = "CALL add_customer(?,?,?,?,?)"
     const db = await dbModel.getDb()
+    console.log(customerInfo)
     let res = await db.query(sql, [customerInfo.first_name, customerInfo.last_name, 
       customerInfo.email, customerInfo.password, customerInfo.balance])
     db.end()

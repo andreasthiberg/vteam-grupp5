@@ -63,9 +63,8 @@ CREATE TABLE `customer`
     `first_name` CHAR(20),
     `last_name` CHAR(30),
     `email` CHAR(50),
-    `password` CHAR(50),
+    `password` CHAR(100),
     `balance` FLOAT,
-    
     PRIMARY KEY (`id`)
     );
 
@@ -223,7 +222,7 @@ CREATE PROCEDURE add_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
-    `a_password` CHAR(50),
+    `a_password` CHAR(100),
     `a_balance` FLOAT
 )
 BEGIN
@@ -241,7 +240,7 @@ CREATE PROCEDURE update_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
-    `a_password` CHAR(50),
+    `a_password` CHAR(100),
     `a_balance` FLOAT
     )
 BEGIN

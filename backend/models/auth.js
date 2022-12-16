@@ -8,10 +8,10 @@ const customerModel = require('./customer');
 
 // Constants for OAuth client
 const clientId = "24530571d805bf20f230"
-const clientSecret = "44d3dad7e30600442f213974aac34bff0df1bf90"
+const clientSecret = process.env.OAUTH_CLIENT_SECRET
 
 // Secret used for generating JWTs.
-const secret = "tempJWTsecret"
+const secret = process.env.JWT_SECRET
 
 // Hash password tools.
 const bcrypt = require('bcryptjs');
@@ -80,21 +80,37 @@ const auth = {
         }
       }
 
+      let loginResult = {}
       // Check password against stored hash if match is found.
       if (matchFound) {
         hash = matchingCustomerInfo.password
-        bcrypt.compare(password, hash, async(err, check) => {
-            if(check){
-              loginUser(email);
-              return ({loginMessage:"Inloggad!"})
-            } else {
-              return ({loginMessage:"Fel lösenord!"})
-            }
-        })
+        const check = await this.comparePasswordWithPromise(password,hash);
+        console.log(check);
+        if(check){
+          loginResult = await this.loginUser(email,hash);
+          loginResult.loginMessage = "Inloggad!"
+          loginResult.loginCode = 1
+        } else {
+          loginResult.loginMessage = "Fel lösenord!"
+          loginResult.loginCode = 2
+        }
       } else {
-        return ({loginMessage:"Användaren finns inte!"})
+        loginResult.loginMessage = "Användaren finns inte!"
+        loginResult.loginCode = 0
       }
+      return loginResult;
+  },
 
+  comparePasswordWithPromise: async function comparePassword(password,hash){
+    return new Promise(function(resolve, reject) {
+    bcrypt.compare(password, hash, async(err, res) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(res);
+      }
+    })
+    })
   },
 
   // Attempts to register new account based on given email and password (not Oauth).
@@ -118,12 +134,12 @@ const auth = {
 
       let hashedPassword;
         
-      bcrypt.hash(password, saltRounds, async(err, hash) => {
-           hashedPassword = hash;
-           userInfo.hashedPassword = hashedPassword
+      bcrypt.hash(userInfo.password, saltRounds, async(err, hash) => {
+          hashedPassword = hash;
+          userInfo.password = hashedPassword
           await customerModel.addCustomer(userInfo)
-          return ({registerMessage:"Registrerad!"})
-      });
+      })
+      return ({registerMessage:"Registrerad!"});
   },
 
   // Login or register (if no matching user) using an OAuth response code.
