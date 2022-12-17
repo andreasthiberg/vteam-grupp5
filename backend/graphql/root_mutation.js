@@ -4,7 +4,9 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLFloat
+  GraphQLFloat,
+  GraphQLScalarType,
+  GraphQLSchema
 } = require('graphql')
 
 
@@ -22,11 +24,11 @@ const RootMutationType = new GraphQLObjectType({
       description: 'Adds a new scooter',
       args: {
         pos: { type: GraphQLString },
-        status: { type: GraphQLString },
+        status: { type: GraphQLInt },
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
-        const result = await scooterModel.addScooter(args)
+        await scooterModel.addScooter(args)
         return "Scooter added."
       }
     },
@@ -36,11 +38,24 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt },
         pos: { type: GraphQLString },
-        status: { type: GraphQLString },
+        status: { type: GraphQLInt },
         battery: { type: GraphQLInt }
       },
       resolve: async function (parent, args) {
         const result = await scooterModel.updateScooter(args)
+        return result
+      }
+    },
+    reportScooter: {
+      type: GraphQLInt,
+      description: 'Update a scooter',
+      args: {
+        id: { type: GraphQLInt },
+        pos: { type: GraphQLString },
+        battery: { type: GraphQLInt }
+      },
+      resolve: async function (parent, args) {
+        const result = await scooterModel.reportScooter(args)
         return result
       }
     },
@@ -86,7 +101,7 @@ const RootMutationType = new GraphQLObjectType({
         price: { type: GraphQLFloat }
       },
       resolve: async function (parent, args) {
-        const result = await tripModel.addTrip(args)
+        await tripModel.addTrip(args)
         return "Trip added."
       }
     },
