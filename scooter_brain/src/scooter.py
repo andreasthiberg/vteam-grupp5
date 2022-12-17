@@ -20,13 +20,14 @@ class Scooter():
 
         if(self.battery <= 0):
             print("Slut på batterier.")
-            return
+        elif(self.status != 1):
+            print("Statusen är inte 1 - scootern kör inte.")
+        else:
+            # Change location (Make more specific later)
+            self.change_pos(20,10)
 
-        # Change location (Make more specific later)
-        self.change_pos(20,10)
-
-        # Reduce battery by one percent
-        self.change_battery(-2)
+            # Reduce battery by one percent
+            self.change_battery(-2)
 
         # GraphQL API URL
         url = "http://backend:3000/graphql"
@@ -39,7 +40,6 @@ class Scooter():
         body += str(self.battery)
         body += ')}'
 
-        print(body)
         response = requests.post(url=url, json={"query": body})
 
         responseJson = response.json()
