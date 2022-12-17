@@ -34,7 +34,6 @@ const scooter = {
     if(args.hasOwnProperty(battery)){
       battery = args.battery
     }
-    console.log(battery)
     res = await db.query(sql,[args.status,args.pos,battery])
     db.end();
     return res[0]
@@ -73,7 +72,6 @@ const scooter = {
       const sql = "CALL report_scooter(?,?,?)"
       
       let res = await db.query(sql, [args.id, args.pos, args.battery])
-      console.log(res)
       
       db.end()  
   

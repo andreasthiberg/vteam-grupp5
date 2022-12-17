@@ -4,9 +4,7 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLFloat,
-  GraphQLScalarType,
-  GraphQLSchema
+  GraphQLFloat
 } = require('graphql')
 
 
