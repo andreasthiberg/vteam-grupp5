@@ -103,9 +103,9 @@ const RootMutationType = new GraphQLObjectType({
         return "Trip added."
       }
     },
-    updateTrip: {
+    endTrip: {
       type: GraphQLString,
-      description: 'Updates a trip',
+      description: 'Ends a trip',
       args: {
         id: { type: GraphQLInt, required: true},
         scooter_id: { type: GraphQLInt},
@@ -117,7 +117,7 @@ const RootMutationType = new GraphQLObjectType({
         price: { type: GraphQLFloat }
       },
       resolve: async function (parent, args) {
-        const result = await tripModel.updateTrip(args)
+        const result = await tripModel.endTrip(args)
         return result
       }
     }
