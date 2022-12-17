@@ -27,7 +27,7 @@ const RootQueryType = new GraphQLObjectType({
     scooters: {
       type: new GraphQLList(ScooterType),
       description: 'List of all scooters',
-      resolve: async function (parent, args) {
+      resolve: async function () {
         const scooterArray = await scooterModel.getAll()
         return scooterArray
       }
@@ -38,7 +38,7 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (args) {
         const result = await scooterModel.getOne(args.id)
         return result;
       }
@@ -49,7 +49,7 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         customerId: { type: GraphQLInt }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (args) {
         const customerArray = await customerModel.getAll()
         return customerArray.find(customer => customer.id.equals(args.customerId))
       }
@@ -57,7 +57,7 @@ const RootQueryType = new GraphQLObjectType({
     customers: {
       type: new GraphQLList(CustomerType),
       description: 'List of all customers',
-      resolve: async function (parent, args) {
+      resolve: async function () {
         const customerArray = await customerModel.getAll()
         return customerArray
       }
@@ -68,7 +68,7 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         tripId: { type: GraphQLInt }
       },
-      resolve: async function (parent, args) {
+      resolve: async function () {
         const tripArray = await tripModel.getAll()
         return tripArray.find(trip => trip.id.equals(trip.tripId))
       }
@@ -76,7 +76,7 @@ const RootQueryType = new GraphQLObjectType({
     trips: {
       type: new GraphQLList(TripType),
       description: 'List of all trips',
-      resolve: async function (parent, args) {
+      resolve: async function () {
         const tripArray = await tripModel.getAll()
         return tripArray
       }
@@ -84,7 +84,7 @@ const RootQueryType = new GraphQLObjectType({
     parkingZones: {
       type: new GraphQLList(ParkingZoneType),
       description: 'List of all parking zones',
-      resolve: async function (parent, args) {
+      resolve: async function () {
         const parkingZoneArray = await mapModel.getParkingZones()
         return parkingZoneArray
       }
@@ -92,7 +92,7 @@ const RootQueryType = new GraphQLObjectType({
     chargingStations: {
       type: new GraphQLList(ChargingStationType),
       description: 'List of all charging stations',
-      resolve: async function (parent, args) {
+      resolve: async function () {
         const chargingStationArray = await mapModel.getChargingStations()
         return chargingStationArray
       }

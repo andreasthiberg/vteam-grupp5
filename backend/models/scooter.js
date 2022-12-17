@@ -32,15 +32,15 @@ const scooter = {
 
     res = await db.query(sql,[args.status,args.pos,args.battery])
     db.end();
+    return res[0]
   },
   // Updates an existing scooter based on arguments, using given ID.
   updateScooter: async function updateCustomer(args){
-    console.log(args);
     const db = await dbModel.getDb()
 
     let currentDbResult = await db.query("CALL get_one_scooter(?)",[args.id]);
 
-    if(currentDbResult[0].length == 0){
+    if(currentDbResult[0].length === 0){
       return "No scooter with matching ID."
     }
 
@@ -57,7 +57,7 @@ const scooter = {
     
     db.end()
 
-    return "Updates."
+    return "Updates made to scooter."
   }
 }
 

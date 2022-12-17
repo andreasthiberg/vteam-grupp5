@@ -27,7 +27,6 @@ class Scooter():
         body += '")}'
 
         response = requests.post(url=url, json={"query": body})
-        print("response status code: ", response.status_code)
         print("response : ", response.content)
 
     # Change current lat and long with factors dLa and dLo
@@ -35,12 +34,10 @@ class Scooter():
         oldLa = self.pos[0]
         oldLo = self.pos[1]
         self.pos = [oldLa+dLa,oldLo+dLo]
-        print(self.pos)
     
     # Returns current position in string format "[latitude,longitude]", changed from integer values in object.
     def get_pos_as_coordinate_string(self):
         coord_string = "[%s,%s]"%(str(self.pos[0]/100000),str(self.pos[1]/100000))
-        print(coord_string)
         return coord_string
 
     # Adds a new scooter to database with object's data
@@ -51,7 +48,5 @@ class Scooter():
         
         body = 'mutation {addScooter (pos:"%s",battery:100,status:"1")}'%(self.get_pos_as_coordinate_string())
 
-        print(body)
         response = requests.post(url=url, json={"query": body})
-        print("response status code: ", response.status_code)
         print("response : ", response.content)

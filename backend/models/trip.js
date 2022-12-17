@@ -23,7 +23,7 @@ const trip = {
 
     let res
     const db = await dbModel.getDb()
-    res = await db.query(sql, [args.scooter_id, args.customer_id, arg.sstart_pos])
+    res = await db.query(sql, [args.scooter_id, args.customer_id, args.start_pos])
     db.end()
 
     return res
