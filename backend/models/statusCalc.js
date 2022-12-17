@@ -1,8 +1,14 @@
 // Model for calculating status for scooters based on their location and different zones.
 
+const mapModel = require('./map')
+
 const statusCalc = {
   // Check if coordinates are in parking/charging zone at the end of trip
   zoneCalculation: async function zoneCalculation (cityId,scooterCoords) {
+
+    let parkingZones = mapModel.getParkingZones();
+    let chargingStations = mapModel.getChargingStations();
+
     positionCode = 0 // 0 = Utanför zoner, 1 = Parkeringszon, 2 = Laddningszon
     // Undersök om koordinater är i zon
     // Sätt positionCode till relevant siffra.

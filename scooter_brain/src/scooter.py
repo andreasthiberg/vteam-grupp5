@@ -12,23 +12,39 @@ class Scooter():
         self.pos = pos
         self.battery = 100
         self.currentTrip = 0
-        self.status = 1 # Status 0 = under underhåll, 1 = Tillgänglig, 2 = Kör, 3 = Parkerad utanför zon, 4 = Parkerad i zon, 5 = Parkerad i laddning, 6 = stoppad av admin
+        self.status = 1 
+        # 0 = stoppad av admin
+        # 1 = Kör
+        # 2 = Parkerad utanför zon
+        # 3 = Parkerad i parkeringszon
+        # 4 = Parkerad i laddningszon
+        # 5 = Slut på batterier och inte i laddningszon
+        # 6 = Under underhåll (borta från kartan)
 
     # Sends update with current status and location to database
     def send_update(self):
 
+        # Scooter is out of batteries
         if(self.battery <= 0):
             print("Slut på batterier.")
-        elif(self.status != 1):
-            print("Statusen för scooter med ID " + str(self.id) + " är inte 1 - scootern kör inte.")
-        else:
-            # Change location (Make more specific later)
+
+        # Scooter is moving
+        elif(self.status == 1):
+             # Change location
             self.change_pos(20,10)
 
             # Reduce battery by one percent
-            self.change_battery(-2)
+            self.change_battery(-1)
 
-        # GraphQL API URL
+        # Scooter is charging
+        elif(self.status == 4):
+            self.change_battery(10)
+
+        else:
+            print("Scooter med ID " + str(self.id) + " står still.")
+
+        # Send pos/battery and get status update #
+
         url = "http://backend:3000/graphql"
         
         body = 'mutation {reportScooter (id:'
@@ -48,7 +64,8 @@ class Scooter():
             self.change_status(newStatus)
             print("Status changed to " + str(newStatus))
 
-        print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() + ", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
+        print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() +
+        ", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
 
     # Change current lat and long with factors dLa and dLo
     def change_pos(self,dLa,dLo):
