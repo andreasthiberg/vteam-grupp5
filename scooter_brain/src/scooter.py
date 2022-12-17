@@ -20,7 +20,7 @@ class Scooter():
         if(self.battery <= 0):
             print("Slut på batterier.")
         elif(self.status != 1):
-            print("Statusen är inte 1 - scootern kör inte.")
+            print("Statusen för scooter med ID " + str(self.id) + " är inte 1 - scootern kör inte.")
         else:
             # Change location (Make more specific later)
             self.change_pos(20,10)
@@ -47,8 +47,7 @@ class Scooter():
         if( newStatus != self.status):
             self.change_status(newStatus)
             print("Status changed to " + str(newStatus))
-        
-        print("response : ", response.content)
+
         print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() + ", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
 
     # Change current lat and long with factors dLa and dLo

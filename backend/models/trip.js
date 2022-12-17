@@ -31,6 +31,9 @@ const trip = {
 
   // Updates an existing trip.
   updateTrip: async function updateTrip (args) {
+
+    //Här ska det finnas kod för att räkna ut penalty fee och discount baserat på scooterns
+    //start- och slutposition. Använder modellen statusCalc.js
     const sql = "CALL update_trip(?,?,?,?)"
 
     let res
