@@ -13,7 +13,7 @@ last_name = ""
 with open('../sql/insert-parking-zones-stockholm.sql', 'w') as fh:
     fh.write("USE high5\n")
     fh.write("INSERT INTO parking_zone\n")
-    fh.write("    ( `pos` )\n")
+    fh.write("    ( `pos`, `city` )\n")
     fh.write("VALUES\n")
 
     for i, station in enumerate(data):
@@ -28,5 +28,5 @@ with open('../sql/insert-parking-zones-stockholm.sql', 'w') as fh:
             if i == len(data) - 1:
                 separator = ";"
 
-            fh.write(f"      ('{position}'){separator}\n")
+            fh.write(f"      ('{position}', '{city}'){separator}\n")
         last_name = name
