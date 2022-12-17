@@ -12,7 +12,7 @@ class Scooter():
         self.pos = pos
         self.battery = 100
         self.currentTrip = 0
-        self.status = 1 
+        self.status = 1
         # 0 = stoppad av admin
         # 1 = Kör
         # 2 = Parkerad utanför zon
@@ -38,10 +38,8 @@ class Scooter():
 
         # Scooter is charging
         elif(self.status == 4):
-            self.change_battery(10)
-
-        else:
-            print("Scooter med ID " + str(self.id) + " står still.")
+            if(self.battery < 100):
+                self.change_battery(1)
 
         # Send pos/battery and get status update #
 
@@ -62,7 +60,7 @@ class Scooter():
 
         if( newStatus != self.status):
             self.change_status(newStatus)
-            print("Status changed to " + str(newStatus))
+            print("Status of scooter " + str(self.id) + " changed to " + str(newStatus))
 
         print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() +
         ", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
