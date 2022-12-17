@@ -1,9 +1,8 @@
 # -*- coding: UTF-8 -*-
 
-"""Scooter simulation class"""
+"""Single scooter simulation class"""
 
 import requests
-import json
 
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
