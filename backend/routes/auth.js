@@ -29,6 +29,7 @@ router.post('/register', async function(req, res) {
     last_name:req.body.last_name}
     console.log("Manual registration request made")
     let result = await authModel.attemptRegistration(userInfo);
+    console.log(result);
     res.json({result:result});
 });
 

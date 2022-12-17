@@ -1,19 +1,10 @@
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const CityList = () => {
     return (
         <>
-            <h1>High5 Admin's Page</h1>
+            <h1>High5 scooters admin</h1>
             <ul className="nav">
-                <li>
-                    <Link to='/'>Home</Link>
-                </li>
-                <li>
-                    <Link to='/customers'>Customers</Link>
-                </li>
-                <li>
-                    <Link to='/scooters'>Scooters</Link>
-                </li>
                 <li>
                     <Link to='/stockholm'>Stockholm</Link>
                 </li>
@@ -28,4 +19,4 @@ const Header = () => {
     );
 }
 
-export default Header;
+export default CityList;

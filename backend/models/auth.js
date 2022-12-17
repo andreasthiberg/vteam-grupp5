@@ -8,10 +8,14 @@ const customerModel = require('./customer');
 
 // Constants for OAuth client
 const clientId = "24530571d805bf20f230"
-const clientSecret = "44d3dad7e30600442f213974aac34bff0df1bf90"
+const clientSecret = process.env.OAUTH_CLIENT_SECRET
 
 // Secret used for generating JWTs.
-const secret = "TempSecret"
+const secret = process.env.JWT_SECRET
+
+// Hash password tools.
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 
 const auth = {
 
@@ -65,29 +69,48 @@ const auth = {
 
       // Check if user exists.
       let customers = await customerModel.getAll()
-      let matchingCustomerInfo
+      let matchingCustomerInfo = {}
       let matchFound = false
 
       // Look for matching customer email.
-      for(key in customers){
+      for(let key in customers){
         if(customers[key].email === email){
           matchFound = true
           matchingCustomerInfo = customers[key];
         }
       }
 
-      // Check password if match is found.
+      let loginResult = {}
+      // Check password against stored hash if match is found.
       if (matchFound) {
-        matchingCustomerInfo.password = "testlösenord";
-        if("testlösenord" === matchingCustomerInfo.password){
-            loginUser(email);
+        hash = matchingCustomerInfo.password
+        const check = await this.comparePasswordWithPromise(password,hash);
+        console.log(check);
+        if(check){
+          loginResult = await this.loginUser(email,hash);
+          loginResult.loginMessage = "Inloggad!"
+          loginResult.loginCode = 1
         } else {
-          return ({loginMessage:"Fel lösenord!"})
+          loginResult.loginMessage = "Fel lösenord!"
+          loginResult.loginCode = 2
         }
       } else {
-        return ({loginMessage:"Användaren finns inte!"})
+        loginResult.loginMessage = "Användaren finns inte!"
+        loginResult.loginCode = 0
       }
+      return loginResult;
+  },
 
+  comparePasswordWithPromise: async function comparePassword(password,hash){
+    return new Promise(function(resolve, reject) {
+    bcrypt.compare(password, hash, async(err, res) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(res);
+      }
+    })
+    })
   },
 
   // Attempts to register new account based on given email and password (not Oauth).
@@ -95,25 +118,28 @@ const auth = {
 
       // Check if user already exists.
       let customers = await customerModel.getAll()
-      let matchingCustomerInfo
       let matchFound = false
 
       // Look for matching customer email.
-      for(key in customers){
+      for(let key in customers){
         if(customers[key].email === userInfo.email){
           matchFound = true
-          matchingCustomerInfo = customers[key];
         }
       }
 
-      // Check password if match is found.
+      // Register if email isn't already in database
       if (matchFound) {
         return ({registerMessage:"En användare med din e-mail finns redan."})
-      } else {
-        await customerModel.addCustomer(userInfo)
-        return ({registerMessage:"Registrerad!"})
       }
 
+      let hashedPassword;
+        
+      bcrypt.hash(userInfo.password, saltRounds, async(err, hash) => {
+          hashedPassword = hash;
+          userInfo.password = hashedPassword
+          await customerModel.addCustomer(userInfo)
+      })
+      return ({registerMessage:"Registrerad!"});
   },
 
   // Login or register (if no matching user) using an OAuth response code.
@@ -126,13 +152,11 @@ const auth = {
 
     // Check if user exists.
     let customers = await customerModel.getAll()
-    let matchingCustomerInfo
     let matchFound = false
 
-    for(key in customers){
+    for(let key in customers){
       if(customers[key].email === email){
         matchFound = true
-        matchingCustomerInfo = customers[key];
       }
     }
 
@@ -141,7 +165,6 @@ const auth = {
     if (matchFound) {
       loginResult = await this.loginUser(email);
     } else {
-      console.log("Hej")
       await customerModel.addCustomer({email:email})
       loginResult = await this.loginUser(email);
       loginResult.loginMessage = "Konto skapat!"

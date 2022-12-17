@@ -13,7 +13,7 @@ const ScooterType = new GraphQLObjectType({
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLInt) },
     pos: { type: new GraphQLNonNull(GraphQLString) },
-    status: { type: new GraphQLNonNull(GraphQLString) },
+    status: { type: new GraphQLNonNull(GraphQLInt) },
     battery: { type: new GraphQLNonNull(GraphQLInt) }
   })
 })

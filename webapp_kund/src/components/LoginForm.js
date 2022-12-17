@@ -23,7 +23,7 @@ export default function LoginForm(props) {
         });
         let loginResult = await response.json()
         setLoginMessage(loginResult.result.loginMessage);
-        if(loginResult.result.loginMessage==="Inloggad!"){
+        if(loginResult.result.loginCode===1){
         props.setJwt(loginResult.result.token)
         props.setUserEmail(loginResult.result.email)
         props.setLoggedIn(true)

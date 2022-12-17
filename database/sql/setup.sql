@@ -50,7 +50,7 @@ DROP PROCEDURE IF EXISTS `update_trip`;
 CREATE TABLE `scooter`
     (
     `id` INT AUTO_INCREMENT,
-    `status` CHAR(20),
+    `status` INT(3),
     `pos` CHAR(50),
     `battery` INT(3),
 
@@ -63,8 +63,8 @@ CREATE TABLE `customer`
     `first_name` CHAR(20),
     `last_name` CHAR(30),
     `email` CHAR(50),
+    `password` CHAR(100),
     `balance` FLOAT,
-    
     PRIMARY KEY (`id`)
     );
 
@@ -113,11 +113,11 @@ CREATE TABLE `trip`
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
 
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("old", "0,0", 100);
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("new", "10,0", 200);
+INSERT INTO scooter (`status`, `pos`, `battery`) VALUES (1, "0,0", 100);
+INSERT INTO scooter (`status`, `pos`, `battery`) VALUES (2 , "10,0", 200);
 
-INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", 200);
-INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", 50);
+INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
+INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
 
 INSERT INTO parking_zone (`pos`) VALUES ("10, 10");
 INSERT INTO parking_zone (`pos`) VALUES ("10, 15");
@@ -160,7 +160,7 @@ DELIMITER ;
 -- Procedure to add a scooters
 DELIMITER ;;
 CREATE PROCEDURE add_scooter(
-    `a_status` CHAR(20),
+    `a_status` INT(3),
     `a_pos` CHAR(50),
     `a_battery` INT(3)
 )
@@ -176,7 +176,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE update_scooter(
     `a_id` INT,
-    `a_status` CHAR(20),
+    `a_status` INT(3),
     `a_pos` CHAR(50),
     `a_battery` INT(3)
     )
@@ -187,6 +187,28 @@ BEGIN
 		`pos` = `a_pos`,
 		`battery` = `a_battery`
 	WHERE `id` = `a_id`
+    ;
+END
+;;
+DELIMITER ;
+
+
+-- Procedure to recieve update from scooter brain
+DELIMITER ;;
+CREATE PROCEDURE report_scooter(
+    `a_id` INT,
+    `a_pos` CHAR(50),
+    `a_battery` INT(3)
+    )
+BEGIN
+    UPDATE scooter
+    SET
+		`pos` = `a_pos`,
+		`battery` = `a_battery`
+	WHERE `id` = `a_id`
+    ;
+    SELECT `status` FROM scooter
+    WHERE `id` = `a_id`
     ;
 END
 ;;
@@ -222,11 +244,12 @@ CREATE PROCEDURE add_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
+    `a_password` CHAR(100),
     `a_balance` FLOAT
 )
 BEGIN
-    INSERT INTO customer (`first_name`, `last_name`, `email`, `balance`) 
-    VALUES (`a_first_name`, `a_last_name`, `a_email`, `a_balance`);
+    INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) 
+    VALUES (`a_first_name`, `a_last_name`, `a_email`, `a_password`, `a_balance`);
 END
 ;;
 DELIMITER ;
@@ -239,6 +262,7 @@ CREATE PROCEDURE update_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
+    `a_password` CHAR(100),
     `a_balance` FLOAT
     )
 BEGIN
@@ -247,6 +271,7 @@ BEGIN
 		`first_name` = `a_first_name`,
         `last_name` = `a_last_name`,
         `email` = `a_email`,
+        `password` = `a_password`,
         `balance` = `a_balance`
 	WHERE `id` = `a_id`
     ;
