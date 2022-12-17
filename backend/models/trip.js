@@ -19,7 +19,7 @@ const trip = {
     return res[0]
   },
 
-  // Adds a new trip (when started?).
+  // Adds a new trip.
   addTrip: async function addTrip (args) {
 
     const sql = "CALL add_trip(?,?,?)"
@@ -32,7 +32,7 @@ const trip = {
     return res
   },
 
-  // Updates an existing trip.
+  // Ends an existing trip.
   endTrip: async function endTrip (args) {
 
     //Här ska det finnas kod för att räkna ut penalty fee och discount baserat på scooterns
