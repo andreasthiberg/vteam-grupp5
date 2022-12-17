@@ -53,14 +53,14 @@ const scooter = {
     let currentScooterData = currentDbResult[0][0];
 
     //Change info according to which arguments are given
-    let status = args.status ? args.status : currentScooterData.status
-    let pos = args.pos ? args.pos : currentScooterData.pos
-    let battery = args.battery ? args.battery : currentScooterData.battery
+    let status = args.hasOwnProperty("status") ? args.status : currentScooterData.status
+    let pos = args.hasOwnProperty("pos") ? args.pos : currentScooterData.pos
+    let battery = args.hasOwnProperty("battery") ? args.battery : currentScooterData.battery
 
     const sql = "CALL update_scooter(?,?,?,?)"
-    
+    console.log(args)
     let res = await db.query(sql, [args.id, status, pos, battery])
-    
+    console.log(res) 
     db.end()  
 
     return "Updates made to scooter."
