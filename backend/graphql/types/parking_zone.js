@@ -12,7 +12,8 @@ const ParkingZoneType = new GraphQLObjectType({
   description: 'This represents a parking zone',
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLInt) },
-    pos: { type: new GraphQLNonNull(GraphQLString) }
+    pos: { type: new GraphQLNonNull(GraphQLString) },
+    city: { type: new GraphQLNonNull(GraphQLString) }
   })
 })
 

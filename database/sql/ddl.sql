@@ -4,8 +4,6 @@ CREATE DATABASE IF NOT EXISTS high5;
 
 USE high5;
 
--- USE test;
-
 GRANT ALL PRIVILEGES ON *.* TO 'root' @'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
@@ -15,8 +13,8 @@ FLUSH PRIVILEGES;
 DROP TABLE IF EXISTS `trip`;
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
-DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `charging_station`;
+DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `city`;
 
 DROP PROCEDURE IF EXISTS `get_all_scooters`;
@@ -46,6 +44,13 @@ DROP PROCEDURE IF EXISTS `get_one_trip`;
 DROP PROCEDURE IF EXISTS `add_trip`;
 DROP PROCEDURE IF EXISTS `update_trip`;
 
+DROP PROCEDURE IF EXISTS `get_trips_details`;
+DROP PROCEDURE IF EXISTS `get_trips_price_details`;
+DROP PROCEDURE IF EXISTS `get_extra_price_details`;
+DROP PROCEDURE IF EXISTS `calc_duration`;
+
+
+
 
 CREATE TABLE `scooter`
     (
@@ -58,41 +63,50 @@ CREATE TABLE `scooter`
     );
 
 CREATE TABLE `customer`
-	(
+    (
     `id` INT AUTO_INCREMENT,
     `first_name` CHAR(20),
     `last_name` CHAR(30),
     `email` CHAR(50),
     `password` CHAR(100),
     `balance` FLOAT,
+    
     PRIMARY KEY (`id`)
+    );
+
+CREATE TABLE `city`
+    (
+    -- `id` INT AUTO_INCREMENT,
+    `name` CHAR(20),
+    `fee` FLOAT,
+    `fee_per_min` FLOAT,
+    `penalty_fee` FLOAT DEFAULT 50,
+    `discount` FLOAT DEFAULT 50,
+
+    PRIMARY KEY (`name`)
     );
 
 CREATE TABLE `parking_zone`
     (
     `id` INT AUTO_INCREMENT,
     `pos` CHAR(50),
+    `city` CHAR(20),
 
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY(`city`) REFERENCES `city` (`name`)
     );
 
 CREATE TABLE `charging_station`
     (
     `id` INT AUTO_INCREMENT,
     `pos` CHAR(50),
+    `status` TINYINT,
+    `city` CHAR(20),
+    `parking_zone` INT,
 
-    PRIMARY KEY (`id`)
-    );
-
-CREATE TABLE `city`
-    (
-    `id` INT AUTO_INCREMENT,
-    `name` CHAR(20),
-    `fee` FLOAT,
-    `penalty_fee` FLOAT,
-    `discount` FLOAT,
-
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY(`city`) REFERENCES `city` (`name`),
+    FOREIGN KEY(`parking_zone`) REFERENCES `parking_zone` (`id`)
     );
 
 CREATE TABLE `trip`
@@ -104,33 +118,37 @@ CREATE TABLE `trip`
     `end_time` TIMESTAMP DEFAULT NULL,
     `start_pos` CHAR(50),
     `end_pos` CHAR(50) DEFAULT NULL,
+    `penalty_fee` FLOAT DEFAULT NULL,
+    `discount` FLOAT DEFAULT NULL,
     `price` FLOAT DEFAULT NULL,
+    `city` CHAR(20),
 
     PRIMARY KEY(`id`),
     FOREIGN KEY(`scooter_id`) REFERENCES `scooter` (`id`),
-    FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`)
+    FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`),
+    FOREIGN KEY(`city`) REFERENCES `city` (`name`)
     );
 
--- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password'; 
+-- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES (1, "0,0", 100);
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES (2 , "10,0", 200);
+
+INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test1", "0,0", 100);
+INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test2", "20,20", 200);
 
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
 
-INSERT INTO parking_zone (`pos`) VALUES ("10, 10");
-INSERT INTO parking_zone (`pos`) VALUES ("10, 15");
+INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) VALUES ("Stockholm", 20, 5, 30, 40);
+INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) VALUES ("Malmö", 20, 5, 30, 40);
 
-INSERT INTO charging_station (`pos`) VALUES ("15, 10");
-INSERT INTO charging_station (`pos`) VALUES ("15, 15");
+INSERT INTO parking_zone ( `pos`, `city` ) VALUES ('59.402724,17.939324', 'Stockholm');
+INSERT INTO parking_zone ( `pos`, `city` ) VALUES ('59.274756,18.049059', 'Stockholm');
 
-INSERT INTO city (`name`, `fee`, `penalty_fee`, `discount`) VALUES ("Stockholm", 20, 30, 40);
-INSERT INTO city (`name`, `fee`, `penalty_fee`, `discount`) VALUES ("Anderslöv", 20, 30, 40);
+INSERT INTO charging_station (`pos`, `status`, `city`, `parking_zone`) VALUES ("15, 10", 0, "Stockholm", 1);
+INSERT INTO charging_station (`pos`, `status`, `city`, `parking_zone`) VALUES ("10, 20", 0, "Stockholm", 2);
 
-INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `price`) VALUES (1, 2, '2022-12-12 00:23:04.717', '2022-12-12 00:43:04.717', "0,0", "10,10", "100");
-INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `price`) VALUES (2, 1, '2022-12-12 00:33:04.717', '2022-12-12 00:53:04.717', "10,10", "15,15", "150");
-
+INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (1, 2, '2022-12-12 00:23:04.717', '2022-12-12 00:43:04.717', "0,0", "10,10", 0, 50, 100, "Stockholm");
+INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (2, 1, '2022-12-12 00:33:04.717', '2022-12-12 00:53:04.717', "10,10", "15,15", 50, 0, 150, "Stockholm");
 
 
 
@@ -183,10 +201,10 @@ CREATE PROCEDURE update_scooter(
 BEGIN
     UPDATE scooter
     SET
-		`status` = `a_status`,
-		`pos` = `a_pos`,
-		`battery` = `a_battery`
-	WHERE `id` = `a_id`
+        `status` = `a_status`,
+        `pos` = `a_pos`,
+        `battery` = `a_battery`
+    WHERE `id` = `a_id`
     ;
 END
 ;;
@@ -268,12 +286,12 @@ CREATE PROCEDURE update_customer(
 BEGIN
     UPDATE customer
     SET
-		`first_name` = `a_first_name`,
+        `first_name` = `a_first_name`,
         `last_name` = `a_last_name`,
         `email` = `a_email`,
-        `password` = `a_password`,
+        `password`= `a_password`,
         `balance` = `a_balance`
-	WHERE `id` = `a_id`
+    WHERE `id` = `a_id`
     ;
 END
 ;;
@@ -306,11 +324,12 @@ DELIMITER ;
 -- Procedure to add a parking zone
 DELIMITER ;;
 CREATE PROCEDURE add_parking_zone(
-    `a_pos` CHAR(50)
+    `a_pos` CHAR(50),
+    `a_city` CHAR(20)
 )
 BEGIN
-    INSERT INTO parking_zone (`pos`) 
-    VALUES (`a_pos`);
+    INSERT INTO parking_zone (`pos`, `city`) 
+    VALUES (`a_pos`, `a_city`);
 END
 ;;
 DELIMITER ;
@@ -342,11 +361,13 @@ DELIMITER ;
 -- Procedure to add a charging station
 DELIMITER ;;
 CREATE PROCEDURE add_charging_station(
-    `a_pos` CHAR(50)
+    `a_pos` CHAR(50),
+    `a_status` TINYINT,
+    `a_city` CHAR(20)
 )
 BEGIN
-    INSERT INTO charging_station (`pos`) 
-    VALUES (`a_pos`);
+    INSERT INTO charging_station (`pos`, `status`, `city`) 
+    VALUES (`a_pos`, `a_status`, `a_city`);
 END
 ;;
 DELIMITER ;
@@ -380,12 +401,13 @@ DELIMITER ;;
 CREATE PROCEDURE add_city(
     `a_name` CHAR(20),
     `a_fee` FLOAT,
+    `a_fee_per_min` FLOAT,
     `a_penalty_fee` FLOAT,
     `a_discount` FLOAT
 )
 BEGIN
-    INSERT INTO city (`name`, `fee`, `penalty_fee`, `discount`) 
-    VALUES (`a_name`, `a_fee`, `a_penalty_fee`, `a_discount`);
+    INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) 
+    VALUES (`a_name`, `a_fee`, `a_fee_per_min`, `a_penalty_fee`, `a_discount`);
 END
 ;;
 DELIMITER ;
@@ -419,11 +441,12 @@ DELIMITER ;;
 CREATE PROCEDURE add_trip(
     `a_scooter_id` INT,
     `a_customer_id` INT,
-    `a_start_pos` CHAR(50)
+    `a_start_pos` CHAR(50),
+    `a_city` CHAR(20)
 )
 BEGIN
-    INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `start_pos`) 
-    VALUES (`a_scooter_id`, `a_customer_id`, CURRENT_TIMESTAMP, `a_start_pos`);
+    INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `start_pos`, `city`) 
+    VALUES (`a_scooter_id`, `a_customer_id`, CURRENT_TIMESTAMP, `a_start_pos`, `a_city`);
 END
 ;;
 DELIMITER ;
@@ -434,34 +457,98 @@ DELIMITER ;;
 CREATE PROCEDURE update_trip(
     `a_id` INT,
     `a_end_pos` CHAR(50),
-    `a_price` FLOAT
+    `a_price` FLOAT,
+    `a_penalty_fee` FLOAT,
+    `a_discount` FLOAT
     )
 BEGIN
     UPDATE trip
     SET
         `end_time` = CURRENT_TIMESTAMP,
         `end_pos` = `a_end_pos`,
-        `price` = `a_price`
-	WHERE `id` = `a_id`
+        `price` = `a_price`,
+        `penalty_fee` = `a_penalty_fee`,
+        `discount` = `a_discount`
+    WHERE `id` = `a_id`
     ;
 END
 ;;
 DELIMITER ;
 
 
+-- Function to calculate trips duration
+DROP FUNCTION IF EXISTS calc_duration;
+DELIMITER ;;
+CREATE FUNCTION calc_duration(
+    `a_trips_id` INT
+    )
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    RETURN TIMESTAMPDIFF(MINUTE, (SELECT `start_time` FROM `trip` WHERE `id` = `a_trips_id`), (SELECT `end_time` FROM `trip` WHERE `id` = `a_trips_id`));
+END
+;;
+DELIMITER ;
+
+
 -- Function to calculate trips price
--- DROP FUNCTION IF EXISTS calc_price;
--- DELIMITER ;;
--- CREATE FUNCTION calc_price(
---     `a_trips_id` INT
---     )
--- RETURNS FLOAT
--- DETERMINISTIC
--- BEGIN
-	
--- END
--- ;;
--- DELIMITER ;
+DROP FUNCTION IF EXISTS calc_price;
+DELIMITER ;;
+CREATE FUNCTION calc_price(
+    `a_trips_id` INT
+    )
+RETURNS FLOAT
+DETERMINISTIC
+BEGIN
+    RETURN (SELECT `fee` FROM `city` WHERE `name` = (SELECT `city` FROM `trip` WHERE `id` = `a_trips_id`)) 
+    +
+    ( (SELECT `fee_per_min` FROM `city` WHERE `name` = (SELECT `city` FROM `trip` WHERE `id` = `a_trips_id`)) * calc_duration(`a_trips_id`) )
+    +
+    (SELECT `penalty_fee` FROM `trip` WHERE `id` = `a_trips_id`)
+    -
+    (SELECT `discount` FROM `trip` WHERE `id` = `a_trips_id`)
+    ;
+END
+;;
+DELIMITER ;
+
+
+
+-- Procedure to show one trips details
+DELIMITER ;;
+CREATE PROCEDURE get_trips_details(
+    `a_trips_id` INT
+)
+BEGIN
+    SELECT `start_pos`, `end_pos`, calc_duration(`a_trips_id`), `price` FROM `trip` WHERE `id` = `a_trips_id`;
+END
+;;
+DELIMITER ;
+
+
+-- Procedure to show one trips price details
+DELIMITER ;;
+CREATE PROCEDURE get_trips_price_details(
+    `a_trips_id` INT
+)
+BEGIN
+    SELECT `fee`, `fee_per_min` FROM `city` WHERE `name` = (SELECT `city` FROM `trip` WHERE `id` = `a_trips_id`);
+END
+;;
+DELIMITER ;
+
+
+-- Procedure to show one trips price details
+DELIMITER ;;
+CREATE PROCEDURE get_extra_price_details(
+    `a_trips_id` INT
+)
+BEGIN
+    SELECT `penalty_fee`, `discount` FROM `trip` WHERE `id` = `a_trips_id`;
+END
+;;
+DELIMITER ;
+
 
 
 -- delete scooter
