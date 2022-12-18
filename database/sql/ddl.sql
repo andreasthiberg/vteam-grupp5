@@ -55,7 +55,7 @@ DROP PROCEDURE IF EXISTS `calc_duration`;
 CREATE TABLE `scooter`
     (
     `id` INT AUTO_INCREMENT,
-    `status` CHAR(20),
+    `status` INT(3),
     `pos` CHAR(50),
     `battery` INT(3),
 
@@ -131,6 +131,7 @@ CREATE TABLE `trip`
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
+
 INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test1", "0,0", 100);
 INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test2", "20,20", 200);
 
@@ -177,7 +178,7 @@ DELIMITER ;
 -- Procedure to add a scooters
 DELIMITER ;;
 CREATE PROCEDURE add_scooter(
-    `a_status` CHAR(20),
+    `a_status` INT(3),
     `a_pos` CHAR(50),
     `a_battery` INT(3)
 )
@@ -193,7 +194,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE update_scooter(
     `a_id` INT,
-    `a_status` CHAR(20),
+    `a_status` INT(3),
     `a_pos` CHAR(50),
     `a_battery` INT(3)
     )
@@ -203,6 +204,28 @@ BEGIN
         `status` = `a_status`,
         `pos` = `a_pos`,
         `battery` = `a_battery`
+    WHERE `id` = `a_id`
+    ;
+END
+;;
+DELIMITER ;
+
+
+-- Procedure to recieve update from scooter brain
+DELIMITER ;;
+CREATE PROCEDURE report_scooter(
+    `a_id` INT,
+    `a_pos` CHAR(50),
+    `a_battery` INT(3)
+    )
+BEGIN
+    UPDATE scooter
+    SET
+		`pos` = `a_pos`,
+		`battery` = `a_battery`
+	WHERE `id` = `a_id`
+    ;
+    SELECT `status` FROM scooter
     WHERE `id` = `a_id`
     ;
 END

@@ -30,7 +30,11 @@ const scooter = {
     let res
     const db = await dbModel.getDb()
 
-    res = await db.query(sql,[args.status,args.pos,args.battery])
+    let battery = 100
+    if(args.hasOwnProperty(battery)){
+      battery = args.battery
+    }
+    res = await db.query(sql,[args.status,args.pos,battery])
     db.end();
     return res[0]
   },
@@ -38,6 +42,8 @@ const scooter = {
   updateScooter: async function updateCustomer(args){
     const db = await dbModel.getDb()
 
+
+    // !!!! Ta bort den här delen? Kanske en onödig kontroll, det kommer ju ändå ett felmeddelande från SQL om ID:t inte finns.
     let currentDbResult = await db.query("CALL get_one_scooter(?)",[args.id]);
 
     if(currentDbResult[0].length === 0){
@@ -47,18 +53,30 @@ const scooter = {
     let currentScooterData = currentDbResult[0][0];
 
     //Change info according to which arguments are given
-    let status = args.status ? args.status : currentScooterData.status
-    let pos = args.pos ? args.pos : currentScooterData.pos
-    let battery = args.battery ? args.battery : currentScooterData.battery
+    let status = args.hasOwnProperty("status") ? args.status : currentScooterData.status
+    let pos = args.hasOwnProperty("pos") ? args.pos : currentScooterData.pos
+    let battery = args.hasOwnProperty("battery") ? args.battery : currentScooterData.battery
 
     const sql = "CALL update_scooter(?,?,?,?)"
-    
+    console.log(args)
     let res = await db.query(sql, [args.id, status, pos, battery])
-    
-    db.end()
+    console.log(res) 
+    db.end()  
 
     return "Updates made to scooter."
-  }
+  },
+  // Recieves report from scooter brain with currentposition and battery
+  reportScooter: async function reportScooter(args){
+      const db = await dbModel.getDb()
+  
+      const sql = "CALL report_scooter(?,?,?)"
+      
+      let res = await db.query(sql, [args.id, args.pos, args.battery])
+      
+      db.end()  
+  
+      return res[0][0].status;
+    }
 }
 
 module.exports = scooter
