@@ -4,8 +4,6 @@ CREATE DATABASE IF NOT EXISTS high5;
 
 USE high5;
 
--- USE test;
-
 GRANT ALL PRIVILEGES ON *.* TO 'root' @'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
@@ -49,6 +47,8 @@ DROP PROCEDURE IF EXISTS `update_trip`;
 DROP PROCEDURE IF EXISTS `get_trips_details`;
 DROP PROCEDURE IF EXISTS `get_trips_price_details`;
 DROP PROCEDURE IF EXISTS `get_extra_price_details`;
+DROP PROCEDURE IF EXISTS `calc_duration`;
+
 
 
 
@@ -134,8 +134,6 @@ CREATE TABLE `trip`
 INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("old", "0,0", 100);
 INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("new", "10,0", 200);
 
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test", "0,0", 100);
-
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
 
@@ -147,18 +145,14 @@ INSERT INTO parking_zone
 VALUES
       ('59.356352,18.101258', 'Stockholm'),
       ('59.268462,18.091643', 'Stockholm'),
-      ('59.267217,18.08872', 'Stockholm'),
-      ('59.343037,18.096316', 'Stockholm'),
-      ('59.34424,18.097941', 'Stockholm'),
-      ('59.339934,18.097227', 'Stockholm'),
       ('59.411829,17.921866', 'Stockholm');
 
--- INSERT INTO charging_station (`pos`, `status`, `city`, `parking_station`) VALUES ("15, 10", 0, "Stockholm", 1);
--- INSERT INTO charging_station (`pos`, `status`, `city`, `parking_station`) VALUES ("15, 15", 1, "Malmö", 2);
+INSERT INTO charging_station (`pos`, `status`, `city`, `parking_zone`) VALUES ("15, 10", 0, "Stockholm", 1);
+INSERT INTO charging_station (`pos`, `status`, `city`, `parking_zone`) VALUES ("15, 15", 1, "Stockholm", 2);
 
 
--- INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (1, 2, '2022-12-12 00:23:04.717', '2022-12-12 00:43:04.717', "0,0", "10,10", 0, 50, 100, "Stockholm");
--- INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (2, 1, '2022-12-12 00:33:04.717', '2022-12-12 00:53:04.717', "10,10", "15,15", 50, 0, 150, "Malmö");
+INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (1, 2, '2022-12-12 00:23:04.717', '2022-12-12 00:43:04.717', "0,0", "10,10", 0, 50, 100, "Stockholm");
+INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (2, 1, '2022-12-12 00:33:04.717', '2022-12-12 00:53:04.717', "10,10", "15,15", 50, 0, 150, "Stockholm");
 
 
 
@@ -465,6 +459,21 @@ END
 DELIMITER ;
 
 
+-- Function to calculate trips duration
+DROP FUNCTION IF EXISTS calc_duration;
+DELIMITER ;;
+CREATE FUNCTION calc_duration(
+    `a_trips_id` INT
+    )
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    RETURN TIMESTAMPDIFF(MINUTE, (SELECT `start_time` FROM `trip` WHERE `id` = `a_trips_id`), (SELECT `end_time` FROM `trip` WHERE `id` = `a_trips_id`));
+END
+;;
+DELIMITER ;
+
+
 -- Function to calculate trips price
 DROP FUNCTION IF EXISTS calc_price;
 DELIMITER ;;
@@ -487,26 +496,11 @@ END
 DELIMITER ;
 
 
--- Function to calculate trips duration
-DROP FUNCTION IF EXISTS calc_duration;
-DELIMITER ;;
-CREATE FUNCTION calc_duration(
-    `a_trips_id` INT
-    )
-RETURNS INT
-DETERMINISTIC
-BEGIN
-    RETURN DATEDIFF(second, (SELECT `start_time` FROM `trip` WHERE `id` = `a_trips_id`), (SELECT `end_time` FROM `trip` WHERE `id` = `a_trips_id`)) % 3600;
-END
-;;
-DELIMITER ;
-
-
 
 -- Procedure to show one trips details
 DELIMITER ;;
 CREATE PROCEDURE get_trips_details(
-    `a_trips_id`
+    `a_trips_id` INT
 )
 BEGIN
     SELECT `start_pos`, `end_pos`, calc_duration(`a_trips_id`), `price` FROM `trip` WHERE `id` = `a_trips_id`;
@@ -515,11 +509,10 @@ END
 DELIMITER ;
 
 
-
 -- Procedure to show one trips price details
 DELIMITER ;;
 CREATE PROCEDURE get_trips_price_details(
-    `a_trips_id`
+    `a_trips_id` INT
 )
 BEGIN
     SELECT `fee`, `fee_per_min` FROM `city` WHERE `name` = (SELECT `city` FROM `trip` WHERE `id` = `a_trips_id`);
@@ -528,11 +521,10 @@ END
 DELIMITER ;
 
 
-
 -- Procedure to show one trips price details
 DELIMITER ;;
 CREATE PROCEDURE get_extra_price_details(
-    `a_trips_id`
+    `a_trips_id` INT
 )
 BEGIN
     SELECT `penalty_fee`, `discount` FROM `trip` WHERE `id` = `a_trips_id`;
