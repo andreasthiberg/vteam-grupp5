@@ -132,8 +132,8 @@ CREATE TABLE `trip`
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
 
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test1", "0,0", 100);
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test2", "20,20", 200);
+INSERT INTO scooter (`status`, `pos`, `battery`) VALUES (1, "0,0", 100);
+INSERT INTO scooter (`status`, `pos`, `battery`) VALUES (1, "20,20", 200);
 
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
