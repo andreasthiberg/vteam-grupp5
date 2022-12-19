@@ -1,6 +1,6 @@
 import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Marker, Popup, TileLayer, MapContainer } from "react-leaflet";
+import { Marker, TileLayer, MapContainer } from "react-leaflet";
 import "../App.css";
 import scooterModel from '../models/scooters';
 
@@ -33,21 +33,6 @@ export default function MapSto() {
           }}
         />
       ))}
-
-      {scootersInfo && (
-        <Popup
-          position={scooter.pos}
-          onClose={() => {
-            setScootersInfo();
-          }}
-        >
-          <div>
-            <p>{scooter.id}</p>
-            <p>{scooter.status}</p>
-            <p>{scooter.battery}</p>
-          </div>
-        </Popup>
-      )}
 
       </MapContainer>
 
