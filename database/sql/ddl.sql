@@ -373,9 +373,9 @@ END
 DELIMITER ;
 
 
--- Procedure to show all citis
+-- Procedure to show all cities
 DELIMITER ;;
-CREATE PROCEDURE get_all_citis()
+CREATE PROCEDURE get_all_cities()
 BEGIN
     SELECT * FROM city;
 END

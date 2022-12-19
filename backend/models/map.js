@@ -23,7 +23,17 @@ const map = {
     res = await db.query(sql)
     db.end()
     return res[0]
-  }
+  },
+    // Gets all cities.
+    getCities: async function getCities () {
+      const sql = "CALL get_all_cities()"
+      let res
+      const db = await dbModel.getDb()
+  
+      res = await db.query(sql)
+      db.end()
+      return res[0]
+    }
 }
 
 module.exports = map
