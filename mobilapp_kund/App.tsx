@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState, useEffect } from 'react';
 // import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,7 +9,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Base } from './styles';
 import Home from './components/Home';
 import Map from './components/Map';
-import Login from './components/Login';
+import Auth from './components/auth/Auth';
+//import authModel from './models/auth';
 
 const Tab = createBottomTabNavigator();
 const routeIcons = {
@@ -18,6 +20,13 @@ const routeIcons = {
 }
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     setIsLoggedIn(await authModel.loggedIn());
+  //   });
+  //  }, []);
 
   return (
     <SafeAreaView style={Base.container}>
@@ -34,7 +43,9 @@ export default function App() {
         
           <Tab.Screen name="Home" component={Home} />
           <Tab.Screen name="Map" component={Map} />
-          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Login">
+            {() => <Auth setIsLoggedIn={setIsLoggedIn} />}
+          </Tab.Screen>
 
         </Tab.Navigator>
       </NavigationContainer>

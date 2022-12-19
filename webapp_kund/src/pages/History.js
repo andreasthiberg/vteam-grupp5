@@ -20,8 +20,8 @@ export default function Customers() {
     return (
       <div>
         <h1>History Page</h1>
-        <h2>List of customers</h2>
-        {list}
+        <h2>Travel history</h2>
+        {/* {list} */}
       </div>
     );
 }
