@@ -1,4 +1,4 @@
-// Fetch customer's info from graphql
+// Fetch scooters's info from graphql
 
 const scooters = {
     // baseUrl:
