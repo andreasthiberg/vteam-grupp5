@@ -11,6 +11,7 @@ const {
 const ScooterType = require('./types/scooter.js')
 const CustomerType = require('./types/customer.js')
 const TripType = require('./types/trip.js')
+const CityType = require('./types/city.js')
 const ParkingZoneType = require('./types/parking_zone.js')
 const ChargingStationType = require('./types/charging_station.js')
 
@@ -79,6 +80,14 @@ const RootQueryType = new GraphQLObjectType({
       resolve: async function () {
         const tripArray = await tripModel.getAll()
         return tripArray
+      }
+    },
+    cities: {
+      type: new GraphQLList(CityType),
+      description: 'List of all cities',
+      resolve: async function () {
+        const cityArray = await mapModel.getCities()
+        return cityArray
       }
     },
     parkingZones: {

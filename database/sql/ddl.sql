@@ -21,6 +21,7 @@ DROP PROCEDURE IF EXISTS `get_all_scooters`;
 DROP PROCEDURE IF EXISTS `get_one_scooter`;
 DROP PROCEDURE IF EXISTS `add_scooter`;
 DROP PROCEDURE IF EXISTS `update_scooter`;
+DROP PROCEDURE IF EXISTS `report_scooter`;
 
 DROP PROCEDURE IF EXISTS `get_all_customers`;
 DROP PROCEDURE IF EXISTS `get_one_customer`;
@@ -51,17 +52,6 @@ DROP PROCEDURE IF EXISTS `calc_duration`;
 
 
 
-
-CREATE TABLE `scooter`
-    (
-    `id` INT AUTO_INCREMENT,
-    `status` INT(3),
-    `pos` CHAR(50),
-    `battery` INT(3),
-
-    PRIMARY KEY (`id`)
-    );
-
 CREATE TABLE `customer`
     (
     `id` INT AUTO_INCREMENT,
@@ -84,6 +74,18 @@ CREATE TABLE `city`
     `discount` FLOAT DEFAULT 50,
 
     PRIMARY KEY (`name`)
+    );
+
+CREATE TABLE `scooter`
+    (
+    `id` INT AUTO_INCREMENT,
+    `status` INT(3),
+    `pos` CHAR(50),
+    `battery` INT(3),
+    `city` CHAR(20),
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY(`city`) REFERENCES `city` (`name`)
     );
 
 CREATE TABLE `parking_zone`
@@ -132,14 +134,14 @@ CREATE TABLE `trip`
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
 
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test1", "0,0", 100);
-INSERT INTO scooter (`status`, `pos`, `battery`) VALUES ("test2", "20,20", 200);
-
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
 INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
 
 INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) VALUES ("Stockholm", 20, 5, 30, 40);
 INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) VALUES ("Malmö", 20, 5, 30, 40);
+
+INSERT INTO scooter (`status`, `pos`, `battery`, `city`) VALUES (1, "0,0", 100, "Stockholm");
+INSERT INTO scooter (`status`, `pos`, `battery`, `city`) VALUES (1, "20,20", 200, "Stockholm");
 
 INSERT INTO parking_zone ( `pos`, `city` ) VALUES ('59.402724,17.939324', 'Stockholm');
 INSERT INTO parking_zone ( `pos`, `city` ) VALUES ('59.274756,18.049059', 'Stockholm');
@@ -373,9 +375,9 @@ END
 DELIMITER ;
 
 
--- Procedure to show all citis
+-- Procedure to show all cities
 DELIMITER ;;
-CREATE PROCEDURE get_all_citis()
+CREATE PROCEDURE get_all_cities()
 BEGIN
     SELECT * FROM city;
 END
