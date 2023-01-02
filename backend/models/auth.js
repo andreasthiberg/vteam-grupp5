@@ -165,7 +165,7 @@ const auth = {
     if (matchFound) {
       loginResult = await this.loginUser(email);
     } else {
-      await customerModel.addCustomer({email:email})
+      await customerModel.addCustomer({email:email,password:"password",first_name:"OAuthUserFName",last_name:"OAuthUserLName"})
       loginResult = await this.loginUser(email);
       loginResult.loginMessage = "Konto skapat!"
     }

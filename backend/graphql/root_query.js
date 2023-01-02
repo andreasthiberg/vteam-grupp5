@@ -87,7 +87,7 @@ const RootQueryType = new GraphQLObjectType({
       description: 'List of all cities',
       resolve: async function () {
         const cityArray = await mapModel.getCities()
-        return cityArra
+        return cityArray
       }
     },
     parkingZones: {
