@@ -1,7 +1,6 @@
-* {
-  background-color: powderblue;
-}
+
 .App {
+  background-color: powderblue;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -26,6 +25,51 @@ h2 {
   text-align: center;
   background-color: blueviolet;
 }
+
+table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+  background-color: #05ac50;
+  color: rgb(183, 195, 201);
+  text-align: left;
+}
+
+table th,
+td {
+  padding: 12px 15px;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+
+/* LEAFLET CSS */
+
+.map-page-div {
+  display: flex;
+  justify-content: center;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+
+.map-div {
+  width: 800px;
+  height: 800px;
+}
+
+
 
 /* .App-logo {
   height: 40vmin;

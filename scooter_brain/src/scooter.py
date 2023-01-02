@@ -31,7 +31,7 @@ class Scooter():
         # Scooter is moving
         elif(self.status == 1):
              # Change location
-            self.change_pos(20,10)
+            self.change_pos(10,10*self.id)
 
             # Reduce battery by one percent
             self.change_battery(-1)
