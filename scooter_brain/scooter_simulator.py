@@ -16,7 +16,7 @@ class ScooterSimulation():
         # Wait for backend to start fully
         time.sleep(3)
 
-        numberOfScooters = 9
+        numberOfScooters = 30
         startId = 3
         startCoords = [[5570000, 1319000],[5560500, 1300380],[5933000, 1805500]]
 
