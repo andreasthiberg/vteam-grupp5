@@ -21,7 +21,7 @@ export default function Customers() {
       <div>
         <h1>History Page</h1>
         <h2>Travel history</h2>
-        {/* {list} */}
+        {list}
       </div>
     );
 }
