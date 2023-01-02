@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import MapView, {Polygon} from 'react-native-maps';
 import { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
+import mapModel from '../models/maps';
 
 import high5 from './../assets/high5_scooter_01small.png';
 import parking from './../assets/p_small.png';
@@ -37,11 +38,27 @@ export default function StockholmMap() {
 
     const [currentMarker, setCurrentMarker] = useState(null);
     const [scooters, setScooters] = useState(scootersDefo);
-    const [parkings, setParkings] = useState(parkingsDefo);
+    const [parkings, setParkings] = useState([]);
     const scooterMarker = [];
     const parkingMarker = [];
 
-    console.log(parkings);
+    useEffect(() => {
+        (async () => {
+            const response = await mapModel.getParkings();
+
+            setParkings(response.parkings);
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const response = await mapModel.getScooters();
+
+            setScooters(response.scooters);
+        })();
+    }, []);
+
+    console.log("parkings!", parkings);
 
     // setting user's current location marker
     useEffect(() => {
@@ -94,6 +111,9 @@ export default function StockholmMap() {
             />
         );
     });
+
+    // setting parking zone markers
+
 
     const state = {
         coordinates: [
