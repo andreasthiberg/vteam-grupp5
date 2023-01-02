@@ -2,19 +2,21 @@ import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Marker, TileLayer, MapContainer, Popup } from "react-leaflet";
 import * as L from "leaflet";
-import marker from '../assets/scooter.ico';
+import marker from '../assets/scooter.png';
 import "../App.css";
 import scooterModel from '../models/scooters';
 
+//Custom scooter icon
 const myIcon = new L.Icon({
   iconUrl: marker,
   iconRetinaUrl: marker,
   popupAnchor:  [-0, -0],
-  iconSize: [32,45],     
+  iconSize: [30,30],     
 });
 
 export default function MapSto() {
   const [scootersInfo, setScootersInfo] = useState([]);
+  const [selectedScooter, setSelectedScooter] = useState();
 
   //Load scooter info on load
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function MapSto() {
     <div>
       <h2>Stockholm</h2>
       <div className="map-page-div">
+      <div className="map-display-div">
       <div className="map-div">
       <MapContainer center={[59.33, 18.055]} zoom={14}>
       <TileLayer
@@ -51,20 +54,24 @@ export default function MapSto() {
           key={scooter.id}
           position={scooter.pos}
           icon={myIcon}
-          onClick={() => {
-            setScootersInfo(scooter);
+          eventHandlers={{
+            click: (e) => {
+              setSelectedScooter(scooter.id)
+            },
           }}>
           <Popup>
-            Scooter {scooter.id}<br></br>
-            Position {scooter.pos}
+            Scooter-ID: {scooter.id}<br></br>
+            Position: {scooter.pos[0]}, {scooter.pos[1]}<br></br>
+            Battery: {scooter.battery}%
           </Popup>
         </Marker>
       ))}
 
       </MapContainer>
       </div>
+      <div className="map-info-box">Vald scooter: {selectedScooter}</div>
       </div>
-
+      </div>
     </div>
 
   );
