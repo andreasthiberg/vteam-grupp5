@@ -1,9 +1,11 @@
 // Fetch map related info from graphql
 
+import gql from 'graphql-tag';
+
 const map = {
 
     getParkings: async function getParkings() {
-        const query = `
+        const query = gql`
             {
                 parkingZones {
                     id
@@ -13,23 +15,41 @@ const map = {
             }
         `;
 
-        const response = await fetch('/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
+        client
+            .query({
                 query
-            })
-        });
-
-        const result = await response.json();
-
-        console.log("getParkings.......")
-
-        return result.data;
+        })
+        .then(result => console.log(result.data));
     },
+
+    // getParkings: async function getParkings() {
+    //     const query = `
+    //         {
+    //             parkingZones {
+    //                 id
+    //                 pos
+    //                 city
+    //             }
+    //         }
+    //     `;
+
+    //     const response = await fetch('/graphql', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             query
+    //         })
+    //     });
+
+    //     const result = await response.json();
+
+    //     console.log("getParkings.......")
+
+    //     return result.data;
+    // },
     getScooters: async function getScooters() {
         const query = `
             query {
