@@ -11,9 +11,9 @@ import Home from './components/Home';
 import Map from './components/Map';
 import List from './components/List';
 import Auth from './components/auth/Auth';
-//import { ApolloProvider } from '@apollo/client';
 //import authModel from './models/auth';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { IP } from "@env";
 
 const Tab = createBottomTabNavigator();
 const routeIcons = {
@@ -22,6 +22,12 @@ const routeIcons = {
   "List": "list",
   "Login": "lock-closed",
 }
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: `http://${IP}:3000/graphql`,
+  cache: new InMemoryCache(),
+});
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
@@ -34,6 +40,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={Base.container}>
+      <ApolloProvider client={client}>
         <NavigationContainer>
           <Tab.Navigator screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
@@ -54,6 +61,7 @@ export default function App() {
 
           </Tab.Navigator>
         </NavigationContainer>
+      </ApolloProvider>
       <StatusBar style="auto" />
     </SafeAreaView>
   );

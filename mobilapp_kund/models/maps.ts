@@ -1,12 +1,12 @@
 // Fetch map related info from graphql
 
-import gql from 'graphql-tag';
+import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
 const map = {
 
     getParkings: async function getParkings() {
-        const query = gql`
-            {
+        const STO_PARKING_QUERY = gql`
+            query StoParkingQuery {
                 parkingZones {
                     id
                     pos
@@ -15,11 +15,13 @@ const map = {
             }
         `;
 
-        client
-            .query({
-                query
-        })
-        .then(result => console.log(result.data));
+        const { data } = useQuery(STO_PARKING_QUERY, {
+            fetchPolicy: 'network-only',
+        });
+
+        console.log("Stockholm parking data", data);
+
+        return data;
     },
 
     // getParkings: async function getParkings() {

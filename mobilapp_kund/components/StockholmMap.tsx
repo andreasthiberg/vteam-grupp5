@@ -4,113 +4,87 @@ import { useEffect, useState } from 'react';
 
 import MapView, {Polygon} from 'react-native-maps';
 import { Marker } from "react-native-maps";
-import * as Location from 'expo-location';
-import mapModel from '../models/maps';
+// import * as Location from 'expo-location';
+import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
 import high5 from './../assets/high5_scooter_01small.png';
 import parking from './../assets/p_small.png';
 
 
 export default function StockholmMap() {
-    console.log("....Stockholm Map....");
-
-    async function testgetparkings ()  {
-        const res = await mapModel.getParkings();
-        return res;
-    }
     
-    console.log("testgetparkings........");
-    console.log(testgetparkings());
+    // gql query for parking zones in Stockholm
+    const STO_PARKING_QUERY = gql`
+        query StoParkingQuery {
+            parkingZones {
+                id
+                pos
+                city
+            }
+        }
+    `;
 
-    const scootersDefo = [{
-        "id": "1",
-        "status": "parked",
-        "battery": "70",
-        "pos": [59.317142429583875, 18.070672728790377]
-        },{
-        "id": "2",
-        "status": "parked",
-        "battery": "100",
-        "pos": [59.324918452205495, 18.070050456306884]
-        },
-    ];
+    // gql query for scooters in Stockholm
+    const STO_SCOOTER_QUERY = gql`
+        query StoScooterQuery {
+            scooters {
+                id
+                pos
+                status
+                battery
+                city
+            }
+        }
+    `;
 
-    const parkingsDefo = {
-        "id": 1,
-        "pos": "59.402724,17.939324",
-        "city": "Stockholm"
-      };
-
-    // const [currentMarker, setCurrentMarker] = useState(null);
-    // const [scooters, setScooters] = useState(scootersDefo);
-    const [parkings, setParkings] = useState();
-    // const scooterMarker = [];
+    const [scooters, setScooters] = useState([]);
+    const [parkings, setParkings] = useState([]);
+    const scooterMarker = [];
     const parkingMarker = [];
 
-    useEffect(() => {
-        (async () => {
-            const response = await mapModel.getParkings();
-            console.log("response from model", response.parkings);
+    const { data:parking_data } = useQuery(STO_PARKING_QUERY);
+    //const parkings = parking_data.parkingZones;
 
-            setParkings(response.parkings);
-            console.log("set parkings", parkings);
-        })();
+    const { data:scooter_data } = useQuery(STO_SCOOTER_QUERY);
+    //console.log("scooterdata:::", scooter_data);
+    
+    useEffect(() => {
+        if (parking_data) {
+            setParkings(parking_data.parkingZones);
+        }
     }, []);
 
-    if (parkings !== undefined) {
-        console.log("set parkings", parkings);
+    console.log("parking marker", parkingMarker);
+
+    useEffect(() => {
+        if (scooter_data) {
+            setScooters(scooter_data.scooters)
+        }
+    }, []);
+
+    // Setting scooter location markers
+    if (scooters !== undefined) {
+        scooters.map((item, index) => {
+            const geo = item.pos.slice(1, -1).split(',');
+            scooterMarker.push(
+                <Marker
+                    coordinate={{
+                        latitude: geo[0],
+                        longitude: geo[1]
+                    }}
+                    title="Scooter"
+                    key={index}
+                    image={high5}
+                />
+            );
+        });
     }
 
-    // useEffect(() => {
-    //     (async () => {
-    //         const response = await mapModel.getScooters();
+    console.log("scooters:", scooters);
 
-    //         setScooters(response.scooters);
-    //     })();
-    // }, []);
-
-    // setting user's current location marker
-    // useEffect(() => {
-    //     (async () => {
-    //         const { status } = await Location.requestForegroundPermissionsAsync();
-
-    //         if (status !== 'granted') {
-    //             setErrorMessage('Permission to access location was denied');
-    //             return;
-    //         }
-    //         const currentLocation = await Location.getCurrentPositionAsync({});
-
-    //         setCurrentMarker(<Marker
-    //             coordinate={{
-    //                 latitude: currentLocation.coords.latitude,
-    //                 longitude: currentLocation.coords.longitude
-    //             }}
-    //             title="Current position"
-    //             pinColor="red"
-    //         />);
-    //     })();
-    // }, []);
-
-    // setting scooter location markers
-    // scooters.map((item, index) => {
-    //     scooterMarker.push(
-    //         <Marker
-    //             coordinate={{
-    //                 latitude: item.pos[0],
-    //                 longitude: item.pos[1]
-    //             }}
-    //             title="Scooter"
-    //             description={item.battery}
-    //             key={index}
-    //             image={high5}
-    //         />
-    //     );
-    // });
-
-    // setting parking location markers
+    // Setting parking location markers
     if (parkings !== undefined) {
         parkings.map((item, index) => {
-            console.log("parking item", item);
             const list = item.pos.split(',');
             parkingMarker.push(
                 <Marker
@@ -126,15 +100,7 @@ export default function StockholmMap() {
         });
     }
 
-    // setting parking zone markers
-    const state = {
-        coordinates: [
-            { latitude: 59.317233, longitude: 18.053635 },
-            { latitude: 59.317320, longitude: 18.066681 },
-            { latitude: 59.313115, longitude: 18.068054 },
-            { latitude: 59.312984, longitude: 18.058012 }
-        ]
-    };
+    console.log("scooter marker", scooterMarker)
 
     return (
         <View style={Base.base}>
@@ -149,15 +115,14 @@ export default function StockholmMap() {
                         longitudeDelta: 0.1,
                     }}>
 
-                <Polygon
+                {/* <Polygon
                     coordinates={state.coordinates}
                     strokeColor="blue"
                     fillColor="rgba(173,216,230, 0.3)"
-                />
-                {/* {scooterMarker} */}
+                /> */}
+                {scooterMarker}
                 {parkingMarker}
                 {/* {currentMarker} */}
-                
                 </MapView>
             </View>
         </View>
