@@ -13,6 +13,7 @@ import List from './components/List';
 import Auth from './components/auth/Auth';
 //import { ApolloProvider } from '@apollo/client';
 //import authModel from './models/auth';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const Tab = createBottomTabNavigator();
 const routeIcons = {
@@ -32,7 +33,7 @@ export default function App() {
   //  }, []);
 
   return (
-      <SafeAreaView style={Base.container}>
+    <SafeAreaView style={Base.container}>
         <NavigationContainer>
           <Tab.Navigator screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
@@ -53,7 +54,7 @@ export default function App() {
 
           </Tab.Navigator>
         </NavigationContainer>
-        <StatusBar style="auto" />
-      </SafeAreaView>
+      <StatusBar style="auto" />
+    </SafeAreaView>
   );
 }

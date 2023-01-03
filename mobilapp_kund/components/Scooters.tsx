@@ -5,9 +5,11 @@ import { Text, FlatList, Pressable } from 'react-native'
 
 export default function HomeScreen() {
 
-    const { data, loading } = useQuery(SCOOTER_QUERY);
+    const { data, error, loading } = useQuery(SCOOTER_QUERY, {
+        fetchPolicy: 'network-only',
+    });
 
-    console.log("query data:", data);
+    console.log("query data:", data, error);
   
     const ScooterItem = ({ scooter }) => {
       const { id } = scooter;

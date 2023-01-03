@@ -31,7 +31,7 @@ class Scooter():
         # Scooter is moving
         elif(self.status == 1):
              # Change location
-            self.change_pos(20,10)
+            self.change_pos(30*self.id,10*self.id)
 
             # Reduce battery by one percent
             self.change_battery(-1)
@@ -62,8 +62,8 @@ class Scooter():
             self.change_status(newStatus)
             print("Status of scooter " + str(self.id) + " changed to " + str(newStatus))
 
-        print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() +
-        ", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
+        #print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() +
+        #", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
 
     # Change current lat and long with factors dLa and dLo
     def change_pos(self,dLa,dLo):
@@ -93,4 +93,4 @@ class Scooter():
         body = 'mutation {addScooter (pos:"%s",battery:100,status:1)}'%(self.get_pos_as_coordinate_string())
 
         response = requests.post(url=url, json={"query": body})
-        print("response : ", response.content)
+        # print("response : ", response.content)
