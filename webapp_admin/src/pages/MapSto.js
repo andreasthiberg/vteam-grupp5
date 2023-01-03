@@ -23,6 +23,7 @@ export default function MapSto() {
     updateScooters()
   }, []);
 
+  //Loads scooter info from backend
   async function updateScooters(){
     const response = await scooterModel.getAllScooters();
     setScootersInfo(response.scooters);
