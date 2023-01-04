@@ -18,7 +18,7 @@ end_lon = 18.072885
 with open('../sql/insert1-scooter.sql', 'w') as fh:
     fh.write("USE high5\n")
     fh.write("INSERT INTO scooter\n")
-    fh.write("    ( `pos`, `city` )\n")
+    fh.write("    ( `status`, `pos`, `battery`, `city` )\n")
     fh.write("VALUES\n")
 
     for i in range (number_of_bikes):
@@ -28,4 +28,4 @@ with open('../sql/insert1-scooter.sql', 'w') as fh:
         if i == (number_of_bikes -1):
             separator = ";"
 
-        fh.write(f"      ('[{position}]', '{city}'){separator}\n")
+        fh.write(f"      ('1', '[{position}]', '100', '{city}'){separator}\n")
