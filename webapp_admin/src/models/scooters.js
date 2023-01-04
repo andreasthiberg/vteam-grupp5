@@ -26,11 +26,15 @@ const scooters = {
             })
         });
 
+        console.log(response)
+
         const result = await response.json();
+        console.log(result)
         for (let i in result.data["scooters"]){
             let posAsIntArray = result.data["scooters"][i].pos.match(/[\d.]+/g).map(Number)
             result.data["scooters"][i].pos = posAsIntArray
         }
+        
         return result.data;
     }
 };

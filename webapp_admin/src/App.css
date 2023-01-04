@@ -81,6 +81,35 @@ table tbody tr {
   height: 800px;
 }
 
+/* listor och cards */
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  width: 48%;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin-bottom: 2em;
+}
+
+.fat {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: black;
+}
+
+.slim {
+  color: #666;
+}
+
+button {
+  padding: 0.4em 1.2em;
+  font-size: 1.2em;
+}
 
 
 /* .App-logo {

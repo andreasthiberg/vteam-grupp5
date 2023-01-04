@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import customerModel from '../models/customers';
+import CustomerCard from '../components/CustomerCard';
 
 
 export default function Customers() {
@@ -14,13 +15,18 @@ export default function Customers() {
         })();
     }, []);
   
-    let list = customersInfo.map((name, index) => <li key={index}>{name.first_name}{name.last_name}</li>);
+    // let list = customersInfo.map((name, index) => <li key={index}>{name.first_name}{name.last_name}</li>);
+    let customerlist = customersInfo.map((customer, index) => {
+        return <CustomerCard
+                    customer={customer}
+                    key={index}
+                />;
+    });
 
     return (
     <div>
         <h1>Customer List Page</h1>
-        <h2>List of customers</h2>
-        {list}
+        <div className='list'>{customerlist}</div>
     </div>
     );
 }
