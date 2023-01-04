@@ -1,9 +1,9 @@
 import { useQuery, gql, ApolloProvider } from "@apollo/client";
-import { SCOOTER_QUERY } from "./gql/Query";
+// import { SCOOTER_QUERY } from "./gql/Query";
 import { Text, FlatList, Pressable } from 'react-native'
 
 
-export default function HomeScreen() {
+export default function Scooters () {
 
     const SCOOTER_QUERY = gql`
       query ScooterQuery {
@@ -16,6 +16,7 @@ export default function HomeScreen() {
         }
       }
     `;
+    
 
     const { data, loading } = useQuery(SCOOTER_QUERY, {
         fetchPolicy: 'network-only',
@@ -24,11 +25,11 @@ export default function HomeScreen() {
     console.log("query data:", data);
   
     const ScooterItem = ({ scooter }) => {
-      const { id, city, battery }  = scooter;
+      const { id, status, battery }  = scooter;
 
       return (
         <Pressable>
-          <Text>{id}: {city}: {battery}%</Text>
+          <Text>Id:{id} Battery: {battery}%</Text>
         </Pressable>
       );
     };
