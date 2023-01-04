@@ -28,4 +28,4 @@ with open('../sql/insert1-scooter.sql', 'w') as fh:
         if i == (number_of_bikes -1):
             separator = ";"
 
-        fh.write(f"      ('{position}', '{city}'){separator}\n")
+        fh.write(f"      ('[{position}]', '{city}'){separator}\n")
