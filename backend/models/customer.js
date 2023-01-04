@@ -17,6 +17,8 @@ const customer = {
   // Adds a new user.
   addCustomer: async function addCustomer (customerInfo) {
 
+    console.log(customerInfo)
+
     if(!customerInfo.hasOwnProperty("balance")){
       customerInfo.balance = 1000;
     }
