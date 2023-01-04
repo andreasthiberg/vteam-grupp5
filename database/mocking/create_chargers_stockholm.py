@@ -22,4 +22,4 @@ with open('../sql/insert4-charging-station.sql', 'w') as fh:
         if i == (number_of_stations -1):
             separator = ";"
 
-        fh.write(f"      ('{position}', '{city}'){separator}\n")
+        fh.write(f"      ('[{position}]', '{city}'){separator}\n")
