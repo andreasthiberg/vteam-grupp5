@@ -1,11 +1,3 @@
-import React from "react";
-import { Marker, Popup, TileLayer, MapContainer } from "react-leaflet";
-import "../App.css";
-import MapLun from "../components/MapLun";
-import MapSto from "../components/MapSto";
-import MapMal from "../components/MapMal";
-
-
 import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import scooterModel from '../models/scooters';
