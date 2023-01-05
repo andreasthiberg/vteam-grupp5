@@ -1,5 +1,6 @@
 //import config from "../config/config.json";
 //import storage from "./storage";
+import { IP } from "@env";
 
 const auth = {
     loggedIn: async function loggedIn() {
@@ -10,26 +11,26 @@ const auth = {
         return token && notExpired;
     },
     login: async function login(email: string, password: string) {
-        const response = await fetch("http://localhost:3000/auth/login", {
-            method: "POST",
-            body: JSON.stringify({email:email,password:password}),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
-                "Accept": "application/json"
-            },
-        });
-        const loginResult = await response.json();
-        console.log("Login Result", loginResult);
+        console.log("login:", email, password);
 
-        //TODO:
-        if(loginResult.result.loginCode===1){
-        props.setJwt(loginResult.result.token)
-        props.setUserEmail(loginResult.result.email)
-        props.setLoggedIn(true)
+        const response = await fetch((`http://${IP}:3000/auth/login`), {
+        
+        method: "POST",
+        
+        body: JSON.stringify({email:email,password:password}),
+        
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "Access-Control-Allow-Origin": "*",
+            "Accept": "application/json"
         }
+        });
 
-        return loginResult.data;
+        const loginResult = await response.json();
+
+        console.log("Login Result:", loginResult.result);
+
+        return loginResult.result;
     },
 
     // register: async function register(email: string, password: string) {

@@ -51,14 +51,18 @@ export default function App() {
               tabBarInactiveTintColor: 'gray',
             })}
           >
-          
             <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Map" component={Map} />
-            <Tab.Screen name="List" component={List} />
-            <Tab.Screen name="Login">
-              {() => <Auth setIsLoggedIn={setIsLoggedIn} />}
-            </Tab.Screen>
-
+            
+            {isLoggedIn ? (
+              <>
+                <Tab.Screen name="List" component={List} />
+                <Tab.Screen name="Map" component={Map} />
+              </>
+            ) :
+              <Tab.Screen name="Login">
+                {() => <Auth setIsLoggedIn={setIsLoggedIn} />}
+              </Tab.Screen>
+            }
           </Tab.Navigator>
         </NavigationContainer>
       </ApolloProvider>

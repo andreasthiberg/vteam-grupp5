@@ -1,4 +1,5 @@
 // Fetch map related info from graphql
+import { IP } from "@env";
 
 import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
@@ -64,7 +65,7 @@ const map = {
             }
         `;
         
-        const response = await fetch('http://localhost:3000/graphql', {
+        const response = await fetch(`http://${IP}:3000/graphql`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
