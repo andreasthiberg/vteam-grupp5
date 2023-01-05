@@ -21,8 +21,8 @@ export default function Scooters ({ route, navigation }) {
     `;
 
     const { data } = useQuery(SCOOTER_QUERY);
-    //console.log("query data:", data);
-  
+    console.log("query data:", data);
+
     useEffect(() => {
       if (data) {
           setScooters(data.scooters)
@@ -34,8 +34,9 @@ export default function Scooters ({ route, navigation }) {
     //   console.log("scooters", scooters);
     // }
 
+
     const listOfScooters = scooters
-        // .filter(item => item.status == 1)
+        .filter(item => item.status == 1)
         .map((item, index) => {
           //console.log("item", item);
             return <Button
@@ -48,6 +49,7 @@ export default function Scooters ({ route, navigation }) {
                 }}
             />
         });
+
 
     return (
       <View style={Base.base}>

@@ -9,19 +9,21 @@ import { View, Text, TouchableOpacity, Button, Linking } from 'react-native';
 import { Base, Typography } from '../../styles';
 
 //Oauth URL
-const url = "https://github.com/login/oauth/authorize"
-const stateString = "1021373719"
-const clientId = "24530571d805bf20f230"
-const redirectURL = "http://mylocal.com:3001/login"
-const oAuthUrl = url + "?client_id=" + clientId + "&redirect_uri="+ redirectURL + "&state=" + stateString;
+// const url = "https://github.com/login/oauth/authorize"
+// const stateString = "1021373719"
+// const clientId = "24530571d805bf20f230"
+// const redirectURL = "http://mylocal.com:3001/login"
+// const oAuthUrl = url + "?client_id=" + clientId + "&redirect_uri="+ redirectURL + "&state=" + stateString;
 
-export default function Login ({ navigation, setIsLoggedIn, props }) {
+export default function Login ({ navigation, setIsLoggedIn }) {
     const [auth, setAuth] = useState<Partial<Auth>>({});
 
+    // log in with email and password
     async function doLogin() {
         if (auth.email && auth.password) {
             const result = await AuthModel.login(auth.email, auth.password);
-            if (result.type === "success") {
+            if (result.loginCode === 1) {
+                console.log("You are logged in!");
                 setIsLoggedIn(true);
             }
             showMessage(result);
@@ -34,25 +36,25 @@ export default function Login ({ navigation, setIsLoggedIn, props }) {
         }
     }
     
-    async function oAuthLoginOrRegister(code,props) {
-        const response = await fetch(("http://localhost:3000/auth/oauth"), {
+    // async function oAuthLoginOrRegister(code,props) {
+    //     const response = await fetch(("http://localhost:3000/auth/oauth"), {
       
-        method: "POST",
+    //     method: "POST",
         
-        body: JSON.stringify({code:code}),
+    //     body: JSON.stringify({code:code}),
 
-        // Adding headers to the request
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            "Access-Control-Allow-Origin": "*",
-            "Accept": "application/json"
-        }
-        });
-        let loginResult = await response.json()
-        props.setJwt(loginResult.result.token)
-        props.setUserEmail(loginResult.result.email)
-        props.setLoggedIn(true)
-    }
+    //     // Adding headers to the request
+    //     headers: {
+    //         "Content-type": "application/json; charset=UTF-8",
+    //         "Access-Control-Allow-Origin": "*",
+    //         "Accept": "application/json"
+    //     }
+    //     });
+    //     let loginResult = await response.json()
+    //     props.setJwt(loginResult.result.token)
+    //     props.setUserEmail(loginResult.result.email)
+    //     props.setLoggedIn(true)
+    // }
 
     // const queryParameters = new URLSearchParams(window.location.search)
     // const code = queryParameters.get("code")
@@ -70,9 +72,9 @@ export default function Login ({ navigation, setIsLoggedIn, props }) {
                 onPress={link}
                 title="Sign in with GitHub"
             /> */}
-            <TouchableOpacity onPress={() => Linking.openURL('{oAuthUrl}')}>
+            {/* <TouchableOpacity onPress={() => Linking.openURL('{oAuthUrl}')}>
                 <Text style={Typography.header3}>Sign in with GitHub</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <AuthFields
                 auth={auth}
                 setAuth={setAuth}

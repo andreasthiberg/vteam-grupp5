@@ -16,7 +16,6 @@ export default function Scooters () {
         }
       }
     `;
-    
 
     const { data, loading } = useQuery(SCOOTER_QUERY, {
         fetchPolicy: 'network-only',
