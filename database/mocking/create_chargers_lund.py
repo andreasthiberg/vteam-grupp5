@@ -1,15 +1,15 @@
 import random
 
-city = "Stockholm"
+city = "Lund"
 separator = ","
 last_name = ""
 number_of_stations = 20
-start_lat = 59.320019
-end_lat = 59.340224
-start_lon = 18.050951
-end_lon = 18.072885
+start_lat = 55.706394
+end_lat = 55.707225
+start_lon = 13.191956
+end_lon = 13.196277
 
-with open('../sql/insert4-charging-stations-stockholm.sql', 'w') as fh:
+with open('../sql/insert4-charging-stations-lund.sql', 'w') as fh:
     fh.write("USE high5\n")
     fh.write("INSERT INTO charging_station\n")
     fh.write("    ( `pos`, `city` )\n")

@@ -10,7 +10,7 @@ export default function LogoutButton(props) {
     }
 
     return (
-        <button onClick={logout}>Logga ut</button>
+        <button class="button1" onClick={logout}>Logga ut</button>
     );
 
 }

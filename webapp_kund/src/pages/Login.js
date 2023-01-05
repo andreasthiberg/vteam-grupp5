@@ -43,18 +43,21 @@ export default function Login(props) {
     window.history.replaceState({}, document.title, "/");
   }
 
+  console.log(props.userId)
+
   return (
     <div>
             { props.jwt === "" ? 
             <div>
-            <div><a href={oAuthUrl}>Klicka här för att logga in med GitHub</a></div>
-            <LoginForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
-            <RegisterForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+              <h2>Please login/register first</h2>
+              <div><a href={oAuthUrl}>Klicka här för att logga in med GitHub</a></div>
+              <LoginForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+              <RegisterForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
             </div>
             :
             <div>
-            <p>Du är inloggad som {props.userEmail}</p>
-            <LogoutButton setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn}/>
+              <p>Du är inloggad som {props.userEmail}</p>
+              <LogoutButton setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn}/>
             </div>
             }
     </div>
