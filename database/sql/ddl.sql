@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS high5;
+-- DROP DATABASE IF EXISTS high5;
 
-CREATE DATABASE IF NOT EXISTS high5;
+-- CREATE DATABASE IF NOT EXISTS high5;
 
 USE high5;
 
@@ -63,7 +63,6 @@ CREATE TABLE `customer`
     
     PRIMARY KEY (`id`)
     );
-
 CREATE TABLE `city`
     (
     -- `id` INT AUTO_INCREMENT,
