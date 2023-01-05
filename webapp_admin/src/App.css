@@ -36,8 +36,8 @@ table {
 }
 
 table thead tr {
-  background-color: #05ac50;
-  color: rgb(183, 195, 201);
+  background-color: powderblue;
+  color: black;
   text-align: left;
 }
 
@@ -110,6 +110,8 @@ button {
   padding: 0.4em 1.2em;
   font-size: 1.2em;
 }
+
+
 
 
 /* .App-logo {
