@@ -1,3 +1,5 @@
+import { getCurrentPositionAsync } from "expo-location";
+
 export const container = {
     flex:1,
     justifyContent: 'center',
@@ -28,4 +30,14 @@ export const home = {
 export const image = {
     width:350,
     height:350,
+};
+
+export const btn = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'green',
 };

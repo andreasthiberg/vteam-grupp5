@@ -1,9 +1,9 @@
 import { View, Text, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
 
-export default function ActivateBtn(props) {
+export default function DeactivateBtn(props) {
     // const { item } = route.params;
-    console.log("ActivateBtn props:", props);
+    console.log("DeactivateBtn props:", props);
 
     const scooter_id = props.item;
 
@@ -18,16 +18,16 @@ export default function ActivateBtn(props) {
     const [updateScooter, { data }] = useMutation(CHANGE_STATUS);
     console.log("changed status:", data);
     
-    //props.setRunning(true);
+    //props.setRunning(false);
 
     return(
         <Button
-            title="Activate"
+            title="Deactivate" 
             onPress={() => {
                 updateScooter({
                     variables: {
                         id: scooter_id,
-                        status: 2
+                        status: 1
                     }
                 })
             }}

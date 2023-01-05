@@ -15,16 +15,20 @@ import { Base, Typography } from '../../styles';
 // const redirectURL = "http://mylocal.com:3001/login"
 // const oAuthUrl = url + "?client_id=" + clientId + "&redirect_uri="+ redirectURL + "&state=" + stateString;
 
-export default function Login ({ navigation, setIsLoggedIn }) {
+export default function Login ({ navigation, setLoggedIn, setJwt, setUserEmail }) {
     const [auth, setAuth] = useState<Partial<Auth>>({});
 
     // log in with email and password
     async function doLogin() {
         if (auth.email && auth.password) {
             const result = await AuthModel.login(auth.email, auth.password);
+            
             if (result.loginCode === 1) {
                 console.log("You are logged in!");
-                setIsLoggedIn(true);
+                console.log("login result:", result);
+                setJwt(result.token);
+                setUserEmail(result.email);
+                setLoggedIn(true);
             }
             showMessage(result);
         } else {
@@ -75,6 +79,8 @@ export default function Login ({ navigation, setIsLoggedIn }) {
             {/* <TouchableOpacity onPress={() => Linking.openURL('{oAuthUrl}')}>
                 <Text style={Typography.header3}>Sign in with GitHub</Text>
             </TouchableOpacity> */}
+            
+            
             <AuthFields
                 auth={auth}
                 setAuth={setAuth}

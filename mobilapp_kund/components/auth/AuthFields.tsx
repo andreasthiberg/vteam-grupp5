@@ -71,6 +71,7 @@ export default function AuthFields ({ auth, setAuth, submit, title, navigation})
                     submit();
                 }}
                 accessibilityLabel={`${title} genom att trycka`}
+                color='white'
             />
         </View>
 

@@ -5,22 +5,26 @@ import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
 import { Base } from './styles';
 import Home from './components/Home';
 import Map from './components/Map';
 import List from './components/List';
+import Mypage from './components/Mypage';
 import Auth from './components/auth/Auth';
-//import authModel from './models/auth';
+import Logout from './components/auth/Logout';
+
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { IP } from "@env";
 
 const Tab = createBottomTabNavigator();
+
 const routeIcons = {
   "Home": "home",
   "Map": "map",
   "List": "list",
+  "My page": "happy-outline",
   "Login": "lock-closed",
+  "Logout": "lock-closed",
 }
 
 // Initialize Apollo Client
@@ -30,13 +34,13 @@ const client = new ApolloClient({
 });
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+  //Authentication states
+  const [jwt,setJwt] = useState("");
+  const [loggedIn,setLoggedIn] = useState(false);
+  const [userEmail,setUserEmail] = useState("");
+  const [user, setUser] = useState(0);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     setIsLoggedIn(await authModel.loggedIn());
-  //   });
-  //  }, []);
+  const [scooterId, SetScooterId] = useState();
 
   return (
     <SafeAreaView style={Base.container}>
@@ -53,14 +57,18 @@ export default function App() {
           >
             <Tab.Screen name="Home" component={Home} />
             
-            {isLoggedIn ? (
+            {loggedIn ? (
               <>
                 <Tab.Screen name="List" component={List} />
                 <Tab.Screen name="Map" component={Map} />
+                <Tab.Screen name="My page" component={Mypage} />
+                <Tab.Screen name="Logout">
+                  {() => <Logout setJwt={setJwt} setLoggedIn={setLoggedIn} setUserEmail={setUserEmail} />}
+              </Tab.Screen>
               </>
             ) :
               <Tab.Screen name="Login">
-                {() => <Auth setIsLoggedIn={setIsLoggedIn} />}
+                {() => <Auth setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt} />}
               </Tab.Screen>
             }
           </Tab.Navigator>
