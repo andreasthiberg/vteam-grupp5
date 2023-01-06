@@ -26,13 +26,10 @@ const scooters = {
             })
         });
 
-        console.log(response)
 
         const result = await response.json();
         for (let i in result.data["scooters"]){
-            console.log(result.data["scooters"][i].pos)
             let posAsIntArray = JSON.parse(result.data["scooters"][i].pos)
-            console.log(posAsIntArray)
             result.data["scooters"][i].pos = posAsIntArray
         }
         
