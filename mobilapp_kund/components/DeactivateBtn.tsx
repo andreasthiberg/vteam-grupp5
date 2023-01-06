@@ -2,11 +2,14 @@ import { View, Text, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
 import { Base } from "../styles";
 
-export default function ActivateBtn({ item, setRunning, setScooterId }) {
+export default function DeactivateBtn({ item, setRunning, setScooterId }) {
+    // const { item } = route.params;
+    //console.log("DeactivateBtn props:", props);
 
+    
     const scooter_id = item;
 
-    console.log("ActivateBtn: scooter_id::", scooter_id);
+    console.log("DeactivateBtn: scooter_id:", scooter_id);
 
     const CHANGE_STATUS = gql`
         mutation UpdateScooter($id: Int!, $status: Int!) {
@@ -14,29 +17,29 @@ export default function ActivateBtn({ item, setRunning, setScooterId }) {
           }   
     `;
 
-    function updateScooterState () {
-        console.log("Activate clicked............");
-        setScooterId(scooter_id);
-        setRunning(true);
-    }
-
     const [updateScooter, { data }] = useMutation(CHANGE_STATUS);
-    console.log("changed status to 2(activated):", data);
+    console.log("changed status:", data);
+    //console.log("DeactivateBtn: scooter status", data.status);
+    
+    function updateScooterState() {
+        console.log("Deactivate clicked.....");
+        setScooterId(0);
+        setRunning(false);
+    }
 
     return(
         <View style={Base.btn2}>
             <Button
-                title="Activate"
+                title="Deactivate" 
                 color="white"
                 onPress={() => {
                     updateScooter({
                         variables: {
                             id: scooter_id,
-                            status: 2
+                            status: 1
                         }
                     });
                     updateScooterState();
-                    
                 }}
             />
         </View>

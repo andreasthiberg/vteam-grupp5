@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
-import { Base, Typography } from '../styles';
+import { Base, Typography } from '../../styles';
 import { useEffect, useState } from 'react';
 
 import MapView, {Polygon} from 'react-native-maps';
@@ -7,8 +7,8 @@ import { Marker } from "react-native-maps";
 // import * as Location from 'expo-location';
 import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
-import high5 from './../assets/high5_scooter_01small.png';
-import parking from './../assets/p_small.png';
+import high5 from './../../assets/high5_scooter_01small.png';
+import parking from './../../assets/p_small.png';
 
 
 export default function StockholmMap() {

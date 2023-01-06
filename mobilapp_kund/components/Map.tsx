@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CityList from './CityList';
-import StockholmMap from './StockholmMap';
-import MalmoMap from './MalmoMap.tsx';
-import LundMap from './LundMap.tsx';
+import StockholmMap from './map/StockholmMap';
+import MalmoMap from './map/MalmoMap.tsx';
+import LundMap from './map/LundMap.tsx';
 import { Text, View, StyleSheet } from "react-native";
 import { Base, Typography } from '../styles';
 import MapView from 'react-native-maps';
