@@ -22,7 +22,7 @@ const routeIcons = {
   "Home": "home",
   "Map": "map",
   "List": "list",
-  "My page": "happy-outline",
+  "My page": "happy",
   "Login": "lock-closed",
   "Logout": "lock-closed",
 }
@@ -36,11 +36,15 @@ const client = new ApolloClient({
 export default function App() {
   //Authentication states
   const [jwt,setJwt] = useState("");
-  const [loggedIn,setLoggedIn] = useState(false);
+  const [loggedIn,setLoggedIn] = useState(true);
   const [userEmail,setUserEmail] = useState("");
-  const [user, setUser] = useState(0);
+  //const [user, setUser] = useState(0);
 
-  const [scooterId, SetScooterId] = useState();
+  //Scooter-related states
+  const [scooterId, setScooterId] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  console.log("App: scooterId, running::", scooterId, running);
 
   return (
     <SafeAreaView style={Base.container}>
@@ -55,11 +59,15 @@ export default function App() {
               tabBarInactiveTintColor: 'gray',
             })}
           >
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Home">
+              {() => <Home running={running} scooterId={scooterId} />}
+            </Tab.Screen>
             
             {loggedIn ? (
               <>
-                <Tab.Screen name="List" component={List} />
+                <Tab.Screen name="List">
+                  {() => <List setScooterId={setScooterId} setRunning={setRunning} running={running} />}
+                </Tab.Screen>
                 <Tab.Screen name="Map" component={Map} />
                 <Tab.Screen name="My page" component={Mypage} />
                 <Tab.Screen name="Logout">

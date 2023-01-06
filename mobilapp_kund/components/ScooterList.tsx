@@ -4,8 +4,15 @@ import { Text, View, Button } from 'react-native'
 import { Base, Typography } from '../styles';
 import { useState, useEffect } from 'react';
 
-export default function Scooters ({ route, navigation }) {
+export default function Scooters (props) {
   const [scooters, setScooters] = useState([]);
+  //console.log("came to ScooterList:", props);
+  //console.log("came to Run:", running, setRunning);
+  //receiving 3 props(running, setRunning, setScooterId)
+
+  console.log("ScooterList: running::", props.running);
+
+  //const { navigate } = props.navigation;
 
   const SCOOTER_QUERY = gql`
     query ScooterQuery {
@@ -20,7 +27,7 @@ export default function Scooters ({ route, navigation }) {
   `;
 
   const { data } = useQuery(SCOOTER_QUERY);
-  console.log("query data:", data);
+  //console.log("query data:", data);
 
   useEffect(() => {
     if (data) {
@@ -32,18 +39,22 @@ export default function Scooters ({ route, navigation }) {
   //   console.log("scooters", scooters);
   // }
 
+
   const listOfScooters = scooters
       //.filter(item => item.status == 1)
       .map((item, index) => {
         //console.log("item", item);
           return <Button
-              title="scooter"
+              title={`Scooter ID: ${item.id.toString()}`}
               key={index}
               onPress={() => {
-                  navigation.navigate('Details', {
-                      item: item
-                  });
-              }}
+                props.navigation.navigate('Details', {
+                    item: item,
+                    running: props.running,
+                    setRunning: props.setRunning,
+                    setScooterId: props.setScooterId,
+                });
+            }}
           />
       });
 

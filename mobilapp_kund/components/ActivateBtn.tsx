@@ -1,13 +1,11 @@
 import { View, Text, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
 
-export default function ActivateBtn(props) {
-    // const { item } = route.params;
-    console.log("ActivateBtn props:", props);
+export default function ActivateBtn({ item, setRunning, setScooterId }) {
 
-    const scooter_id = props.item;
+    const scooter_id = item;
 
-    console.log("scooter_id:", scooter_id);
+    console.log("ActivateBtn: scooter_id::", scooter_id);
 
     const CHANGE_STATUS = gql`
         mutation UpdateScooter($id: Int!, $status: Int!) {
@@ -15,10 +13,14 @@ export default function ActivateBtn(props) {
           }   
     `;
 
+    function updateScooterState () {
+        console.log("Activate clicked............");
+        setScooterId(scooter_id);
+        setRunning(true);
+    }
+
     const [updateScooter, { data }] = useMutation(CHANGE_STATUS);
-    console.log("changed status:", data);
-    
-    //props.setRunning(true);
+    console.log("changed status to 2(activated):", data);
 
     return(
         <Button
@@ -29,7 +31,8 @@ export default function ActivateBtn(props) {
                         id: scooter_id,
                         status: 2
                     }
-                })
+                });
+                updateScooterState();
             }}
         />
     )

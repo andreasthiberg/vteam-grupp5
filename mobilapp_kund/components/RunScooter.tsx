@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import ActivateBtn from './ActivateBtn';
 import DeactivateBtn from './DeactivateBtn';
 
-export default function RunScooter({ route, navigation }) {
+export default function RunScooter({ route, setRunning, setScooterId }) {
+    //console.log("came to RunScooter:", route.params);
     const { item } = route.params;
-    const [running, setRunning] = useState(false);
+    console.log("RunScooter: id, running, route.paramas::", item.id, route.params.running, item);
 
+    
     return (
         <View style={Base.base}>
             <Text style={Typography.header2}>Run scooter</Text>
@@ -15,13 +17,13 @@ export default function RunScooter({ route, navigation }) {
             <Text style={Typography.normal}>Status: {item.status}</Text>
             <Text style={Typography.normal}>Battery: {item.battery}%</Text>
             
-            {running ?
+            {item.running ?
                 <Text style={Typography.header3}>You have activated scooter</Text>
                 :
-                <ActivateBtn item={item.id} setRunning={setRunning}/>
+                <ActivateBtn item={item.id} setRunning={setRunning} setScooterId={setScooterId} />
             }
 
-            <DeactivateBtn item={item.id} setRunning={setRunning}/>
+            <DeactivateBtn item={item.id} setRunning={setRunning} setScooterId={setScooterId} />
         </View>
     )
 }
