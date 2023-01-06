@@ -9,6 +9,8 @@ export default function List(props) {
     const running = props.running;
     const setRunning = props.setRunning;
     const setScooterId = props.setScooterId;
+    const setScooters = props.setScooters;
+    const scooters= props.scooters;
 
     console.log("List: running::", running);
 
@@ -19,9 +21,11 @@ export default function List(props) {
                 {props => (
                     <ScooterList
                         {...props}
+                        setScooters={setScooters}
                         running={running}
                         setRunning={setRunning}
                         setScooterId={setScooterId}
+                        scooters={scooters}
                     />
                 )}
             </Stack.Screen>

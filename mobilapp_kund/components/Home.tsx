@@ -5,6 +5,11 @@ import high5 from './../assets/high5circle01.png';
 import DeactivateBtn from './DeactivateBtn';
 
 export default function Home(props) {
+
+    const text1 = "Welcome! Please login first."
+
+    const text2 = "Select a scooter to start your journey."
+
     
     const statusText = props.running ? (
         <>

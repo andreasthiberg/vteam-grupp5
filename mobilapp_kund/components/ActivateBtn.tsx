@@ -36,6 +36,7 @@ export default function ActivateBtn({ item, setRunning, setScooterId }) {
                         }
                     });
                     updateScooterState();
+                    
                 }}
             />
         </View>

@@ -41,6 +41,7 @@ export default function App() {
   //const [user, setUser] = useState(0);
 
   //Scooter-related states
+  const [scooters, setScooters] = useState([]);
   const [scooterId, setScooterId] = useState(0);
   const [running, setRunning] = useState(false);
 
@@ -59,25 +60,35 @@ export default function App() {
               tabBarInactiveTintColor: 'gray',
             })}
           >
-            <Tab.Screen name="Home">
-              {() => <Home running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
-            </Tab.Screen>
             
             {loggedIn ? (
               <>
-                <Tab.Screen name="List">
-                  {() => <List setScooterId={setScooterId} setRunning={setRunning} running={running} />}
+                <Tab.Screen name="Home">
+                  {() => <Home running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
                 </Tab.Screen>
+
+                <Tab.Screen name="List">
+                  {() => <List setScooters={setScooters} setScooterId={setScooterId} setRunning={setRunning} running={running} scooters={scooters} />}
+                </Tab.Screen>
+
                 <Tab.Screen name="Map" component={Map} />
+
                 <Tab.Screen name="My page" component={Mypage} />
+
                 <Tab.Screen name="Logout">
                   {() => <Logout setJwt={setJwt} setLoggedIn={setLoggedIn} setUserEmail={setUserEmail} />}
               </Tab.Screen>
               </>
             ) :
-              <Tab.Screen name="Login">
-                {() => <Auth setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt} />}
-              </Tab.Screen>
+              <>
+                {/* <Tab.Screen name="Home">
+                  {() => <Home running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
+                </Tab.Screen> */}
+
+                <Tab.Screen name="Login">
+                  {() => <Auth setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt} />}
+                </Tab.Screen>
+              </>
             }
           </Tab.Navigator>
         </NavigationContainer>

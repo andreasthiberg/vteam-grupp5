@@ -5,8 +5,9 @@ import AuthModel from '../../models/auth';
 import AuthFields from './AuthFields';
 import oAuth from './oAuth';
 import { showMessage } from 'react-native-flash-message';
-import { View, Text, TouchableOpacity, Button, Linking } from 'react-native';
+import { ScrollView, Text, Image, TouchableOpacity, Button, Linking } from 'react-native';
 import { Base, Typography } from '../../styles';
+import high5 from './../../assets/high5circle01.png';
 
 //Oauth URL
 // const url = "https://github.com/login/oauth/authorize"
@@ -71,23 +72,27 @@ export default function Login ({ navigation, setLoggedIn, setJwt, setUserEmail }
     // }
 
     return (
-        <View style={Base.base}>
-            {/* <Button
-                onPress={link}
-                title="Sign in with GitHub"
-            /> */}
-            {/* <TouchableOpacity onPress={() => Linking.openURL('{oAuthUrl}')}>
-                <Text style={Typography.header3}>Sign in with GitHub</Text>
-            </TouchableOpacity> */}
-            
-            
-            <AuthFields
-                auth={auth}
-                setAuth={setAuth}
-                submit={doLogin}
-                title="Log in"
-                navigation={navigation}
-            />
-        </View>
+        <ScrollView style={Base.base}>
+            <>
+                <Text style={Typography.header2}>High5 Elsparkcyklar app</Text>
+                <Image source={high5} style={Base.image} />
+                {/* <Button
+                    onPress={link}
+                    title="Sign in with GitHub"
+                /> */}
+                {/* <TouchableOpacity onPress={() => Linking.openURL('{oAuthUrl}')}>
+                    <Text style={Typography.header3}>Sign in with GitHub</Text>
+                </TouchableOpacity> */}
+                
+                
+                <AuthFields
+                    auth={auth}
+                    setAuth={setAuth}
+                    submit={doLogin}
+                    title="Log in"
+                    navigation={navigation}
+                />
+            </>
+        </ScrollView>
     );
 };
