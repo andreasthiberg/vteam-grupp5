@@ -39,7 +39,7 @@ export default function Scooters (props) {
   //   console.log("scooters", scooters);
   // }
 
-
+  
   const listOfScooters = scooters
       //.filter(item => item.status == 1)
       .map((item, index) => {
@@ -57,6 +57,7 @@ export default function Scooters (props) {
             }}
           />
       });
+
 
   return (
     <View style={Base.base}>

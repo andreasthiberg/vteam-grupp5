@@ -1,5 +1,6 @@
 import { View, Text, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
+import { Base } from "../styles";
 
 export default function ActivateBtn({ item, setRunning, setScooterId }) {
 
@@ -23,17 +24,20 @@ export default function ActivateBtn({ item, setRunning, setScooterId }) {
     console.log("changed status to 2(activated):", data);
 
     return(
-        <Button
-            title="Activate"
-            onPress={() => {
-                updateScooter({
-                    variables: {
-                        id: scooter_id,
-                        status: 2
-                    }
-                });
-                updateScooterState();
-            }}
-        />
+        <View style={Base.btn2}>
+            <Button
+                title="Activate"
+                color="white"
+                onPress={() => {
+                    updateScooter({
+                        variables: {
+                            id: scooter_id,
+                            status: 2
+                        }
+                    });
+                    updateScooterState();
+                }}
+            />
+        </View>
     )
 }

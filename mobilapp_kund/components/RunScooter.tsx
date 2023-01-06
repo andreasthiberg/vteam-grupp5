@@ -9,7 +9,6 @@ export default function RunScooter({ route, setRunning, setScooterId }) {
     const { item } = route.params;
     console.log("RunScooter: id, running, route.paramas::", item.id, route.params.running, item);
 
-    
     return (
         <View style={Base.base}>
             <Text style={Typography.header2}>Run scooter</Text>
@@ -23,7 +22,7 @@ export default function RunScooter({ route, setRunning, setScooterId }) {
                 <ActivateBtn item={item.id} setRunning={setRunning} setScooterId={setScooterId} />
             }
 
-            <DeactivateBtn item={item.id} setRunning={setRunning} setScooterId={setScooterId} />
+            {/* <DeactivateBtn item={item.id} setRunning={setRunning} setScooterId={setScooterId} /> */}
         </View>
     )
 }

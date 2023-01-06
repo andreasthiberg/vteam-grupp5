@@ -12,10 +12,11 @@ export default function Logout(props) {
 
     return (
         <View style={Base.base }>
-            <View style={Base.btn}>
+            <View style={Base.btn1}>
                 <Button 
                     title="Log out"
                     onPress={logout}
+                    color='white'
                 />
             </View>
         </View>

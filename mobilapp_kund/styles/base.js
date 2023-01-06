@@ -30,9 +30,10 @@ export const home = {
 export const image = {
     width:350,
     height:350,
+    margin: 20,
 };
 
-export const btn = {
+export const btn1 = {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
@@ -40,4 +41,13 @@ export const btn = {
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'green',
+};
+
+export const btn2 = {
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'red',
 };

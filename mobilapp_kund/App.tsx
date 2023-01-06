@@ -60,7 +60,7 @@ export default function App() {
             })}
           >
             <Tab.Screen name="Home">
-              {() => <Home running={running} scooterId={scooterId} />}
+              {() => <Home running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
             </Tab.Screen>
             
             {loggedIn ? (

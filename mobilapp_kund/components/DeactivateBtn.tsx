@@ -1,5 +1,6 @@
 import { View, Text, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
+import { Base } from "../styles";
 
 export default function DeactivateBtn({ item, setRunning, setScooterId }) {
     // const { item } = route.params;
@@ -27,17 +28,20 @@ export default function DeactivateBtn({ item, setRunning, setScooterId }) {
     }
 
     return(
-        <Button
-            title="Deactivate" 
-            onPress={() => {
-                updateScooter({
-                    variables: {
-                        id: scooter_id,
-                        status: 1
-                    }
-                });
-                updateScooterState();
-            }}
-        />
+        <View style={Base.btn2}>
+            <Button
+                title="Deactivate" 
+                color="white"
+                onPress={() => {
+                    updateScooter({
+                        variables: {
+                            id: scooter_id,
+                            status: 1
+                        }
+                    });
+                    updateScooterState();
+                }}
+            />
+        </View>
     )
 }
