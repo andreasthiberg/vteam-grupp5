@@ -4,9 +4,8 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Scooters from './pages/Scooters';
 import Customers from './pages/Customers';
-import MapSto from './pages/MapSto';
-import MapMal from './pages/MapMal';
-import MapLun from './pages/MapLun';
+import Map from './pages/Map';
+
 
 
 
@@ -22,9 +21,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/customers' element={<Customers />}/>
         <Route path='/scooters' element={<Scooters />} />
-        <Route path='/stockholm' element={<MapSto />} />
-        <Route path='/malmo' element={<MapMal />} />
-        <Route path='/lund' element={<MapLun />} />
+        <Route path='/map' element={<Map />} />
       </Routes>
     </BrowserRouter>
   );

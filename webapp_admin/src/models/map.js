@@ -25,7 +25,6 @@ const scooters = {
         });
 
         const result = await response.json();
-        console.log(result);
         convertCoordinateString();
         return result.data;
     },
@@ -35,7 +34,6 @@ const scooters = {
 function convertCoordinateString(coordString){
     let testString = "[[55.716690, 13.181575], [55.712179, 13.189716], [55.711478, 13.180755]]"
     let convertedString = JSON.parse(testString)
-    console.log(convertedString)
 }
 
 export default scooters;

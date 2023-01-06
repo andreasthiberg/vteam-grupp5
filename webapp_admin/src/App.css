@@ -112,6 +112,23 @@ button {
 }
 
 
+/* Scooter markers in different colors */
+.scooter-marker-used {
+  filter: hue-rotate(0deg);
+}
+
+.scooter-marker-available {
+  filter: hue-rotate(260deg);
+}
+
+.scooter-marker-charging {
+  filter: hue-rotate(190deg);
+}
+
+.scooter-marker-out-of-batteries {
+  filter: hue-rotate(160deg);
+}
+
 
 
 /* .App-logo {

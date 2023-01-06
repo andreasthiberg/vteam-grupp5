@@ -1,39 +1,95 @@
-import React from 'react';
-import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet'
-import './Map.css';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
+import { React } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Marker, TileLayer, MapContainer, Popup, Rectangle } from "react-leaflet";
+import "../App.css";
+import scooterModel from '../models/scooters';
+import mapModel from '../models/map';
+import scooterIcons from '../assets/scooterIcons'
 
-const Map = () => {
-    const position = [59.33, 18.055]
- 
-    return (
-        <div>
-        <h2>Stockholm</h2>
-        <MapContainer center={position} zoom={13}>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={position}>
-                <Popup>
-                    Hej!
-                </Popup>
-            </Marker>
-        </MapContainer>
+export default function Map() {
+  const [parkingZones, setParkingZones] = useState([]);
+  const [scootersInfo, setScootersInfo] = useState([]);
+  const [selectedScooter, setSelectedScooter] = useState();
 
-        </div>
-    );
+  //Load scooter info on load
+  useEffect(() => {
+    updateScooters()
+    getZones()
+  }, []);
 
-//   return (
-//     <MapContainer center={position} zoom={zoom}>
-//       <TileLayer
-//         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-//         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//       />
-//     </MapContainer>
-//   )
-};
+  //Loads parking zones and charging stations from backend
+  async function getZones(){
+    const response = await mapModel.getAllParkingZones();
+    console.log(response)
+    setParkingZones(response.parkingZones)
+  }
+  
+  //Loads scooter info from backend
+  async function updateScooters(){
+    const response = await scooterModel.getAllScooters();
+    setScootersInfo(response.scooters);
+  }
 
-export default Map;
+  // Interval to update scooter markers every x seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateScooters();
+    }, 2000);
+  
+    return () => clearInterval(interval);
+  }, []);
+
+
+  return (
+    <div>
+      <h2>Stockholm</h2>
+      <div className="map-page-div">
+      <div className="map-display-div">
+      <div className="map-div">
+      <MapContainer center={[59.33, 18.055]} zoom={14}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      />
+      {scootersInfo.map((scooter) => (
+        <Marker
+          key={scooter.id}
+          position={scooter.pos}
+          icon={scooterIcons[scooter.status]}
+          eventHandlers={{
+            click: (e) => {
+              setSelectedScooter(scooter.id)
+            },
+          }}>
+          <Popup>
+            Scooter-ID: {scooter.id}<br></br>
+            Position: {scooter.pos[0]}, {scooter.pos[1]}<br></br>
+            Battery: {scooter.battery}%
+          </Popup>
+        </Marker>
+      ))}
+      
+
+      {parkingZones.map((zone) => (
+        <Rectangle key={zone.id} bounds={JSON.parse(zone.pos)} pathOptions={{color:"green"}} />
+      ))}
+
+      </MapContainer>
+      </div>
+      <div className="map-info-box">Vald scooter: {selectedScooter}<br/>
+      <ul>
+        <li>0 - Stopped by Admin</li>
+        <li style={{color:"blue"}}> 1 - Currently used </li>
+        <li style={{color:"green"}}>2 - Parked outside zones</li>
+        <li style={{color:"green"}}>3 - Parked in parking zone</li>
+        <li style={{color:"orange"}}>4 - Charging (not available)</li>
+        <li style={{color:"red"}}>5 - Out of batteries (and not in charging zone)</li>
+        <li>6 - Removed from map for maintenance</li>
+      </ul></div>
+
+      </div>
+      </div>
+    </div>
+
+  );
+}

@@ -15,13 +15,7 @@ const Header = () => {
                     <Link to='/scooters'>Scooters</Link>
                 </li>
                 <li>
-                    <Link to='/stockholm'>Stockholm</Link>
-                </li>
-                <li>
-                    <Link to='/malmo'>Malmö</Link>
-                </li>
-                <li>
-                    <Link to='/lund'>Lund</Link>
+                    <Link to='/map'>Map</Link>
                 </li>
             </ul>
         </>
