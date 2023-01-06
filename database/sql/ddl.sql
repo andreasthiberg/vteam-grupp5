@@ -8,8 +8,6 @@ GRANT ALL PRIVILEGES ON *.* TO 'root' @'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 
-
-
 DROP TABLE IF EXISTS `trip`;
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
@@ -132,8 +130,25 @@ CREATE TABLE `trip`
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
+INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname1","lname1", "name1@mail.se", "password1", 200);
+INSERT INTO customer (`first_name`, `last_name`, `email`, `password`, `balance`) VALUES ("fname2","lname2", "name2@mail.se", "password2", 50);
+
 INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) VALUES ("Stockholm", 20, 5, 30, 40);
 INSERT INTO city (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) VALUES ("Malmö", 20, 5, 30, 40);
+
+INSERT INTO scooter (`status`, `pos`, `battery`, `city`) VALUES (1, "0,0", 100, "Stockholm");
+INSERT INTO scooter (`status`, `pos`, `battery`, `city`) VALUES (1, "20,20", 200, "Stockholm");
+
+INSERT INTO parking_zone ( `pos`, `city` ) VALUES ('59.402724,17.939324', 'Stockholm');
+INSERT INTO parking_zone ( `pos`, `city` ) VALUES ('59.274756,18.049059', 'Stockholm');
+
+INSERT INTO charging_station (`pos`, `status`, `city`, `parking_zone`) VALUES ("15, 10", 0, "Stockholm", 1);
+INSERT INTO charging_station (`pos`, `status`, `city`, `parking_zone`) VALUES ("10, 20", 0, "Stockholm", 2);
+
+INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (1, 2, '2022-12-12 00:23:04.717', '2022-12-12 00:43:04.717', "0,0", "10,10", 0, 50, 100, "Stockholm");
+INSERT INTO trip (`scooter_id`, `customer_id`, `start_time`, `end_time`, `start_pos`, `end_pos`, `penalty_fee`, `discount`, `price`, `city`) VALUES (2, 1, '2022-12-12 00:33:04.717', '2022-12-12 00:53:04.717', "10,10", "15,15", 50, 0, 150, "Stockholm");
+
+
 
 
 -- Procedure to show all scooters
