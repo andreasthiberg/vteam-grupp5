@@ -15,7 +15,9 @@ class ScooterSimulation():
         """ Start simulation """
 
         # Wait for backend to start fully
-        time.sleep(3)
+        time.sleep(5)
+
+        print("Starting scooter simulation...")
 
         # Get current highest ID of scooters in database
         url = "http://backend:3000/graphql"        

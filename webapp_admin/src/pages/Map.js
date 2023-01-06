@@ -1,13 +1,15 @@
 import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Marker, TileLayer, MapContainer, Popup, Rectangle } from "react-leaflet";
+import { Marker, TileLayer, MapContainer, Popup, Rectangle, Circle} from "react-leaflet";
 import "../App.css";
 import scooterModel from '../models/scooters';
 import mapModel from '../models/map';
-import scooterIcons from '../assets/scooterIcons'
+import scooterIcons from '../assets/scooterIcons';
+import chargingStationIcon from '../assets/chargingStationIcon';
 
 export default function Map() {
   const [parkingZones, setParkingZones] = useState([]);
+  const [chargingStations, setChargingStations] = useState([]);
   const [scootersInfo, setScootersInfo] = useState([]);
   const [selectedScooter, setSelectedScooter] = useState();
 
@@ -19,9 +21,10 @@ export default function Map() {
 
   //Loads parking zones and charging stations from backend
   async function getZones(){
-    const response = await mapModel.getAllParkingZones();
-    console.log(response)
-    setParkingZones(response.parkingZones)
+    const response1 = await mapModel.getAllParkingZones();
+    setParkingZones(response1.parkingZones)
+    const response2 = await mapModel.getAllChargingStations();
+    setChargingStations(response2.chargingStations)
   }
   
   //Loads scooter info from backend
@@ -69,9 +72,25 @@ export default function Map() {
         </Marker>
       ))}
       
-
+      
       {parkingZones.map((zone) => (
-        <Rectangle key={zone.id} bounds={JSON.parse(zone.pos)} pathOptions={{color:"green"}} />
+        <Rectangle key={zone.id} bounds={JSON.parse(zone.pos)} pathOptions={{color:"green"}}></Rectangle>
+      ))}
+
+      {chargingStations.map((zone) => (
+                    <Marker
+                    key={zone.id}
+                    position={JSON.parse(zone.pos)}
+                    icon={chargingStationIcon}
+                    eventHandlers={{
+                      click: (e) => {
+                        
+                      },
+                    }}>
+                    <Popup className="charging-popup">
+                      10
+                    </Popup>
+                  </Marker>
       ))}
 
       </MapContainer>
