@@ -1,6 +1,7 @@
 # Program that simulates a number of scooter brains
 
 import sys
+import requests
 import time
 from src.scooter import Scooter
 
@@ -16,8 +17,16 @@ class ScooterSimulation():
         # Wait for backend to start fully
         time.sleep(3)
 
+        # Get current highest ID of scooters in database
+        url = "http://backend:3000/graphql"        
+        body = "{scooters{id}}"
+        response = requests.post(url=url, json={"query": body})
+        responseJson = response.json()
+        scooterIdArray = responseJson["data"]["scooters"]
+        startId = int(scooterIdArray[-1]["id"] + 1)
+
         numberOfScooters = 30
-        startId = 3
+
         startCoords = [[5570000, 1319000],[5560500, 1300380],[5933000, 1805500]]
 
         # Create a scooter objects and appends them to the array
@@ -37,6 +46,7 @@ class ScooterSimulation():
         """ Tells every scooter to send and update and then wait x seconds """
         for scooter in self.scooter_array:
             scooter.send_update()
+        print("Simulation update sent.")
         time.sleep(5)
         
     @staticmethod

@@ -1,16 +1,14 @@
-// Fetch scooters's info from graphql
+// Fetch map info from graphql
 
 const scooters = {
-    // baseUrl:
 
-    getAllScooters: async function getAllScooters() {
+    getAllParkingZones: async function getAllScooters() {
         const query = `
             query {
-                scooters {
+                parkingZones {
                     id
                     pos
-                    status
-                    battery
+                    city
                 }
             }
         `;
@@ -26,18 +24,18 @@ const scooters = {
             })
         });
 
-        console.log(response)
-
         const result = await response.json();
-        for (let i in result.data["scooters"]){
-            console.log(result.data["scooters"][i].pos)
-            let posAsIntArray = JSON.parse(result.data["scooters"][i].pos)
-            console.log(posAsIntArray)
-            result.data["scooters"][i].pos = posAsIntArray
-        }
-        
+        console.log(result);
+        convertCoordinateString();
         return result.data;
-    }
+    },
+
 };
+
+function convertCoordinateString(coordString){
+    let testString = "[[55.716690, 13.181575], [55.712179, 13.189716], [55.711478, 13.180755]]"
+    let convertedString = JSON.parse(testString)
+    console.log(convertedString)
+}
 
 export default scooters;

@@ -5,6 +5,7 @@ import * as L from "leaflet";
 import marker from '../assets/scooter.png';
 import "../App.css";
 import scooterModel from '../models/scooters';
+import mapModel from '../models/map';
 
 //Custom scooter icon
 const myIcon = new L.Icon({
@@ -15,6 +16,7 @@ const myIcon = new L.Icon({
 });
 
 export default function MapSto() {
+  const [parkingZones, setParkingZones] = useState([]);
   const [scootersInfo, setScootersInfo] = useState([]);
   const [selectedScooter, setSelectedScooter] = useState();
 
@@ -23,6 +25,11 @@ export default function MapSto() {
     updateScooters()
   }, []);
 
+  //Loads parking zones and charging stations from backend
+  async function getZones(){
+    mapModel.getAllParkingZones();
+  }
+  
   //Loads scooter info from backend
   async function updateScooters(){
     const response = await scooterModel.getAllScooters();
