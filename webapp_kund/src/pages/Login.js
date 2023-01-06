@@ -49,10 +49,12 @@ export default function Login(props) {
     <div>
             { props.jwt === "" ? 
             <div>
-              <h2>Please login/register first</h2>
+              <h1>Welcome!</h1>
               <div><a href={oAuthUrl}>Klicka här för att logga in med GitHub</a></div>
-              <LoginForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
-              <RegisterForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+              <div className='authform-container'>
+                <LoginForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+                <RegisterForm setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn} />
+              </div>
             </div>
             :
             <div>

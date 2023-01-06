@@ -52,7 +52,7 @@ function App() {
       <Routes>
         {/* <Route path='/' element={<Home />} /> */}
         <Route path='/history' element={<History />} />
-        <Route path='/payment' element={<Payment />}/>
+        <Route path='/payment' element={<Payment user={user} />}/>
         <Route path='/login' element={<Login setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt}/>}/>
       </Routes>
     </BrowserRouter>
