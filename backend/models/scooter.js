@@ -26,7 +26,7 @@ const scooter = {
   },
   // Adds a new scooter with given data to database.
   addScooter: async function addScooter (args) {
-    const sql = 'CALL add_scooter(?,?,?)'
+    const sql = 'CALL add_scooter(?,?,?,?)'
     let res
     const db = await dbModel.getDb()
 
@@ -34,7 +34,7 @@ const scooter = {
     if(args.hasOwnProperty(battery)){
       battery = args.battery
     }
-    res = await db.query(sql,[args.status,args.pos,battery])
+    res = await db.query(sql,[args.status,args.pos,battery,args.city])
     db.end();
     return res[0]
   },

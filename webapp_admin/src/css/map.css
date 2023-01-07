@@ -218,3 +218,11 @@
   .charging-icon {
     filter: grayscale(100%)
   }
+
+  .selected-scooter-icon {
+    color:#621414;
+    border: solid;
+    border-radius: 100px;
+    padding: 20px;
+  }
+  

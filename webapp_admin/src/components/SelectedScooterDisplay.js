@@ -1,39 +1,26 @@
 import { React } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import scooterModel from '../models/scooters'
 import "../App.css";
 
-export default function SelectedScooterDisplay({scooterData, selectedScooterId}) {
+export default function SelectedScooterDisplay({selectedScooter}) {
 
-  const dummyData = {
-    status: 0,
-    battery: 100,
-    pos: [1,2],
-    id: 0
-  }
-
-  const [currentScooterInfo,setCurrentScooterInfo] = useState(dummyData);
-
-  useEffect(() => {
-    var result = scooterData.filter(scooter => {
-    return scooter.id === selectedScooterId
-    })
-    if(result.length > 0){
-      setCurrentScooterInfo(result[0]); 
-      console.log(result)
-    }
-  },[selectedScooterId])
+function stopScooter(){
+  console.log(selectedScooter)
+  console.log("Hej")
+  scooterModel.stopScooter(selectedScooter.id)
+}
 
 return (
     <div className="selected-display">
-        <h2>Cykel {selectedScooterId}</h2>
-        <p>Status: {currentScooterInfo.status}</p>
+        <h2>Cykel {selectedScooter.id}</h2>
+        <p>Status: {selectedScooter.status}</p>
         <p>Position:</p>
-        <p>{currentScooterInfo.pos[0]}</p>
-        <p>{currentScooterInfo.pos[1]}</p>
-        <p>Batteri: {currentScooterInfo.battery}%</p>
+        <p>{selectedScooter.pos[0]}</p>
+        <p>{selectedScooter.pos[1]}</p>
+        <p>Batteri: {selectedScooter .battery}%</p>
         <p>Hyrs av</p>
         <p>Hastighet?</p>
-        <button>Stoppa cykel</button>
+        <button onClick={stopScooter}>Stoppa cykel</button>
         <button>Flytta till laddstation</button>
         <button>Flytta till parkering</button>
     </div>

@@ -7,10 +7,9 @@ import SelectedStationDisplay from '../components/SelectedStationDisplay';
 import SelectedScooterDisplay from '../components/SelectedScooterDisplay';
 import scooterModel from '../models/scooters';
 import mapModel from '../models/map';
-import scooterIcons from '../assets/scooterIcons';
+import createScooterIcon from '../assets/scooterIcons';
 import chargingStationIcons from '../assets/chargingStationIcons';
 import ScooterList from '../components/ScooterList';
-import scooterImage from '../assets/scooter.png'
 
 function MapCenterChanger({mapCenter,selectedCity}) {
   const [panSelectedCity, setPanSelectedCity] = useState("Stockholm");
@@ -22,10 +21,20 @@ function MapCenterChanger({mapCenter,selectedCity}) {
   return null
 }
 
+function ScooterPan({selectedScooter}) {
+  const [panSelectedScooterId, setPanSelectedScooterId] = useState(1);
+  const map = useMap()
+  if(selectedScooter.id != panSelectedScooterId){
+    map.panTo(selectedScooter.pos)
+    setPanSelectedScooterId(selectedScooter.id)
+  }
+  return null
+}
+
 export default function Map() {
   //Map changing
   const [selectedCity, setSelectedCity]  = useState("Stockholm");
-  const [selectedScooter, setSelectedScooter] = useState(1);
+  const [selectedScooter, setSelectedScooter] = useState({status:0,id:1,pos:[0,0],battery:100});
   const [selectedStation, setSelectedStation] = useState(0);
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
   const [selectedMode, setSelectedMode] = useState("scooter");
@@ -105,7 +114,7 @@ export default function Map() {
       {selectedMode === "station" && selectedStation !== 0 ? 
       <SelectedStationDisplay selectedStation={selectedStation}/>
       : selectedMode === "scooter" && selectedScooter !== 0 ?
-      <SelectedScooterDisplay scooterData={scootersInfo} selectedScooterId={selectedScooter}  />
+      <SelectedScooterDisplay scooterData={scootersInfo} selectedScooter={selectedScooter}  />
       : null
       }
       <div className="city-select-div">
@@ -122,6 +131,7 @@ export default function Map() {
       <div className="map-display-div">
       <MapContainer center={mapCenter} zoom={14}>
       <MapCenterChanger mapCenter={mapCenter} selectedCity={selectedCity}/>
+      <ScooterPan scooterCoords={[54,54]} selectedScooter={selectedScooter}/>
   <TileLayer
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -130,18 +140,13 @@ export default function Map() {
     <Marker
       key={scooter.id}
       position={scooter.pos}
-      icon={scooterIcons[scooter.status]}
+      icon={createScooterIcon(scooter.status,(scooter.id===selectedScooter.id))}
       eventHandlers={{
         click: (e) => {
-          setSelectedScooter(scooter.id)
+          setSelectedScooter(scooter)
           scrollToSelectedScooter(scooter.id)
         },
       }}>
-      <Popup>
-        Scooter-ID: {scooter.id}<br></br>
-        Position: {scooter.pos[0]}, {scooter.pos[1]}<br></br>
-        Battery: {scooter.battery}%
-      </Popup>
     </Marker>
   ))}
   
@@ -170,7 +175,7 @@ export default function Map() {
   </MapContainer>
 
       </div>
-      <div className="map-info-box">Vald scooter: {selectedScooter}<br/>
+      <div className="map-info-box">Vald scooter: {selectedScooter.id}<br/>
       <ul>
         <li>0 - Stopped by Admin</li>
         <li style={{color:"blue"}}> 1 - Currently used </li>
