@@ -2,7 +2,7 @@
 
 const scooters = {
 
-    getAllParkingZones: async function getAllScooters() {
+    getAllParkingZones: async function getAllParkingZones() {
         const query = `
             query {
                 parkingZones {
@@ -25,15 +25,35 @@ const scooters = {
         });
 
         const result = await response.json();
-        convertCoordinateString();
+        return result.data;
+    },
+    getAllChargingStations: async function getAllChargingStations() {
+        const query = `
+            query {
+                chargingStations {
+                    id
+                    pos
+                    city
+                }
+            }
+        `;
+
+        const response = await fetch('http://localhost:3000/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query
+            })
+        });
+
+        const result = await response.json();
+        console.log(result)
         return result.data;
     },
 
 };
-
-function convertCoordinateString(coordString){
-    let testString = "[[55.716690, 13.181575], [55.712179, 13.189716], [55.711478, 13.180755]]"
-    let convertedString = JSON.parse(testString)
-}
 
 export default scooters;

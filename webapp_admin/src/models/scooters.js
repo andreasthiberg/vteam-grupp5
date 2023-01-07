@@ -11,6 +11,7 @@ const scooters = {
                     pos
                     status
                     battery
+                    city
                 }
             }
         `;
