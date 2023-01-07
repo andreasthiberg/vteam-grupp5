@@ -1,39 +1,203 @@
-import React from 'react';
-import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet'
-import './Map.css';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
+import { React } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Marker, TileLayer, MapContainer, Popup, Rectangle, useMap} from "react-leaflet";
+import "../App.css";
+import ChargingStationList from '../components/ChargingStationList';
+import SelectedStationDisplay from '../components/SelectedStationDisplay';
+import SelectedScooterDisplay from '../components/SelectedScooterDisplay';
+import scooterModel from '../models/scooters';
+import mapModel from '../models/map';
+import createScooterIcon from '../assets/scooterIcons';
+import chargingStationIcons from '../assets/chargingStationIcons';
+import ScooterList from '../components/ScooterList';
 
-const Map = () => {
-    const position = [59.33, 18.055]
- 
-    return (
-        <div>
-        <h2>Stockholm</h2>
-        <MapContainer center={position} zoom={13}>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={position}>
-                <Popup>
-                    Hej!
+function MapCenterChanger({mapCenter,selectedCity}) {
+  const [panSelectedCity, setPanSelectedCity] = useState("Stockholm");
+  const map = useMap()
+  if(selectedCity != panSelectedCity){
+    map.panTo(mapCenter)
+    setPanSelectedCity(selectedCity)
+  }
+  return null
+}
+
+function ScooterPan({selectedScooter}) {
+  const [panSelectedScooterId, setPanSelectedScooterId] = useState(1);
+  const map = useMap()
+  if(selectedScooter.id != panSelectedScooterId){
+    map.panTo(selectedScooter.pos)
+    setPanSelectedScooterId(selectedScooter.id)
+  }
+  return null
+}
+
+export default function Map() {
+  //Map changing
+  const [selectedCity, setSelectedCity]  = useState("Stockholm");
+  const [selectedScooter, setSelectedScooter] = useState({status:0,id:1,pos:[0,0],battery:100});
+  const [selectedStation, setSelectedStation] = useState(0);
+  const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
+  const [selectedMode, setSelectedMode] = useState("scooter");
+
+  //Map data
+  const [parkingZones, setParkingZones] = useState([]);
+  const [chargingStations, setChargingStations] = useState([]);
+  const [scootersInfo, setScootersInfo] = useState([]);
+
+  //Load scooter info on load
+  useEffect(() => {
+    updateScooters()
+    updateZones()
+  }, []);
+
+  //Loads parking zones and charging stations from backend
+  async function updateZones(city = selectedCity){
+    const response1 = await mapModel.getAllParkingZones();
+    setParkingZones(response1.parkingZones.filter(zone => zone.city === city))
+    const response2 = await mapModel.getAllChargingStations();
+    setChargingStations(response2.chargingStations.filter(zone => zone.city === city))
+  }
+  
+  //Loads scooter info from backend
+  async function updateScooters(city = selectedCity){
+    const response = await scooterModel.getAllScooters();
+    setScootersInfo(response.scooters.filter(scooter => scooter.city === city));
+  }
+
+  // Interval to update scooter markers every x seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateScooters();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [selectedCity]);
+
+  // Function to change current city
+  function handleCityChange(e){
+    let cityCenterCoords = {
+      "Stockholm": [59.33, 18.055],
+      "Malmö": [55.5894, 13.0177],
+      "Lund": [55.7066, 13.1940]
+    }
+    setSelectedCity(e.target.value);
+    setMapCenter(cityCenterCoords[e.target.value])
+    updateScooters(e.target.value);
+    updateZones(e.target.value);
+  }
+
+    // Function to change current mode
+    function handleModeChange(e){
+      setSelectedMode(e.target.value);
+    }
+
+  function scrollToSelectedStation(id){
+    const listDiv = document.getElementById("unit-list-div");
+    const selectedDiv = document.getElementById("station-div-"+id);
+    if(listDiv !== null && selectedDiv !== null){
+        listDiv.scrollTop = selectedDiv.offsetTop;
+    }
+  }
+
+  function scrollToSelectedScooter(id){
+    const listDiv = document.getElementById("unit-list-div");
+    const selectedDiv = document.getElementById("scooter-div-"+id);
+    if(listDiv !== null && selectedDiv !== null){
+        listDiv.scrollTop = selectedDiv.offsetTop;
+    }
+  }
+
+  return (
+    <div>
+      <div className="map-page-div">
+      <div className="map-content-div">
+      {selectedMode === "station" && selectedStation !== 0 ? 
+      <SelectedStationDisplay selectedStation={selectedStation}/>
+      : selectedMode === "scooter" && selectedScooter !== 0 ?
+      <SelectedScooterDisplay scooterData={scootersInfo} selectedScooter={selectedScooter}  />
+      : null
+      }
+      <div className="city-select-div">
+        <button value="Stockholm" className={`select-button ${selectedCity === "Stockholm" ? "selected-button" : ""}`} onClick={handleCityChange}>Stockholm</button>
+        <button value="Malmö" className={`select-button ${selectedCity === "Malmö" ? "selected-button" : ""}`} onClick={handleCityChange}>Malmö</button>
+        <button value="Lund" className={`select-button ${selectedCity === "Lund" ? "selected-button" : ""}`} onClick={handleCityChange}>Lund</button>
+      </div>
+      <div className="mode-select-div">
+        <button value="scooter" className={`mode-select-button scooter-mode-button ${selectedMode === "scooter" ? "selected-button" : ""}`}  onClick={handleModeChange}>
+        </button>
+        <button value="station" className={`mode-select-button station-mode-button ${selectedMode === "station" ? "selected-button" : ""}`}  onClick={handleModeChange}>
+        </button>
+      </div>
+      <div className="map-display-div">
+      <MapContainer center={mapCenter} zoom={14}>
+      <MapCenterChanger mapCenter={mapCenter} selectedCity={selectedCity}/>
+      <ScooterPan scooterCoords={[54,54]} selectedScooter={selectedScooter}/>
+  <TileLayer
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  />
+  {scootersInfo.map((scooter) => (
+    <Marker
+      key={scooter.id}
+      position={scooter.pos}
+      icon={createScooterIcon(scooter.status,(scooter.id===selectedScooter.id))}
+      eventHandlers={{
+        click: (e) => {
+          setSelectedScooter(scooter)
+          scrollToSelectedScooter(scooter.id)
+        },
+      }}>
+    </Marker>
+  ))}
+  
+  
+  {parkingZones.map((zone) => (
+    <Rectangle key={zone.id} bounds={JSON.parse(zone.pos)} pathOptions={{color:"green",fillColor:"rgba(128, 177, 121, 1)"}}></Rectangle>
+  ))}
+
+  {chargingStations.map((zone) => (
+                <Marker
+                key={zone.id}
+                position={JSON.parse(zone.pos)}
+                icon={zone.id === selectedStation ? chargingStationIcons["selected"] : chargingStationIcons["standard"]}
+                eventHandlers={{
+                  click: (e) => {
+                    setSelectedStation(zone.id)
+                    scrollToSelectedStation(zone.id)
+                  },
+                }}>
+                <Popup className="charging-popup">
+                  10
                 </Popup>
-            </Marker>
-        </MapContainer>
+              </Marker>
+  ))}
 
-        </div>
-    );
+  </MapContainer>
 
-//   return (
-//     <MapContainer center={position} zoom={zoom}>
-//       <TileLayer
-//         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-//         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//       />
-//     </MapContainer>
-//   )
-};
+      </div>
+      <div className="map-info-box">Vald scooter: {selectedScooter.id}<br/>
+      <ul>
+        <li>0 - Stopped by Admin</li>
+        <li style={{color:"blue"}}> 1 - Currently used </li>
+        <li style={{color:"green"}}>2 - Parked outside zones</li>
+        <li style={{color:"green"}}>3 - Parked in parking zone</li>
+        <li style={{color:"orange"}}>4 - Charging (not available)</li>
+        <li style={{color:"red"}}>5 - Out of batteries (and not in charging zone)</li>
+        <li>6 - Removed from map for maintenance</li>
+      </ul></div>
+      <div className="map-list-div" id="unit-list-div">
+      {selectedMode === "station" ? 
+      <ChargingStationList stationData={chargingStations} setSelectedStation={setSelectedStation}
+      selectedStation={selectedStation} />
+      :
+      <ScooterList scooterData={scootersInfo} setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
+      }
 
-export default Map;
+      </div>
+      </div>
+      </div>
+    </div>
+
+  );
+}
+

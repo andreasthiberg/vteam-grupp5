@@ -38,7 +38,7 @@ export default function RegisterForm(props) {
             <input required className="login-field" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}/><br />
             Efternamn<br />
             <input required className="login-field" type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/><br />
-            <button class="button1" onClick={handleSubmit}>Registrera</button>
+            <button className="button1" onClick={handleSubmit}>Registrera</button>
             {registerMessage}
         </div>
       ); 

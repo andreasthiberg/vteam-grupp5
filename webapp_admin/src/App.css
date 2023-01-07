@@ -1,21 +1,18 @@
+@import "./css/map.css";
 
 .App {
-  background-color: powderblue;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 .nav {
+  padding-left: 0;
   list-style-type: none;
   width: 500px;
   display: flex;
   justify-content: space-evenly;
 }
 
-.leaflet-container {
-  width: 100%;
-  height: 100vh;
-}
 
 h2 {
   text-align: center;
@@ -50,36 +47,21 @@ table tbody tr {
   border-bottom: 1px solid #ddd;
 }
 
-
-/* LEAFLET CSS */
-
-.map-page-div {
+.header {
   display: flex;
-  justify-content: center;
-}
-
-.map-display-div {
-  border: solid;
-  display: flex;
+  background-color: #B8ECFF;
+  width: 100%;
   justify-content: center;
   flex-wrap: wrap;
-  width: 800px;
 }
 
-.leaflet-container {
-  height: 100%;
+.header h1 {
+  margin: 0;
+  margin-top: 30px;
   width: 100%;
+  text-align: center
 }
 
-.manp-info-box {
-  width: 100px;
-  height: 50px;
-}
-
-.map-div {
-  width: 800px;
-  height: 800px;
-}
 
 /* listor och cards */
 .list {
@@ -110,41 +92,3 @@ button {
   padding: 0.4em 1.2em;
   font-size: 1.2em;
 }
-
-
-
-
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */

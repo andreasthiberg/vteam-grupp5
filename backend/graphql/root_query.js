@@ -39,7 +39,7 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve: async function (args) {
+      resolve: async function (root,args) {
         const result = await scooterModel.getOne(args.id)
         return result;
       }
@@ -50,9 +50,9 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         customerId: { type: GraphQLInt }
       },
-      resolve: async function (args) {
+      resolve: async function (root,args) {
         const customerArray = await customerModel.getAll()
-        return customerArray.find(customer => customer.id.equals(args.customerId))
+        return customerArray.find(({ id }) => id === args.customerId)
       }
     },
     customers: {
@@ -69,9 +69,9 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         tripId: { type: GraphQLInt }
       },
-      resolve: async function () {
+      resolve: async function (root,args) {
         const tripArray = await tripModel.getAll()
-        return tripArray.find(trip => trip.id.equals(trip.tripId))
+        return tripArray.find(({ id }) => id === args.tripId)
       }
     },
     trips: {

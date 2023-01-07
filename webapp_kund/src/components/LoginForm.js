@@ -37,7 +37,7 @@ export default function LoginForm(props) {
             <input required className="login-field" type="email" value={email} onChange={(e) => setEmail(e.target.value)}/><br />
             Lösenord<br />
             <input required className="login-field" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br />
-            <button class="button1" onClick={handleSubmit}>Logga in</button>
+            <button className="button1" onClick={handleSubmit}>Logga in</button>
             {loginMessage}
         </div>
       ); 

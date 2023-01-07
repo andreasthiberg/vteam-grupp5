@@ -23,9 +23,10 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         pos: { type: GraphQLString },
         status: { type: GraphQLInt },
-        battery: { type: GraphQLInt }
+        battery: { type: GraphQLInt },
+        city: { type: GraphQLString }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (root, args) {
         await scooterModel.addScooter(args)
         return "Scooter added."
       }
@@ -39,7 +40,7 @@ const RootMutationType = new GraphQLObjectType({
         status: { type: GraphQLInt },
         battery: { type: GraphQLInt }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (root, args) {
         const result = await scooterModel.updateScooter(args)
         return result
       }
@@ -52,7 +53,7 @@ const RootMutationType = new GraphQLObjectType({
         pos: { type: GraphQLString },
         battery: { type: GraphQLInt }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (root, args) {
         const result = await scooterModel.reportScooter(args)
         return result
       }
@@ -81,7 +82,7 @@ const RootMutationType = new GraphQLObjectType({
         email: { type: GraphQLString },
         balance: { type: GraphQLInt }   
       },
-      resolve: async function (parent, args) {
+      resolve: async function (root, args) {
         const result = await customerModel.updateCustomer(args)
         return result
       }
@@ -98,7 +99,7 @@ const RootMutationType = new GraphQLObjectType({
         end_pos: { type: GraphQLString },
         price: { type: GraphQLFloat }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (root, args) {
         await tripModel.addTrip(args)
         return "Trip added."
       }
@@ -116,7 +117,7 @@ const RootMutationType = new GraphQLObjectType({
         end_pos: { type: GraphQLString },
         price: { type: GraphQLFloat }
       },
-      resolve: async function (parent, args) {
+      resolve: async function (root, args) {
         const result = await tripModel.endTrip(args)
         return result
       }

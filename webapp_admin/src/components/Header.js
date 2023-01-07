@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <>
+        <div className="header">
             <h1>High5 Admin's Page</h1>
             <ul className="nav">
                 <li>
@@ -12,19 +12,10 @@ const Header = () => {
                     <Link to='/customers'>Customers</Link>
                 </li>
                 <li>
-                    <Link to='/scooters'>Scooters</Link>
-                </li>
-                <li>
-                    <Link to='/stockholm'>Stockholm</Link>
-                </li>
-                <li>
-                    <Link to='/malmo'>Malmö</Link>
-                </li>
-                <li>
-                    <Link to='/lund'>Lund</Link>
+                    <Link to='/map'>Map</Link>
                 </li>
             </ul>
-        </>
+        </div>
     );
 }
 

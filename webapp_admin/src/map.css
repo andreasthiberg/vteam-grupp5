@@ -1,0 +1,173 @@
+
+.App {
+  background-color: powderblue;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.nav {
+  list-style-type: none;
+  width: 500px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100vh;
+}
+
+h2 {
+  text-align: center;
+}
+
+.buttonscity {
+  text-align: center;
+  background-color: blueviolet;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+  background-color: powderblue;
+  color: black;
+  text-align: left;
+}
+
+table th,
+td {
+  padding: 12px 15px;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+
+/* LEAFLET CSS */
+
+.map-page-div {
+  display: flex;
+  justify-content: center;
+}
+
+.map-display-div {
+  border: solid;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 800px;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.manp-info-box {
+  width: 100px;
+  height: 50px;
+}
+
+.map-div {
+  width: 800px;
+  height: 800px;
+}
+
+/* listor och cards */
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  width: 48%;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin-bottom: 2em;
+}
+
+.fat {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: black;
+}
+
+.slim {
+  color: #666;
+}
+
+button {
+  padding: 0.4em 1.2em;
+  font-size: 1.2em;
+}
+
+
+/* Scooter markers in different colors */
+.scooter-marker-used {
+  filter: hue-rotate(0deg);
+}
+
+.scooter-marker-available {
+  filter: hue-rotate(260deg);
+}
+
+.scooter-marker-charging {
+  filter: hue-rotate(190deg);
+}
+
+.scooter-marker-out-of-batteries {
+  filter: hue-rotate(160deg);
+}
+
+.charging-popup {
+  text-align: center;
+  font-size: 16px;
+  width: 60px;
+  font-weight: 600;
+}
+
+
+/* .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
