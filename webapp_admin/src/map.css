@@ -1,4 +1,3 @@
-@import "./css/map.css";
 
 .App {
   background-color: powderblue;
@@ -51,6 +50,37 @@ table tbody tr {
   border-bottom: 1px solid #ddd;
 }
 
+
+/* LEAFLET CSS */
+
+.map-page-div {
+  display: flex;
+  justify-content: center;
+}
+
+.map-display-div {
+  border: solid;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 800px;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.manp-info-box {
+  width: 100px;
+  height: 50px;
+}
+
+.map-div {
+  width: 800px;
+  height: 800px;
+}
+
 /* listor och cards */
 .list {
   display: flex;
@@ -81,6 +111,30 @@ button {
   font-size: 1.2em;
 }
 
+
+/* Scooter markers in different colors */
+.scooter-marker-used {
+  filter: hue-rotate(0deg);
+}
+
+.scooter-marker-available {
+  filter: hue-rotate(260deg);
+}
+
+.scooter-marker-charging {
+  filter: hue-rotate(190deg);
+}
+
+.scooter-marker-out-of-batteries {
+  filter: hue-rotate(160deg);
+}
+
+.charging-popup {
+  text-align: center;
+  font-size: 16px;
+  width: 60px;
+  font-weight: 600;
+}
 
 
 /* .App-logo {
