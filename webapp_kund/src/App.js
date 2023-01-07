@@ -60,7 +60,7 @@ const client = new ApolloClient({
         <main className="main">
           {jwt ?
             <>
-              <Home user={user} setBalance={setBalance} balance={balance} />
+              <Home user={user} setBalance={setBalance} balance={balance} setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt}/>
               {/* <Login /> */}
             </>
             :

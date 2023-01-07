@@ -28,7 +28,7 @@ export default function Home (props) {
                     <button className="button2" onClick={changeShowHistory} >Usage history</button>
                     <button className="button2" onClick={changeShowPayment} >Payment management</button>
                     <div>
-                        <LogoutButton />
+                        <LogoutButton setJwt={props.setJwt} setLoggedIn={props.setLoggedIn} userEmail={props.userEmail} setUserEmail={props.setUserEmail} jwt={props.jwt}/>
                     </div>
                 </div>
             </div>
