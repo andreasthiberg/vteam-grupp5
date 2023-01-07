@@ -33,11 +33,11 @@ class ScooterSimulation():
 
         # Create a scooter objects and appends them to the array
         for x in range(numberOfScooters):
-            newScooter = Scooter(startId+x,startCoords[x%3])
+            newScooter = Scooter(startId+x,startCoords[2])
             newScooter.add_to_database()
             self.scooter_array.append(newScooter)
 
-        time.sleep(3)
+        time.sleep(5)
 
         # Call update method continuously
         while True:
@@ -49,7 +49,7 @@ class ScooterSimulation():
         for scooter in self.scooter_array:
             scooter.send_update()
         print("Simulation update sent.")
-        time.sleep(5)
+        time.sleep(2)
         
     @staticmethod
     def quit():

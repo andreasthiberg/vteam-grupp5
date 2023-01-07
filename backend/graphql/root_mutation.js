@@ -23,7 +23,8 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         pos: { type: GraphQLString },
         status: { type: GraphQLInt },
-        battery: { type: GraphQLInt }
+        battery: { type: GraphQLInt },
+        city: { type: GraphQLString }
       },
       resolve: async function (root, args) {
         await scooterModel.addScooter(args)

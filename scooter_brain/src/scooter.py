@@ -3,6 +3,8 @@
 """Single scooter simulation class"""
 
 import requests
+import random
+import math
 
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
@@ -13,6 +15,9 @@ class Scooter():
         self.battery = 100
         self.currentTrip = 0
         self.status = 1
+        self.direction = math.radians(random.randint(1, 360))
+        self.xMovement = math.cos(self.direction)
+        self.yMovement = math.sin(self.direction)
         # 0 = stoppad av admin
         # 1 = Kör
         # 2 = Parkerad utanför zon
@@ -23,7 +28,7 @@ class Scooter():
 
     # Sends update with current status and location to database
     def send_update(self):
-
+        print("Update from scooter with id " + str(self.id) + " in position " + str(self.pos))
         # Scooter is out of batteries
         if(self.battery <= 0):
             print("Slut på batterier.")
@@ -31,7 +36,7 @@ class Scooter():
         # Scooter is moving
         elif(self.status == 1):
              # Change location
-            self.change_pos(30*self.id,10*self.id)
+            self.change_pos(self.xMovement*10,self.yMovement*10)
 
             # Reduce battery by one percent
             self.change_battery(-1)
@@ -90,7 +95,7 @@ class Scooter():
         # GraphQL API URL
         url = "http://backend:3000/graphql"
         
-        body = 'mutation {addScooter (pos:"%s",battery:100,status:1)}'%(self.get_pos_as_coordinate_string())
+        body = 'mutation {addScooter (pos:"%s",battery:100,status:1,city:"Stockholm")}'%(self.get_pos_as_coordinate_string())
 
         response = requests.post(url=url, json={"query": body})
-        # print("response : ", response.content)
+        print("response : ", response.content)

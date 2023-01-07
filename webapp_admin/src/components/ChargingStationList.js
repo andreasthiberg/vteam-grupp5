@@ -14,7 +14,7 @@ return (
             <div className={`single-station-div ${station.id === selectedStation ? "selected-station-div" : ""}`} 
             key={station.id} onClick={() => handleStationChange(station)}
             id={`station-div-${station.id}`}>
-                <p>Station {station.id}</p>
+                <p>Laddstation {station.id}</p>
             </div>
         ))}
     </div>
