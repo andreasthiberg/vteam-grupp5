@@ -6,7 +6,7 @@
 .map-content-div {
     display: grid;
     grid-template-columns: 200px 800px 200px;
-    grid-template-rows: 100px 400px 200px;
+    grid-template-rows: 80px 400px 200px;
     justify-content: center;
 }
 
@@ -47,7 +47,6 @@
     cursor: pointer;
     border-radius: 0;
 }
-
 .map-list-div {
     position:relative;
     height: 400px;
@@ -57,38 +56,139 @@
     grid-row: 2 / 3;
 }
 
-.selected-station-display {
+.selected-display {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
-    background-color: rgb(110, 218, 121);
-    width: 160px;
-    height: 360px;
-    padding: 20px;
+    background-color: rgb(207, 235, 210);
+    width: 200px;
+    height: 380px;
+    padding: 10px;
 }
 
-/* Map entry list */
+.selected-display button {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 500;
+    width: 200px;
+    color: white;
+    background-color: #67AC5B;
+    border: none;
+    cursor: pointer;   
+    text-align: center;
+}
+
+.selected-display button:hover {
+    filter: brightness(1.1);
+}
+
+.selected-display h2 {
+    text-align: left;
+    margin: 0;
+    font-size: 20px;
+}
+
+.selected-display p {
+    margin: 10px;
+}
+
+/* Single station entry */
 
 .single-station-div {
     font-weight: 600;
-    background-color: rgb(110, 218, 121);
-    margin: 0 0 20px 10px;
+    background-color: white;
+    margin: 3px 0 10px 10px;
     padding: 5px;
-    width: 140px;
+    width: 160px;
     height: 20px;
     cursor: pointer;
+    border: solid 1px;
+    border-radius: 5px;
 }
 
+
 .selected-station-div {
-    border: solid;
+    background-color: #d4fccd;
 }
 .single-station-div p {
     margin: 0;
 }
-.single-station-div ul {
-    padding: 0;
+
+/* Single scooter entry */
+
+.single-scooter-div {
+    font-weight: 600;
+    background-color: white;
+    margin: 3px 0 10px 10px;
+    padding: 5px;
+    width: 160px;
+    height: 20px;
+    cursor: pointer;
+    border: solid 1px;
+    border-radius: 5px;
 }
-.single-station-div li {
-    list-style-type: none;
+
+.single-scooter-div p {
+    margin: 0;
+}
+
+.selected-scooter-div {
+    background-color: #d4fccd;
+}
+
+/* Select mode */
+
+.mode-select-div {
+    grid-row: 1 / 2;
+    grid-column: 3 / 4;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.select-button {
+    font-weight: 500;
+    color: white;
+    background-color: #67AC5B;
+    border: none;
+    margin: 2px 20px 0 0;
+    width: 140px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.mode-select-button {
+    border-radius: 40px;
+    width: 50px;
+    padding: 0;
+    height: 50px;
+    background-size: 45px 45px;
+    background-repeat: no-repeat;
+    margin: 5px;
+}
+
+.scooter-mode-button {
+    background-image: url("../assets/scooter.png");
+}
+
+.station-mode-button {
+    background-image: url("../assets/charging.png");
+}
+
+.mode-image {
+    width: 25px;
+    height: 25px;
+}
+
+.select-button:hover {
+    filter: brightness(1.1);
+}
+
+.selected-button {
+    border: solid;
+    border-color: black;
 }
 
 /* Scooter markers in different colors */

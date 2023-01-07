@@ -1,12 +1,12 @@
 @import "./css/map.css";
 
 .App {
-  background-color: powderblue;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 .nav {
+  padding-left: 0;
   list-style-type: none;
   width: 500px;
   display: flex;
@@ -46,6 +46,22 @@ td {
 table tbody tr {
   border-bottom: 1px solid #ddd;
 }
+
+.header {
+  display: flex;
+  background-color: #B8ECFF;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.header h1 {
+  margin: 0;
+  margin-top: 30px;
+  width: 100%;
+  text-align: center
+}
+
 
 /* listor och cards */
 .list {

@@ -4,11 +4,13 @@ import { Marker, TileLayer, MapContainer, Popup, Rectangle, useMap} from "react-
 import "../App.css";
 import ChargingStationList from '../components/ChargingStationList';
 import SelectedStationDisplay from '../components/SelectedStationDisplay';
+import SelectedScooterDisplay from '../components/SelectedScooterDisplay';
 import scooterModel from '../models/scooters';
 import mapModel from '../models/map';
 import scooterIcons from '../assets/scooterIcons';
 import chargingStationIcons from '../assets/chargingStationIcons';
-import chargingStationIcon from '../assets/chargingStationIcons';
+import ScooterList from '../components/ScooterList';
+import scooterImage from '../assets/scooter.png'
 
 function MapCenterChanger({mapCenter,selectedCity}) {
   const [panSelectedCity, setPanSelectedCity] = useState("Stockholm");
@@ -21,11 +23,12 @@ function MapCenterChanger({mapCenter,selectedCity}) {
 }
 
 export default function Map() {
-  //City changing
+  //Map changing
   const [selectedCity, setSelectedCity]  = useState("Stockholm");
-  const [selectedScooter, setSelectedScooter] = useState();
-  const [selectedStation, setSelectedStation] = useState(1);
+  const [selectedScooter, setSelectedScooter] = useState(1);
+  const [selectedStation, setSelectedStation] = useState(0);
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
+  const [selectedMode, setSelectedMode] = useState("scooter");
 
   //Map data
   const [parkingZones, setParkingZones] = useState([]);
@@ -74,11 +77,23 @@ export default function Map() {
     updateZones(e.target.value);
   }
 
+    // Function to change current mode
+    function handleModeChange(e){
+      setSelectedMode(e.target.value);
+    }
+
   function scrollToSelectedStation(id){
-    const listDiv = document.getElementById("station-list-div");
+    const listDiv = document.getElementById("unit-list-div");
     const selectedDiv = document.getElementById("station-div-"+id);
     if(listDiv !== null && selectedDiv !== null){
-        console.log(selectedDiv.offsetTop)
+        listDiv.scrollTop = selectedDiv.offsetTop;
+    }
+  }
+
+  function scrollToSelectedScooter(id){
+    const listDiv = document.getElementById("unit-list-div");
+    const selectedDiv = document.getElementById("scooter-div-"+id);
+    if(listDiv !== null && selectedDiv !== null){
         listDiv.scrollTop = selectedDiv.offsetTop;
     }
   }
@@ -87,11 +102,22 @@ export default function Map() {
     <div>
       <div className="map-page-div">
       <div className="map-content-div">
+      {selectedMode === "station" && selectedStation !== 0 ? 
       <SelectedStationDisplay selectedStation={selectedStation}/>
+      : selectedMode === "scooter" && selectedScooter !== 0 ?
+      <SelectedScooterDisplay scooterData={scootersInfo} selectedScooterId={selectedScooter}  />
+      : null
+      }
       <div className="city-select-div">
-        <button value="Stockholm" onClick={handleCityChange}>Stockholm</button>
-        <button value="Malmö" onClick={handleCityChange}>Malmö</button>
-        <button value="Lund" onClick={handleCityChange}>Lund</button>
+        <button value="Stockholm" className={`select-button ${selectedCity === "Stockholm" ? "selected-button" : ""}`} onClick={handleCityChange}>Stockholm</button>
+        <button value="Malmö" className={`select-button ${selectedCity === "Malmö" ? "selected-button" : ""}`} onClick={handleCityChange}>Malmö</button>
+        <button value="Lund" className={`select-button ${selectedCity === "Lund" ? "selected-button" : ""}`} onClick={handleCityChange}>Lund</button>
+      </div>
+      <div className="mode-select-div">
+        <button value="scooter" className={`mode-select-button scooter-mode-button ${selectedMode === "scooter" ? "selected-button" : ""}`}  onClick={handleModeChange}>
+        </button>
+        <button value="station" className={`mode-select-button station-mode-button ${selectedMode === "station" ? "selected-button" : ""}`}  onClick={handleModeChange}>
+        </button>
       </div>
       <div className="map-display-div">
       <MapContainer center={mapCenter} zoom={14}>
@@ -108,6 +134,7 @@ export default function Map() {
       eventHandlers={{
         click: (e) => {
           setSelectedScooter(scooter.id)
+          scrollToSelectedScooter(scooter.id)
         },
       }}>
       <Popup>
@@ -127,7 +154,7 @@ export default function Map() {
                 <Marker
                 key={zone.id}
                 position={JSON.parse(zone.pos)}
-                icon={zone.id === selectedStation ? chargingStationIcon["selected"] : chargingStationIcon["standard"]}
+                icon={zone.id === selectedStation ? chargingStationIcons["selected"] : chargingStationIcons["standard"]}
                 eventHandlers={{
                   click: (e) => {
                     setSelectedStation(zone.id)
@@ -153,9 +180,14 @@ export default function Map() {
         <li style={{color:"red"}}>5 - Out of batteries (and not in charging zone)</li>
         <li>6 - Removed from map for maintenance</li>
       </ul></div>
-      <div className="map-list-div" id="station-list-div">
-      <ChargingStationList stationData={chargingStations} selectedCity={selectedCity} setSelectedStation={setSelectedStation}
+      <div className="map-list-div" id="unit-list-div">
+      {selectedMode === "station" ? 
+      <ChargingStationList stationData={chargingStations} setSelectedStation={setSelectedStation}
       selectedStation={selectedStation} />
+      :
+      <ScooterList scooterData={scootersInfo} setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
+      }
+
       </div>
       </div>
       </div>
