@@ -1,57 +1,94 @@
-.leaflet-container {
-    width: 600px;
-    height: 300px;
-    margin: 10px;
-}
-
-/* LEAFLET CSS */
-
+/* LEAFLET MAP PAGE */
 .map-page-div {
     display: flex;
     justify-content: center;
 }
 .map-content-div {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 60px 1fr 1fr;
+    grid-template-columns: 200px 800px 200px;
+    grid-template-rows: 100px 400px 200px;
     justify-content: center;
 }
 
 .map-display-div {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    width: 860px;
+    height: 400px;
+    width: 800px;
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
 }
 
 .leaflet-container {
+    margin: 0;
     height: 100%;
-    width: 100%;
-    margin: 0px;
-    margin-top: 20px;
-    border: solid;
-    border-color: rgb(13, 65, 41);
+    width: 700px;
 }
 
 .map-info-box {
     width: 100%;
     margin-left: 50px;
-}
-
-.map-div {
-    width: 840px;
-    height: 800px;
+    margin-top: 20px;
+    grid-row: 3 / 4;
+    grid-column: 2 / 3 ;
 }
 
 .city-select-div {
     display: flex;
     justify-content: center;
     width: 100%;   
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
 }
 
 .city-select-div button {
     margin: 20px 20px 0 20px;
     height: 40px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.map-list-div {
+    position:relative;
+    height: 400px;
+    width: 200px;
+    overflow-y: auto;
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.selected-station-display {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    background-color: rgb(110, 218, 121);
+    width: 160px;
+    height: 360px;
+    padding: 20px;
+}
+
+/* Map entry list */
+
+.single-station-div {
+    font-weight: 600;
+    background-color: rgb(110, 218, 121);
+    margin: 0 0 20px 10px;
+    padding: 5px;
+    width: 140px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.selected-station-div {
+    border: solid;
+}
+.single-station-div p {
+    margin: 0;
+}
+.single-station-div ul {
+    padding: 0;
+}
+.single-station-div li {
+    list-style-type: none;
 }
 
 /* Scooter markers in different colors */
@@ -76,4 +113,8 @@
     font-size: 16px;
     width: 60px;
     font-weight: 600;
+  }
+
+  .charging-icon {
+    filter: grayscale(100%)
   }

@@ -2,10 +2,13 @@ import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Marker, TileLayer, MapContainer, Popup, Rectangle, useMap} from "react-leaflet";
 import "../App.css";
+import ChargingStationList from '../components/ChargingStationList';
+import SelectedStationDisplay from '../components/SelectedStationDisplay';
 import scooterModel from '../models/scooters';
 import mapModel from '../models/map';
 import scooterIcons from '../assets/scooterIcons';
-import chargingStationIcon from '../assets/chargingStationIcon';
+import chargingStationIcons from '../assets/chargingStationIcons';
+import chargingStationIcon from '../assets/chargingStationIcons';
 
 function MapCenterChanger({mapCenter,selectedCity}) {
   const [panSelectedCity, setPanSelectedCity] = useState("Stockholm");
@@ -21,6 +24,7 @@ export default function Map() {
   //City changing
   const [selectedCity, setSelectedCity]  = useState("Stockholm");
   const [selectedScooter, setSelectedScooter] = useState();
+  const [selectedStation, setSelectedStation] = useState(1);
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
 
   //Map data
@@ -37,15 +41,15 @@ export default function Map() {
   //Loads parking zones and charging stations from backend
   async function updateZones(city = selectedCity){
     const response1 = await mapModel.getAllParkingZones();
-    setParkingZones(response1.parkingZones.filter(zone => zone.city == city))
+    setParkingZones(response1.parkingZones.filter(zone => zone.city === city))
     const response2 = await mapModel.getAllChargingStations();
-    setChargingStations(response2.chargingStations.filter(zone => zone.city == city))
+    setChargingStations(response2.chargingStations.filter(zone => zone.city === city))
   }
   
   //Loads scooter info from backend
   async function updateScooters(city = selectedCity){
     const response = await scooterModel.getAllScooters();
-    setScootersInfo(response.scooters.filter(scooter => scooter.city == city));
+    setScootersInfo(response.scooters.filter(scooter => scooter.city === city));
   }
 
   // Interval to update scooter markers every x seconds
@@ -70,18 +74,26 @@ export default function Map() {
     updateZones(e.target.value);
   }
 
+  function scrollToSelectedStation(id){
+    const listDiv = document.getElementById("station-list-div");
+    const selectedDiv = document.getElementById("station-div-"+id);
+    if(listDiv !== null && selectedDiv !== null){
+        console.log(selectedDiv.offsetTop)
+        listDiv.scrollTop = selectedDiv.offsetTop;
+    }
+  }
+
   return (
     <div>
       <div className="map-page-div">
       <div className="map-content-div">
+      <SelectedStationDisplay selectedStation={selectedStation}/>
       <div className="city-select-div">
-        {selectedCity}
         <button value="Stockholm" onClick={handleCityChange}>Stockholm</button>
         <button value="Malmö" onClick={handleCityChange}>Malmö</button>
         <button value="Lund" onClick={handleCityChange}>Lund</button>
       </div>
       <div className="map-display-div">
-      <div className="map-div">
       <MapContainer center={mapCenter} zoom={14}>
       <MapCenterChanger mapCenter={mapCenter} selectedCity={selectedCity}/>
   <TileLayer
@@ -115,10 +127,11 @@ export default function Map() {
                 <Marker
                 key={zone.id}
                 position={JSON.parse(zone.pos)}
-                icon={chargingStationIcon}
+                icon={zone.id === selectedStation ? chargingStationIcon["selected"] : chargingStationIcon["standard"]}
                 eventHandlers={{
                   click: (e) => {
-                    
+                    setSelectedStation(zone.id)
+                    scrollToSelectedStation(zone.id)
                   },
                 }}>
                 <Popup className="charging-popup">
@@ -140,7 +153,9 @@ export default function Map() {
         <li style={{color:"red"}}>5 - Out of batteries (and not in charging zone)</li>
         <li>6 - Removed from map for maintenance</li>
       </ul></div>
-
+      <div className="map-list-div" id="station-list-div">
+      <ChargingStationList stationData={chargingStations} selectedCity={selectedCity} setSelectedStation={setSelectedStation}
+      selectedStation={selectedStation} />
       </div>
       </div>
       </div>
