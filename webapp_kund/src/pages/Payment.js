@@ -9,13 +9,10 @@ export default function Payment(props) {
 
     console.log("Payment props", props);
 
-
     return (
         <div>
             <h1>Payment</h1>
             <h3>Balance: {balance} sek</h3>
-            {/* <p>Balance state: {balance}</p> */}
-            {/* <button className="button1">Add</button> */}
             <AddBtn balance={balance} setBalance={setBalance} />
         </div>
     )

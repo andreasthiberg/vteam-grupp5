@@ -14,6 +14,11 @@ export default function AddBtn(props) {
         setApproved(true);
     }
 
+    function complete() {
+        event.preventDefault();
+        props.setBalance(parseInt(props.balance) + parseInt(selected));
+    }
+
     function changeValue(event) {
         setSelected(event.target.value);
     }
@@ -23,6 +28,7 @@ export default function AddBtn(props) {
             <form>
                 <label>Select how much you want to add to your balance:&nbsp;
                     <select value={selected} onChange={changeValue}>
+                        <option value="0"></option>
                         <option value="100">100</option>
                         <option value="200">200</option>
                         <option value="300">300</option>
@@ -31,11 +37,15 @@ export default function AddBtn(props) {
                         <option value="1000">1000</option>
                     </select>
                 </label>
-                <button className="button1" onClick={addBalance}>Swosh</button>
-            {(approved==true) ? 
-                <p>Swosh has authorized your money transfer to High5.</p>
+                
+            {(approved==true) ?
+                <div>
+                    <p>Swosh has authorized your money transfer to High5.</p>
+                    <p>To complete the payment, please click the button.</p>
+                    <button className="button1" onClick={complete}>Complete</button>
+                </div>
                 :
-                <p></p>
+                <button className="button1" onClick={addBalance}>Swosh</button>
             }
             </form>
         );
