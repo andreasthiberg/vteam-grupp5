@@ -14,7 +14,6 @@ export default function List(props) {
 
     console.log("List: running::", running);
 
-    //TODO: propsの内容をstack.screenにパスしたい
     return (
         <Stack.Navigator initialRouteName="Scooters">
             <Stack.Screen name="Scooters">
