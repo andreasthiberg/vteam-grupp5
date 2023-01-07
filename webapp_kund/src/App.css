@@ -1,5 +1,5 @@
 * {
-  background-color: whitesmoke;
+  background-color: white;
   color: rgb(0, 119, 0);
 }
 .App {
@@ -30,6 +30,16 @@ h1 {
 .button1:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
+.button2 {
+  border: 0.5px solid green;
+  padding: 15px 32px;
+  display: inline-block;
+  margin: 10px;
+}
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(236, 170, 15, 0.303),0 17px 50px 0 rgba(238, 206, 77, 0.19);
+  color: orange;
+}
 img {
   max-width: 100%;
 }
@@ -42,16 +52,22 @@ img {
   display: flex;
   flex-direction: column;
 }
-.mypage-subcontainer1 {
+.mypage-subcontainer2 {
+  display: flex;
+  flex-direction: column;
+
+}
+.mypage-options {
   display: flex;
   flex-direction: row;
 }
 .login-form,
-.register-form,
-.mypage-personalinfo,
-.mypage-options {
+.register-form {
   flex: 1;
   margin: 30px;
+}
+.login-form input {
+  margin-bottom: 20px;
 }
 
 table {

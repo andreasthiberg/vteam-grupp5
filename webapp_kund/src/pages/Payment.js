@@ -5,18 +5,18 @@ export default function Payment(props) {
 
     const userBalance = props.user.balance;
 
-    const [balance, setBalance] = useState({userBalance});
+    const [balance, setBalance] = useState(userBalance);
 
     console.log("Payment props", props);
 
 
     return (
         <div>
-            <h1>Payment Page</h1>
-            <p>Balance: {userBalance} sek</p>
+            <h1>Payment</h1>
+            <h3>Balance: {balance} sek</h3>
             {/* <p>Balance state: {balance}</p> */}
-            <button className="button1">Add</button>
-            <AddBtn setBalanace={setBalance} />
+            {/* <button className="button1">Add</button> */}
+            <AddBtn balance={balance} setBalance={setBalance} />
         </div>
     )
 };

@@ -1,13 +1,47 @@
-import React from 'react';
+import { useState } from 'react';
 
 export default function AddBtn(props) {
+    const [showFrom, setShowForm] = useState(false);
+    const [selected, setSelected] = useState("");
+    const [approved, setApproved] = useState(false);
 
-    function addBalance() {
-        
+    function goToFrom() {
+        setShowForm(true);
     }
 
-    return (
-        <button className="button1" onClick={addBalance}>AddBtn</button>
-    );
+    function addBalance(event) {
+        event.preventDefault();
+        setApproved(true);
+    }
 
+    function changeValue(event) {
+        setSelected(event.target.value);
+    }
+
+    if (showFrom) {
+        return (
+            <form>
+                <label>Select how much you want to add to your balance:&nbsp;
+                    <select value={selected} onChange={changeValue}>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="400">400</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </label>
+                <button className="button1" onClick={addBalance}>Swosh</button>
+            {(approved==true) ? 
+                <p>Swosh has authorized your money transfer to High5.</p>
+                :
+                <p></p>
+            }
+            </form>
+        );
+    } else {
+        return (
+            <button className="button1" onClick={goToFrom}>Add</button>
+        );
+    }
 }
