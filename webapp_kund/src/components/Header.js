@@ -9,7 +9,7 @@ const Header = () => {
                     <img src={high5_header} alt="high5 header img" />
                 </div>
 
-                <ul className="nav">
+                {/* <ul className="nav">
                     <li>
                         <Link to='/'>Home</Link>
                     </li>
@@ -22,7 +22,7 @@ const Header = () => {
                     <li>
                         <Link to='/login'>Login</Link>
                     </li>
-                </ul>
+                </ul> */}
             </div>
         </>
     );

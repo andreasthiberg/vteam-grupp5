@@ -58,7 +58,7 @@ export default function Login(props) {
             </div>
             :
             <div>
-              <p>Du är inloggad som {props.userEmail}</p>
+              {/* <p>Du är inloggad som {props.userEmail}</p> */}
               <LogoutButton setJwt={props.setJwt} setUserEmail={props.setUserEmail} setLoggedIn={props.setLoggedIn}/>
             </div>
             }

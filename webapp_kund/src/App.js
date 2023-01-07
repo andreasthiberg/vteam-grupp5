@@ -43,6 +43,7 @@ function App() {
           {jwt ?
             <>
               <Home user={user}/>
+              {/* <Login /> */}
             </>
             :
             <Login setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt}/>
