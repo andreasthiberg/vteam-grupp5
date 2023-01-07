@@ -7,18 +7,28 @@ import History from './pages/History';
 import Payment from './pages/Payment';
 import Login from './pages/Login';
 import customerModel from './models/customers';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 function App() {
 
-  //Authentication states (Används för att lagra jwt och om användaren är inloggad /Andreas)
+  // Authentication states
   const [jwt,setJwt] = useState("");
   const [loggedIn,setLoggedIn] = useState(false);
   const [userEmail,setUserEmail] = useState("");
+  // User state
   const [user, setUser] = useState(0);
+  // User balance state
+  const [balance, setBalance] = useState();
 
   console.log("user", user);
 
-  // Set userId when userEmail is updated
+  // Initialize Apollo Client
+const client = new ApolloClient({
+  uri: `http://localhost:3000/graphql`,
+  cache: new InMemoryCache(),
+});
+
+  // Set user when userEmail is updated
   useEffect(() => {
     if(userEmail !== "") {
       (async () => {
@@ -33,7 +43,15 @@ function App() {
     }
   }, [userEmail]);
 
+  // Set user balance when user is updated
+  useEffect(() => {
+    (async () => {
+      await setBalance(user.balance);
+    })();
+  }, [user]);
+
   return (
+    <ApolloProvider client={client}>
     <BrowserRouter>
       <div className="App">
         <header className="header">
@@ -42,7 +60,7 @@ function App() {
         <main className="main">
           {jwt ?
             <>
-              <Home user={user}/>
+              <Home user={user} setBalance={setBalance} balance={balance} />
               {/* <Login /> */}
             </>
             :
@@ -57,6 +75,7 @@ function App() {
         <Route path='/login' element={<Login setJwt={setJwt} setLoggedIn={setLoggedIn} userEmail={userEmail} setUserEmail={setUserEmail} jwt={jwt}/>}/>
       </Routes>
     </BrowserRouter>
+    </ApolloProvider>
   );
 }
 

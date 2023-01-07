@@ -42,7 +42,7 @@ export default function Home (props) {
 
                 <div className="mypage-components">
                     {showHistory ? <History user={props.user} /> : "" }
-                    {showPayment ? <Payment user={props.user} /> : "" }
+                    {showPayment ? <Payment user={props.user} balance={props.balance} setBalance={props.setBalance} /> : "" }
                 </div>
             </div>
         </div>
