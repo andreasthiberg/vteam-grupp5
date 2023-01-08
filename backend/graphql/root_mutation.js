@@ -58,6 +58,17 @@ const RootMutationType = new GraphQLObjectType({
         return result
       }
     },
+    chargeScooter: {
+      type: GraphQLString,
+      description: 'Move a scooter to its closest charging station',
+      args: {
+        id: { type: GraphQLInt }
+      },
+      resolve: async function (root, args) {
+        const result = await scooterModel.moveToClosestChargingStation(args.id);
+        return "Scooter moved."
+      }
+    },
     addCustomer: {
       type: GraphQLString,
       description: 'Adds a new customer',
@@ -94,10 +105,7 @@ const RootMutationType = new GraphQLObjectType({
         scooter_id: { type: GraphQLInt},
         customer_id: { type: GraphQLInt },
         start_time: { type: GraphQLString },
-        end_time: { type: GraphQLString },
-        start_pos: { type: GraphQLString },
-        end_pos: { type: GraphQLString },
-        price: { type: GraphQLFloat }
+        start_pos: { type: GraphQLString }
       },
       resolve: async function (root, args) {
         await tripModel.addTrip(args)

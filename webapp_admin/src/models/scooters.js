@@ -35,10 +35,10 @@ const scooters = {
         
         return result.data;
     },
-    stopScooter: async function stopScooter(scooterId){
+    changeScooterStatus: async function changeScooterStatus(scooterId,newStatus){
         const query = `
         mutation {
-            updateScooter(id:${scooterId},status:${0}) 
+            updateScooter(id:${scooterId},status:${newStatus}) 
         }
     `;
 
@@ -52,6 +52,26 @@ const scooters = {
             query
         })
     });
+    return response;
+    },
+    moveScooterToChargingStation: async function moveScooterToChargingStation(scooterId){
+        const query = `
+        mutation {
+            chargeScooter(id:${scooterId}) 
+        }
+    `;
+
+    const response = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query
+        })
+    });
+    return response;
     }
 };
 

@@ -2,27 +2,72 @@ import { React } from 'react-router-dom';
 import scooterModel from '../models/scooters'
 import "../App.css";
 
-export default function SelectedScooterDisplay({selectedScooter}) {
+function Buttons({status, releaseScooter, stopScooter, chargeScooter}){
+  if(status === 0){
+     return(
+      <>
+     <button onClick={releaseScooter}>Gör cykel tillgänglig</button>
+     <button onClick={chargeScooter}>Flytta till laddstation</button>
+    <button>Flytta till parkering</button>
+    </>)
+  } else if (status === 1){
+    return(<button onClick={stopScooter}>Avsluta resa</button>)
+  } else {
+    return(
+    <>
+     <button onClick={chargeScooter}>Flytta till laddstation</button>
+    </>
+    )
+  }
+}
+
+export default function SelectedScooterDisplay({selectedScooter, setSelectedScooter}) {
+
+
+  const statusStrings = {
+    0: "Stoppad av admin.",
+    1: "Används",
+    2: "Parkerad utanför P-zon",
+    3: "Parkerad i P-zon",
+    4: "Laddar (inte tillgänglig)",
+    5: "Urladdad  ",
+    6: "Hämtad för underhåll"
+  }
 
 function stopScooter(){
-  console.log(selectedScooter)
+  scooterModel.changeScooterStatus(selectedScooter.id,0)
+  let oldScooter = selectedScooter;
+  oldScooter.status = 0;
+  setSelectedScooter(oldScooter)
+}
+
+function releaseScooter(){
+  scooterModel.changeScooterStatus(selectedScooter.id,2)
+  let oldScooter = selectedScooter;
+  oldScooter.status = 2;
+  setSelectedScooter(oldScooter)
+}
+
+function chargeScooter(){
+  scooterModel.moveScooterToChargingStation(selectedScooter.id)
   console.log("Hej")
-  scooterModel.stopScooter(selectedScooter.id)
+  let oldScooter = selectedScooter;
+  oldScooter.status = 4;
+  setSelectedScooter(oldScooter)
 }
 
 return (
     <div className="selected-display">
         <h2>Cykel {selectedScooter.id}</h2>
-        <p>Status: {selectedScooter.status}</p>
-        <p>Position:</p>
+        <p className="display-label">Status</p>
+        <p> {selectedScooter.status} - {statusStrings[selectedScooter.status]}</p>
+        <p className="display-label">Position</p>
         <p>{selectedScooter.pos[0]}</p>
         <p>{selectedScooter.pos[1]}</p>
         <p>Batteri: {selectedScooter .battery}%</p>
         <p>Hyrs av</p>
         <p>Hastighet?</p>
-        <button onClick={stopScooter}>Stoppa cykel</button>
-        <button>Flytta till laddstation</button>
-        <button>Flytta till parkering</button>
+        <Buttons status={selectedScooter.status} chargeScooter={chargeScooter} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>
   );
 }
