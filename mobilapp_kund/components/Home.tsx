@@ -14,7 +14,7 @@ export default function Home(props) {
             <DeactivateBtn item={props.scooterId} setRunning={props.setRunning} setScooterId={props.setScooterId}/>
         </>
     ) : (
-        <Text>Welcome! Select a scooter to start your journey.</Text>
+        <Text>Welcome {props.user.first_name}! Select your city to find a scooter.</Text>
     );
 
     return (

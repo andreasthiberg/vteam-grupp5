@@ -12,6 +12,7 @@ import List from './components/List';
 import Mypage from './components/Mypage';
 import Auth from './components/auth/Auth';
 import Logout from './components/auth/Logout';
+import customerModel from './models/customer';
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { IP } from "@env";
@@ -36,7 +37,7 @@ const client = new ApolloClient({
 export default function App() {
   //Authentication states
   const [jwt,setJwt] = useState("");
-  const [loggedIn,setLoggedIn] = useState(true);
+  const [loggedIn,setLoggedIn] = useState(false);
   const [userEmail,setUserEmail] = useState("");
   //const [user, setUser] = useState(0);
 
@@ -45,7 +46,27 @@ export default function App() {
   const [scooterId, setScooterId] = useState(0);
   const [running, setRunning] = useState(false);
 
+  //User state
+  const [user, setUser] = useState([]);
+
   console.log("App: scooterId, running::", scooterId, running);
+
+
+  // Set user when userEmail is updated
+  useEffect(() => {
+    if(userEmail !== "") {
+      (async () => {
+        const response = await customerModel.getAllCustomers();
+
+        const customer = response.customers.find(customer => customer.email === userEmail);
+        
+        if (customer) {
+          setUser(customer);
+        }
+      })();
+    }
+  }, [userEmail]);
+
 
   return (
     <SafeAreaView style={Base.container}>
@@ -64,7 +85,7 @@ export default function App() {
             {loggedIn ? (
               <>
                 <Tab.Screen name="Home">
-                  {() => <Home running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
+                  {() => <Home user={user} running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
                 </Tab.Screen>
 
                 <Tab.Screen name="List">
