@@ -4,14 +4,13 @@ import { useEffect, useState } from 'react';
 
 import MapView, {Polygon} from 'react-native-maps';
 import { Marker } from "react-native-maps";
-// import * as Location from 'expo-location';
 import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
 import high5 from './../../assets/high5_scooter_01small.png';
 import parking from './../../assets/p_small.png';
 
 
-export default function StockholmMap() {
+export default function StockholmMap(props) {
     
     // gql query for parking zones in Stockholm
     const STO_PARKING_QUERY = gql`
@@ -24,20 +23,8 @@ export default function StockholmMap() {
         }
     `;
 
-    // gql query for scooters in Stockholm
-    const STO_SCOOTER_QUERY = gql`
-        query StoScooterQuery {
-            scooters {
-                id
-                pos
-                status
-                battery
-                city
-            }
-        }
-    `;
-
-    const [scooters, setScooters] = useState([]);
+    const sco = props.scooters;
+    //const [sco, setSco] = useState(props.scooters);
     const [parkings, setParkings] = useState([]);
     const scooterMarker = [];
     const parkingMarker = [];
@@ -45,8 +32,7 @@ export default function StockholmMap() {
     const { data:parking_data } = useQuery(STO_PARKING_QUERY);
     //const parkings = parking_data.parkingZones;
 
-    const { data:scooter_data } = useQuery(STO_SCOOTER_QUERY);
-    //console.log("scooterdata:::", scooter_data);
+    //const { data:scooter_data } = useQuery(STO_SCOOTER_QUERY);
     
     useEffect(() => {
         if (parking_data) {
@@ -56,15 +42,12 @@ export default function StockholmMap() {
 
     //console.log("parking marker", parkingMarker);
 
-    useEffect(() => {
-        if (scooter_data) {
-            setScooters(scooter_data.scooters)
-        }
-    }, []);
-
     // Setting scooter location markers
-    if (scooters !== undefined) {
-        scooters.map((item, index) => {
+    if (sco !== undefined) {
+        sco
+        .filter(item => item.city === "Stockholm")
+        .filter(item => item.status == 2 || item.status == 3)
+        .map((item, index) => {
             const geo = item.pos.slice(1, -1).split(',');
             scooterMarker.push(
                 <Marker
@@ -72,7 +55,7 @@ export default function StockholmMap() {
                         latitude: geo[0],
                         longitude: geo[1]
                     }}
-                    title="Scooter"
+                    title={`Scooter ID: ${item.id.toString()}`}
                     key={index}
                     image={high5}
                 />
@@ -137,7 +120,7 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
-        flex: 0.5,
-        height: 300,
+        flex: 1,
+        height: 400,
     },
 });

@@ -4,7 +4,7 @@ import { Base, Typography } from '../../styles';
 import { useState, useEffect } from 'react';
 import LundMap from "../map/LundMap";
 
-export default function Scooters (props) {
+export default function LundList (props) {
   const [scooterData, setScooterData] = useState([]);
   const [scooters, setScooters] = useState([]);
   const [scooterList, setScooterList] = useState([]);
@@ -66,6 +66,6 @@ return (
 
 const styles = StyleSheet.create({
 list: {
-marginTop: 300
+marginTop: 400
 }
 })

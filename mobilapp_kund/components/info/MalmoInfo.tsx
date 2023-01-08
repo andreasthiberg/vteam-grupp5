@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-export default function Info(props) {
+export default function MalmoInfo(props) {
     const running = props.running;
     const setRunning = props.setRunning;
     const setScooterId = props.setScooterId;

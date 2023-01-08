@@ -1,9 +1,7 @@
 import { View, Text, Button } from "react-native";
 import { Base, Typography } from '../styles';
-import { useState, useEffect } from 'react';
 import ActivateBtn from './ActivateBtn';
-import DeactivateBtn from './DeactivateBtn';
-import { useReactiveVar } from "@apollo/client";
+//import DeactivateBtn from './DeactivateBtn';
 
 export default function RunScooter({ route, setRunning, setScooterId, user }) {
     //console.log("came to RunScooter:", route.params);
