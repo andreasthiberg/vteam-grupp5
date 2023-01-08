@@ -51,3 +51,13 @@ export const btn2 = {
     elevation: 3,
     backgroundColor: 'red',
 };
+
+export const btn3 = {
+    alignItems: 'center',
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'green',
+    margin: 8,
+};
