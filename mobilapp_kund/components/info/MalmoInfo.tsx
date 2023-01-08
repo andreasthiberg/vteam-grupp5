@@ -10,6 +10,9 @@ export default function Info(props) {
     const setScooterId = props.setScooterId;
     const setScooters = props.setScooters;
     const scooters= props.scooters;
+    const user = props.user;
+
+    props.setCity('Malmö');
 
     return (
         <Stack.Navigator initialRouteName="Scooters">
@@ -32,6 +35,7 @@ export default function Info(props) {
                         {...props}
                         setRunning={setRunning}
                         setScooterId={setScooterId}
+                        user={user}
                     />
                 )}
             </Stack.Screen>

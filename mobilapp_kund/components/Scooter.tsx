@@ -12,6 +12,8 @@ export default function Cities(props) {
     const setScooterId = props.setScooterId;
     const setScooters = props.setScooters;
     const scooters= props.scooters;
+    const setCity = props.setCity;
+    const user = props.user;
 
     return (
         // Stack navigator with citylist, stockholm, malmo and lund
@@ -29,6 +31,8 @@ export default function Cities(props) {
                         setRunning={setRunning}
                         setScooterId={setScooterId}
                         scooters={scooters}
+                        setCity={setCity}
+                        user={user}
                     />
                 )}
             </Stack.Screen>
@@ -42,6 +46,8 @@ export default function Cities(props) {
                         setRunning={setRunning}
                         setScooterId={setScooterId}
                         scooters={scooters}
+                        setCity={setCity}
+                        user={user}
                     />
                 )}
             </Stack.Screen>
@@ -55,6 +61,8 @@ export default function Cities(props) {
                         setRunning={setRunning}
                         setScooterId={setScooterId}
                         scooters={scooters}
+                        setCity={setCity}
+                        user={user}
                     />
                 )}
             </Stack.Screen>

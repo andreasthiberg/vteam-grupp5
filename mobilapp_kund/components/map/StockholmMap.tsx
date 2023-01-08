@@ -54,7 +54,7 @@ export default function StockholmMap() {
         }
     }, []);
 
-    console.log("parking marker", parkingMarker);
+    //console.log("parking marker", parkingMarker);
 
     useEffect(() => {
         if (scooter_data) {
@@ -80,7 +80,7 @@ export default function StockholmMap() {
         });
     }
 
-    console.log("scooters:", scooters);
+    //console.log("scooters:", scooters);
 
     // Setting parking location markers
     if (parkings !== undefined) {
@@ -100,11 +100,11 @@ export default function StockholmMap() {
         });
     }
 
-    console.log("scooter marker", scooterMarker)
+    //console.log("scooter marker", scooterMarker)
 
     return (
-        <View style={Base.base}>
-            <Text style={Typography.header2}>Stockholm Map</Text>
+        <View >
+            {/* <Text style={Typography.header2}>Stockholm Map</Text> */}
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
@@ -121,7 +121,7 @@ export default function StockholmMap() {
                     fillColor="rgba(173,216,230, 0.3)"
                 /> */}
                 {scooterMarker}
-                {parkingMarker}
+                {/* {parkingMarker} */}
                 {/* {currentMarker} */}
                 </MapView>
             </View>

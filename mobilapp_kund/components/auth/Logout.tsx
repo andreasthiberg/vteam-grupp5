@@ -11,7 +11,7 @@ export default function Logout(props) {
     }
 
     return (
-        <View style={Base.base }>
+        <View style={Base.logout }>
             <View style={Base.btn1}>
                 <Button 
                     title="Log out"

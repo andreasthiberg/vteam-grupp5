@@ -1,19 +1,18 @@
-import ScooterList from '../ScooterList';
 import RunScooter from '../RunScooter';
 import StoList from '../list/StoList';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-export default function Info(props) {
-    //receiving 3 props(running, setRunning, setScooterId)
+export default function StoInfo(props) {
     const running = props.running;
     const setRunning = props.setRunning;
     const setScooterId = props.setScooterId;
     const setScooters = props.setScooters;
-    const scooters= props.scooters;
+    const scooters = props.scooters;
+    const user = props.user;
 
-    console.log("List: running::", running);
+    props.setCity('Stockholm');
 
     return (
         <Stack.Navigator initialRouteName="Scooters">
@@ -36,6 +35,7 @@ export default function Info(props) {
                         {...props}
                         setRunning={setRunning}
                         setScooterId={setScooterId}
+                        user={user}
                     />
                 )}
             </Stack.Screen>

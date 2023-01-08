@@ -1,4 +1,4 @@
-import { useQuery, gql, ApolloProvider } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import { Text, ScrollView, Button, View, StyleSheet } from 'react-native'
 import { Base, Typography } from '../../styles';
 import { useState, useEffect } from 'react';
