@@ -21,7 +21,7 @@ function Buttons({status, releaseScooter, stopScooter, chargeScooter}){
   }
 }
 
-export default function SelectedScooterDisplay({selectedScooter, setSelectedScooter}) {
+export default function SelectedScooterDisplay({selectedScooter,setSelectedScooter,selectedTrip}) {
 
 
   const statusStrings = {
@@ -64,9 +64,8 @@ return (
         <p className="display-label">Position</p>
         <p>{selectedScooter.pos[0]}</p>
         <p>{selectedScooter.pos[1]}</p>
-        <p>Batteri: {selectedScooter .battery}%</p>
-        <p>Hyrs av</p>
-        <p>Hastighet?</p>
+        <p>Batteri: {selectedScooter.battery}%</p>
+        <p>Hyrs av: Kund {selectedTrip.id}</p>
         <Buttons status={selectedScooter.status} chargeScooter={chargeScooter} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>
   );
