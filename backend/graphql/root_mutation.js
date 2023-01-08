@@ -104,8 +104,8 @@ const RootMutationType = new GraphQLObjectType({
       args: {
         scooter_id: { type: GraphQLInt},
         customer_id: { type: GraphQLInt },
-        start_time: { type: GraphQLString },
-        start_pos: { type: GraphQLString }
+        start_pos: { type: GraphQLString },
+        city: { type: GraphQLString }
       },
       resolve: async function (root, args) {
         await tripModel.addTrip(args)
