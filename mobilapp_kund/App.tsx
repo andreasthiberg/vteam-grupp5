@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
-// import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Base } from './styles';
+
 import Home from './components/Home';
-import Map from './components/Map';
-import List from './components/List';
-import Mypage from './components/Mypage';
+//import Map from './components/Map';
+//import List from './components/List';
+import Scooter from './components/Scooter';
 import Auth from './components/auth/Auth';
 import Logout from './components/auth/Logout';
 import customerModel from './models/customer';
@@ -21,11 +21,11 @@ const Tab = createBottomTabNavigator();
 
 const routeIcons = {
   "Home": "home",
+  "Scooter": "scooter",
   "Map": "map",
-  "List": "list",
-  "My page": "happy",
-  "Login": "lock-closed",
-  "Logout": "lock-closed",
+  "List": "view-list-outline",
+  "Login": "key",
+  "Logout": "key",
 }
 
 // Initialize Apollo Client
@@ -49,8 +49,10 @@ export default function App() {
   //User state
   const [user, setUser] = useState([]);
 
-  console.log("App: scooterId, running::", scooterId, running);
+  //City state
+  const [city, setCity] = useState("");
 
+  console.log("App: scooterId, running::", scooterId, running);
 
   // Set user when userEmail is updated
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function App() {
           <Tab.Navigator screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                   let iconName = routeIcons[route.name] || "alert";
-                  return <Ionicons name={iconName} size={size} color={color} />;
+                  return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
               },
               tabBarActiveTintColor: 'blue',
               tabBarInactiveTintColor: 'gray',
@@ -85,16 +87,16 @@ export default function App() {
             {loggedIn ? (
               <>
                 <Tab.Screen name="Home">
-                  {() => <Home user={user} running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
+                  {() => <Home user={user} setCity={setCity} running={running} scooterId={scooterId} setScooterId={setScooterId} setRunning={setRunning} />}
                 </Tab.Screen>
 
-                <Tab.Screen name="List">
+                {/* <Tab.Screen name="List">
                   {() => <List setScooters={setScooters} setScooterId={setScooterId} setRunning={setRunning} running={running} scooters={scooters} />}
-                </Tab.Screen>
+                </Tab.Screen> */}
 
-                <Tab.Screen name="Map" component={Map} />
+                {/* <Tab.Screen name="Map" component={Map} /> */}
 
-                <Tab.Screen name="My page" component={Mypage} />
+                <Tab.Screen name="Scooter" component={Scooter} />
 
                 <Tab.Screen name="Logout">
                   {() => <Logout setJwt={setJwt} setLoggedIn={setLoggedIn} setUserEmail={setUserEmail} />}

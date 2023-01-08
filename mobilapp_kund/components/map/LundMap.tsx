@@ -31,5 +31,7 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+        flex: 0.5,
+        height: 300,
     },
 });
