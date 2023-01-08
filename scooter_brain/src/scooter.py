@@ -9,12 +9,14 @@ import math
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
 
-    def __init__(self, id, pos):
+    def __init__(self, id, pos, status, customerId, city):
         self.id = id
+        self.customerId = customerId
+        self.city = city
         self.pos = pos
         self.battery = 100
         self.currentTrip = 0
-        self.status = 1
+        self.status = status
         self.direction = math.radians(random.randint(1, 360))
         self.xMovement = math.cos(self.direction)
         self.yMovement = math.sin(self.direction)
@@ -93,4 +95,15 @@ class Scooter():
         body = 'mutation {addScooter (pos:"%s",battery:100,status:1,city:"Stockholm")}'%(self.get_pos_as_coordinate_string())
 
         response = requests.post(url=url, json={"query": body})
-        print("response : ", response.content)
+        print("Scooter with id " + str(self.id) + " added to database")
+
+    def add_trip(self):
+
+        url = "http://backend:3000/graphql"
+        
+        body = 'mutation {addTrip (scooter_id:%s,customer_id:%s,start_pos:"%s",city:"%s")}'%(self.id,
+        self.customerId,self.get_pos_as_coordinate_string(),self.city)
+
+        response = requests.post(url=url, json={"query": body})
+        print(response)
+        print("Trip for scooter with id " + str(self.id) + " added to database")
