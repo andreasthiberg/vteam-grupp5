@@ -10,8 +10,10 @@ const history = {
                 trips {
                     scooter_id
                     customer_id
+                    start_time
                     id
                     price
+                    city
                 }
             }
         `;

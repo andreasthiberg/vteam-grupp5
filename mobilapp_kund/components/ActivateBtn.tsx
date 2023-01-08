@@ -1,17 +1,26 @@
-import { View, Text, Button } from "react-native";
+import { View, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
 import { Base } from "../styles";
 
-export default function ActivateBtn({ item, setRunning, setScooterId }) {
-
-    const scooter_id = item;
+export default function ActivateBtn({ setRunning, setScooterId, scooter_id, customer_id, start_pos, city }) {
 
     console.log("ActivateBtn: scooter_id::", scooter_id);
 
-    const CHANGE_STATUS = gql`
-        mutation UpdateScooter($id: Int!, $status: Int!) {
-            updateScooter(id: $id, status: $status)
-          }   
+    const ADD_TRIP = gql`
+        mutation AddTrip(
+            $scooter_id: Int!,
+            $customer_id: Int!,
+            $start_pos: String!,
+            $city: String!
+            
+        ){
+            addTrip(
+            scooter_id: $scooter_id
+            customer_id: $customer_id
+            start_pos: $start_pos
+            city: $city
+            )
+        }  
     `;
 
     function updateScooterState () {
@@ -20,8 +29,8 @@ export default function ActivateBtn({ item, setRunning, setScooterId }) {
         setRunning(true);
     }
 
-    const [updateScooter, { data }] = useMutation(CHANGE_STATUS);
-    console.log("changed status to 2(activated):", data);
+    const [addTrip, { data }] = useMutation(ADD_TRIP);
+    console.log("Add Trip:", data);
 
     return(
         <View style={Base.btn2}>
@@ -29,10 +38,12 @@ export default function ActivateBtn({ item, setRunning, setScooterId }) {
                 title="Activate"
                 color="white"
                 onPress={() => {
-                    updateScooter({
+                    addTrip({
                         variables: {
-                            id: scooter_id,
-                            status: 2
+                            scooter_id: scooter_id,
+                            customer_id: customer_id,
+                            start_pos: start_pos,
+                            city: city
                         }
                     });
                     updateScooterState();

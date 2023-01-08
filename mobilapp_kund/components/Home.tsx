@@ -14,13 +14,14 @@ export default function Home(props) {
         </>
     ) : (
         <>
-            <Text>Welcome {props.user.first_name}! Select a scooter to start your journey.</Text>
+            <Text style={Typography.header3}>Welcome {props.user.first_name}!</Text>
+            <Text style={Typography.header4}>Select a scooter to start your journey.</Text>
         </>
     );
 
     return (
         <View style={Base.home}>
-            <Text style={Typography.header2}>High5 Elsparkcyklar app</Text>
+            <Text style={Typography.header2}>High5 Elsparkcyklar</Text>
             <Image source={high5} style={Base.image} />
             {statusText}
         </View>
