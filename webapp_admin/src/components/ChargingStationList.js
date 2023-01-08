@@ -1,17 +1,16 @@
 import { React } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import "../App.css";
 
 export default function ChargingStationList({stationData, setSelectedStation, selectedStation}) {
 
 function handleStationChange(station){
-    setSelectedStation(station.id)
+    setSelectedStation(station)
 } 
 
 return (
     <div>
         {stationData.map((station) => (
-            <div className={`single-station-div ${station.id === selectedStation ? "selected-station-div" : ""}`} 
+            <div className={`single-station-div ${station.id === selectedStation.id ? "selected-scooter-div" : ""}`} 
             key={station.id} onClick={() => handleStationChange(station)}
             id={`station-div-${station.id}`}>
                 <p>Laddstation {station.id}</p>

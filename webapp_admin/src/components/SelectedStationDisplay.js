@@ -1,13 +1,15 @@
 import { React } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import "../App.css";
 
-export default function SelectedStationDisplay({stationData, selectedStation}) {
 
+export default function SelectedStationDisplay({selectedStation}) {
 
 return (
     <div className="selected-display">
-        <h2>Laddstation {selectedStation}</h2>
+        <h2>Station {selectedStation.id}</h2>
+        <p>Position:</p>
+        <p>{selectedStation.pos[0]}</p>
+        <p>{selectedStation.pos[1]}</p>
     </div>
   );
 }

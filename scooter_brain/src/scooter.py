@@ -18,17 +18,10 @@ class Scooter():
         self.direction = math.radians(random.randint(1, 360))
         self.xMovement = math.cos(self.direction)
         self.yMovement = math.sin(self.direction)
-        # 0 = stoppad av admin
-        # 1 = Kör
-        # 2 = Parkerad utanför zon
-        # 3 = Parkerad i parkeringszon
-        # 4 = Parkerad i laddningszon
-        # 5 = Slut på batterier och inte i laddningszon
-        # 6 = Under underhåll (borta från kartan)
+        self.batteryIncrement = 0
 
     # Sends update with current status and location to database
     def send_update(self):
-        print("Update from scooter with id " + str(self.id) + " in position " + str(self.pos))
         # Scooter is out of batteries
         if(self.battery <= 0):
             print("Slut på batterier.")
@@ -37,9 +30,11 @@ class Scooter():
         elif(self.status == 1):
              # Change location
             self.change_pos(self.xMovement*10,self.yMovement*10)
-
+            self.batteryIncrement += 1
             # Reduce battery by one percent
-            self.change_battery(-1)
+            if self.batteryIncrement > 9:
+                self.change_battery(-1)
+                self.batteryIncrement = 0
 
         # Scooter is charging
         elif(self.status == 4):
