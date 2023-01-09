@@ -15,7 +15,8 @@ const CustomerType = new GraphQLObjectType({
     first_name: { type: new GraphQLNonNull(GraphQLString)},
     last_name: { type: new GraphQLNonNull(GraphQLString)},
     email: { type: new GraphQLNonNull(GraphQLString)},
-    balance: { type: new GraphQLNonNull(GraphQLInt)}
+    balance: { type: new GraphQLNonNull(GraphQLInt)},
+    status: { type: new GraphQLNonNull(GraphQLInt)}
   })
 })
 

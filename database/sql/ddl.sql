@@ -60,6 +60,7 @@ CREATE TABLE `customer`
     `email` CHAR(50),
     `password` CHAR(100),
     `balance` FLOAT,
+    `status` INT(1) DEFAULT 1,
     
     PRIMARY KEY (`id`)
     );
@@ -277,13 +278,29 @@ BEGIN
         `last_name` = `a_last_name`,
         `email` = `a_email`,
         `password`= `a_password`,
-        `balance` = `a_balance`
+        `balance` = `a_balance`docker 
     WHERE `id` = `a_id`
     ;
 END
 ;;
 DELIMITER ;
 
+
+-- Procedure to disable one customer
+DELIMITER ;;
+CREATE PROCEDURE change_customer_status(
+    `a_id` INT,
+    `a_status` INT
+    )
+BEGIN
+    UPDATE customer
+    SET
+        `status` = `a_status`
+    WHERE `id` = `a_id`
+    ;
+END
+;;
+DELIMITER 
 
 -- Procedure to show all parking zones
 DELIMITER ;;

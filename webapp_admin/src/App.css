@@ -1,5 +1,7 @@
 @import "./css/map.css";
 @import "./css/status-colors.css";
+@import "./css/customer.css";
+
 
 .App {
   display: flex;

@@ -56,6 +56,15 @@ const customer = {
       return "Updates made."
     }
     return "No updates made."
+  },
+  // Sets customer status to 0 or 1, disabled or active
+  setCustomerStatus: async function setCustomerStatus (id,status) {
+
+    const db = await dbModel.getDb()
+
+    await db.query("CALL change_customer_status(?,?)",[id,status]);
+    
+    return "Update made"
   }
 }
 
