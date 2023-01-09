@@ -9,7 +9,7 @@ import math
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
 
-    def __init__(self, id, pos, status, customerId, city):
+    def __init__(self, id, pos, status,city, customerId=0):
         self.id = id
         self.customerId = customerId
         self.city = city
@@ -103,3 +103,6 @@ class Scooter():
 
         response = requests.post(url=url, json={"query": body})
         print("Trip for scooter with id " + str(self.id) + " added to database")
+
+    def get_id(self):
+        return self.id

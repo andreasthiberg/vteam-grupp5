@@ -214,16 +214,10 @@
     filter: hue-rotate(180deg);
   }
 
-  .scooter-marker-out-of-disabled {
+  .scooter-marker-disabled {
     filter: grayscale(100%)
   }
   
-  .charging-popup {
-    text-align: center;
-    font-size: 16px;
-    width: 60px;
-    font-weight: 600;
-  }
 
   .charging-icon {
     filter: grayscale(100%)
