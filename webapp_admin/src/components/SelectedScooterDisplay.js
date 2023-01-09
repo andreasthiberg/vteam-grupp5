@@ -1,28 +1,43 @@
 import { React } from 'react-router-dom';
 import scooterModel from '../models/scooters'
 import "../App.css";
+import { useEffect, useState } from 'react';
 
-function Buttons({status, releaseScooter, stopScooter, chargeScooter}){
+function Buttons({status, releaseScooter, stopScooter, moveToChargingStation,removeScooterForService}){
   if(status === 0){
      return(
       <>
      <button onClick={releaseScooter}>Gör cykel tillgänglig</button>
-     <button onClick={chargeScooter}>Flytta till laddstation</button>
-    <button>Flytta till parkering</button>
+     <button onClick={moveToChargingStation}>Flytta till laddstation</button>
+      <button onClick={removeScooterForService}>Hämta för service</button>
     </>)
   } else if (status === 1){
     return(<button onClick={stopScooter}>Avsluta resa</button>)
+  } else if (status === 6){
+    <></>
   } else {
     return(
     <>
-     <button onClick={chargeScooter}>Flytta till laddstation</button>
+     <button onClick={moveToChargingStation}>Flytta till laddstation</button>
+     <button onClick={removeScooterForService}>Hämta för service</button>
     </>
     )
   }
 }
 
-export default function SelectedScooterDisplay({selectedScooter,setSelectedScooter,selectedTrip}) {
+export default function SelectedScooterDisplay({chargingStations, setSelectedStation, selectedScooter,
+  setSelectedMode,setSelectedScooter,selectedTrip,scootersInfo,setChargingScooters,chargingScooters}) {
 
+  const dummyScooter = {status:0,id:0,pos:[0,0],battery:100}
+  const [currentScooterInfo,setCurrentScooterInfo] = useState(dummyScooter);
+
+  useEffect(()=>{
+    let filterResult = scootersInfo.filter(scooter => scooter.id === selectedScooter.id);
+    let newScooterInfo = filterResult[0]
+    if(filterResult.length > 0){
+      setCurrentScooterInfo(newScooterInfo)
+    }
+  },[scootersInfo,selectedScooter])
 
   const statusStrings = {
     0: "Stoppad av admin.",
@@ -48,13 +63,25 @@ function releaseScooter(){
   setSelectedScooter(oldScooter)
 }
 
-function chargeScooter(){
-  scooterModel.moveScooterToChargingStation(selectedScooter.id)
-  console.log("Hej")
+function removeScooterForService(){
+  scooterModel.changeScooterStatus(selectedScooter.id,6)
   let oldScooter = selectedScooter;
-  oldScooter.status = 4;
+  oldScooter.status = 6;
   setSelectedScooter(oldScooter)
 }
+
+async function moveToChargingStation(){
+  let newScooterInfo = await scooterModel.changeScooterStatus(selectedScooter.id,4);
+
+  let matchingStations = chargingStations.filter(station => station.pos.join() === newScooterInfo.pos.join())
+  let newStation = matchingStations[0]
+  let oldChargingScooters = chargingScooters;
+  oldChargingScooters.push({scooterId:selectedScooter.id,stationId:newStation.id})
+  setSelectedScooter(dummyScooter)
+  setSelectedStation(newStation)
+  setSelectedMode("station")
+}
+
 
 return (
     <div className="selected-display">
@@ -62,11 +89,12 @@ return (
         <p className="display-label">Status</p>
         <p> {selectedScooter.status} - {statusStrings[selectedScooter.status]}</p>
         <p className="display-label">Position</p>
-        <p>{selectedScooter.pos[0]}</p>
-        <p>{selectedScooter.pos[1]}</p>
+        <p>{currentScooterInfo.pos[0].toString().slice(0,8)}</p>
+        <p>{currentScooterInfo.pos[1].toString().slice(0,8)}</p>
         <p>Batteri: {selectedScooter.battery}%</p>
-        <p>Hyrs av: Kund {selectedTrip.id}</p>
-        <Buttons status={selectedScooter.status} chargeScooter={chargeScooter} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
+        {selectedTrip.id !== 0 ? <p>Hyrs av: Kund {selectedTrip.id}</p> : null}
+        <Buttons removeScooterForService={removeScooterForService} status={selectedScooter.status} 
+        moveToChargingStation={moveToChargingStation} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>
   );
 }

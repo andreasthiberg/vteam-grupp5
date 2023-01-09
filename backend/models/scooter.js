@@ -1,6 +1,8 @@
 // Model for writing and reading scooter info from database.
 
 const dbModel = require('./database.js')
+const calcModel = require('./statusCalc')
+
 
 const scooter = {
 
@@ -42,7 +44,6 @@ const scooter = {
   updateScooter: async function updateCustomer(args){
     const db = await dbModel.getDb()
 
-
     // !!!! Ta bort den här delen? Kanske en onödig kontroll, det kommer ju ändå ett felmeddelande från SQL om ID:t inte finns.
     let currentDbResult = await db.query("CALL get_one_scooter(?)",[args.id]);
 
@@ -57,14 +58,18 @@ const scooter = {
     let pos = args.hasOwnProperty("pos") ? args.pos : currentScooterData.pos
     let battery = args.hasOwnProperty("battery") ? args.battery : currentScooterData.battery
 
+    if (status === 4) {
+      let closestStation = await calcModel.findClosestChargingStation(currentDbResult);
+      pos = '[' + closestStation[0] + ',' + closestStation[1] + ']';
+    }
+
     const sql = "CALL update_scooter(?,?,?,?)"
-    console.log(args)
     let res = await db.query(sql, [args.id, status, pos, battery])
-    console.log(res) 
     db.end()  
 
-    return "Updates made to scooter."
+    return {id: args.id, status: status, pos: pos, battery: battery, city: currentScooterData.city}
   },
+
   // Recieves report from scooter brain with currentposition and battery
   reportScooter: async function reportScooter(args){
       const db = await dbModel.getDb()

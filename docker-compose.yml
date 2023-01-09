@@ -37,6 +37,8 @@ services:
         networks:
           highfive:
     webapp_admin:
+        depends_on:
+          - backend
         build: ./webapp_admin
         container_name: "webapp_admin"
         volumes:

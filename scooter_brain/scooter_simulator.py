@@ -3,13 +3,14 @@
 import sys
 import requests
 import time
+import json
 from src.scooter import Scooter
 
 class ScooterSimulation():
     """Starts simulating a given amount of scooters."""
 
     def __init__(self):
-        self.scooter_array = []
+        self.scooterArray = []
 
     def start(self):
         """ Start simulation """
@@ -19,24 +20,32 @@ class ScooterSimulation():
 
         print("Starting scooter simulation...")
 
-        # Get current highest ID of scooters in database
+        # Create brains for scooters already in database
         url = "http://backend:3000/graphql"        
-        body = "{scooters{id}}"
+        body = "{scooters{id,status,pos,city,battery}}"
         response = requests.post(url=url, json={"query": body})
         responseJson = response.json()
-        scooterIdArray = responseJson["data"]["scooters"]
-        startId = int(scooterIdArray[-1]["id"] + 1)
+        dbScooters = responseJson["data"]["scooters"]
 
+        for scooter in dbScooters:
+            coordArray = json.loads(scooter["pos"])
+            newScooter = Scooter(scooter["id"],[coordArray[0]*100000,coordArray[1]*100000],scooter["status"],scooter["city"])
+            self.scooterArray.append(newScooter)
+
+        # Get current highest ID of scooters in database
+        lastScooterId = self.scooterArray[-1].get_id()
+        startId = lastScooterId + 1
         numberOfScooters = 30
 
+        # Coords for Lund, Malmö, Stockholm
         startCoords = [[5570000, 1319000],[5560500, 1300380],[5933000, 1805500]]
 
         # Create a scooter objects and appends them to the array
         for x in range(numberOfScooters):
-            newScooter = Scooter(startId+x,startCoords[2],1,x+1,"Stockholm")
+            newScooter = Scooter(startId+x,startCoords[2],1,"Stockholm",x+1)
             newScooter.add_to_database()
             newScooter.add_trip()
-            self.scooter_array.append(newScooter)
+            self.scooterArray.append(newScooter)
 
         time.sleep(5)
 
@@ -47,7 +56,7 @@ class ScooterSimulation():
 
     def get_update(self):
         """ Tells every scooter to send and update and then wait x seconds """
-        for scooter in self.scooter_array:
+        for scooter in self.scooterArray:
             scooter.send_update()
         print("Simulation update sent.")
         time.sleep(2)

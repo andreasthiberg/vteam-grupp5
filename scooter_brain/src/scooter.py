@@ -9,7 +9,7 @@ import math
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
 
-    def __init__(self, id, pos, status, customerId, city):
+    def __init__(self, id, pos, status,city, customerId=0):
         self.id = id
         self.customerId = customerId
         self.city = city
@@ -24,24 +24,6 @@ class Scooter():
 
     # Sends update with current status and location to database
     def send_update(self):
-        # Scooter is out of batteries
-        if(self.battery <= 0):
-            print("Slut på batterier.")
-
-        # Scooter is moving
-        elif(self.status == 1):
-             # Change location
-            self.change_pos(self.xMovement*10,self.yMovement*10)
-            self.batteryIncrement += 1
-            # Reduce battery by one percent
-            if self.batteryIncrement > 9:
-                self.change_battery(-1)
-                self.batteryIncrement = 0
-
-        # Scooter is charging
-        elif(self.status == 4):
-            if(self.battery < 100):
-                self.change_battery(1)
 
         # Send pos/battery and get status update #
 
@@ -64,8 +46,24 @@ class Scooter():
             self.change_status(newStatus)
             print("Status of scooter " + str(self.id) + " changed to " + str(newStatus))
 
-        #print("Scooter with ID " + str(self.id) + " has position " + self.get_pos_as_coordinate_string() +
-        #", status " + str(self.status) + " and " + str(self.battery) + "% battery left.")
+        # Scooter is out of batteries
+        if(self.battery <= 0):
+            print("Slut på batterier.")
+
+        # Scooter is moving
+        elif(self.status == 1):
+             # Change location
+            self.change_pos(self.xMovement*10,self.yMovement*10)
+            self.batteryIncrement += 1
+            # Reduce battery by one percent
+            if self.batteryIncrement > 9:
+                self.change_battery(-1)
+                self.batteryIncrement = 0
+
+        # Scooter is charging
+        if(self.status == 4):
+            if(self.battery < 100):
+                self.change_battery(1)
 
     # Change current lat and long with factors dLa and dLo
     def change_pos(self,dLa,dLo):
@@ -95,7 +93,6 @@ class Scooter():
         body = 'mutation {addScooter (pos:"%s",battery:100,status:1,city:"Stockholm")}'%(self.get_pos_as_coordinate_string())
 
         response = requests.post(url=url, json={"query": body})
-        print("Scooter with id " + str(self.id) + " added to database")
 
     def add_trip(self):
 
@@ -105,5 +102,7 @@ class Scooter():
         self.customerId,self.get_pos_as_coordinate_string(),self.city)
 
         response = requests.post(url=url, json={"query": body})
-        print(response)
         print("Trip for scooter with id " + str(self.id) + " added to database")
+
+    def get_id(self):
+        return self.id

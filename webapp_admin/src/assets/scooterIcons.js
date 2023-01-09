@@ -15,7 +15,7 @@ export default function createIcon(status,selected=false){
     //Custom scooter icon
     const icons = {
     0: new L.Icon({
-        className: "scooter-marker-out-of-batteries"+ selectedClass,
+        className: "scooter-marker-disabled"+ selectedClass,
         iconUrl: marker,
         iconRetinaUrl: marker,
         popupAnchor:  [-0, -10],
