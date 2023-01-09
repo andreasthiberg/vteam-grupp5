@@ -47,11 +47,9 @@ export default function History(props) {
                                     <td> {trip.scooter_id}</td>
                                     <td> {trip.city}</td>
                                     {/* <td> {trip.price} sek</td> */}
-                                    {/* <td>
-                                        <button className="btn btn-info">Update </button>
-                                        <button className="btn btn-danger">Delete </button>
-                                        <button className="btn btn-info">View </button>
-                                    </td> */}
+                                    <td>
+                                        <button className="button1">View </button>
+                                    </td>
                             </tr>
                         );
                       })
