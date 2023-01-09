@@ -3,11 +3,12 @@ import random
 city = "Stockholm"
 separator = ","
 last_name = ""
-number_of_bikes = 100
-start_lat = 59.320019
-end_lat = 59.340224
-start_lon = 18.050951
-end_lon = 18.072885
+number_of_bikes = 700
+start_lat = 59.27099974329289
+end_lat = 59.38191991257416
+start_lon = 17.897545204953783
+end_lon = 18.164118491166377
+
 
 with open('../sql/insert2-scooters-stockholm.sql', 'w') as fh:
     fh.write("USE high5\n")
@@ -22,4 +23,4 @@ with open('../sql/insert2-scooters-stockholm.sql', 'w') as fh:
         if i == (number_of_bikes -1):
             separator = ";"
 
-        fh.write(f"      ('1', '[{position}]', '100', '{city}'){separator}\n")
+        fh.write(f"      ('2', '[{position}]', '100', '{city}'){separator}\n")
