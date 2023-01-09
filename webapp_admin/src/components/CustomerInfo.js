@@ -10,7 +10,7 @@ export default function customerInfo({setSelectedCustomer,selectedCustomer,trips
 
     return (
     <div>
-        <button onClick={()=>setSelectedCustomer({id:0})} className="customer-back-button">Tillbaka</button>
+        <button onClick={()=>setSelectedCustomer({id:0})} className="customer-button">Tillbaka</button>
         <h3>Om kunden</h3>
         <div className="customer-info-div">
             ID: {selectedCustomer.id}<br/>
@@ -21,6 +21,7 @@ export default function customerInfo({setSelectedCustomer,selectedCustomer,trips
         </div>
         <h3>Kundens resor</h3>
         <div className="customer-trip-div">
+            
             {matchingTrips.map(trip => 
             <div key={trip.id} className="single-trip-div">
                 <p>ID: {trip.id}</p>
