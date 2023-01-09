@@ -461,42 +461,42 @@ END
 DELIMITER ;
 
 
--- Procedure to calculate trips duration
-CREATE PROCEDURE calc_duration(
-    `a_trip_id` INT
-    )
-BEGIN
-   SELECT TIMESTAMPDIFF(MINUTE, `start_time`, `end_time`) AS `duration`
-   FROM `trip`
-   WHERE `id` = `a_trip_id`;
-END
+-- -- Procedure to calculate trips duration
+-- CREATE PROCEDURE calc_duration(
+--     a_trip_id INT
+--     )
+-- BEGIN
+--    SELECT TIMESTAMPDIFF(MINUTE, start_time, end_time) AS duration
+--    FROM trip
+--    WHERE id = a_trip_id;
+-- END
 
 
--- Function to calculate trips price
-DROP FUNCTION IF EXISTS calc_price;
-DELIMITER ;;
-CREATE FUNCTION calc_price(
-    `a_trips_id` INT
-    )
-RETURNS FLOAT
-DETERMINISTIC
-BEGIN
-   DECLARE `fee` FLOAT;
-   DECLARE `fee_per_min` FLOAT;
-   DECLARE `penalty_fee` FLOAT;
-   DECLARE `discount` FLOAT;
-   DECLARE `duration` INT;
+-- -- Function to calculate trips price
+-- DROP FUNCTION IF EXISTS calc_price;
+-- DELIMITER ;;
+-- CREATE FUNCTION calc_price(
+--     `a_trips_id` INT
+--     )
+-- RETURNS FLOAT
+-- DETERMINISTIC
+-- BEGIN
+--    DECLARE `fee` FLOAT;
+--    DECLARE `fee_per_min` FLOAT;
+--    DECLARE `penalty_fee` FLOAT;
+--    DECLARE `discount` FLOAT;
+--    DECLARE `duration` INT;
 
-   SELECT `t.penalty_fee`, `t.discount`, `c.fee`, `c.fee_per_minute`
-   FROM `trip` AS t
-   INNER JOIN `city` AS c 
-   ON `t.city` = `c.name`
-   WHERE `t.id` = `a_trips_id`;
+--    SELECT `t.penalty_fee`, `t.discount`, `c.fee`, `c.fee_per_minute`
+--    FROM `trip` AS t
+--    INNER JOIN `city` AS c 
+--    ON `t.city` = `c.name`
+--    WHERE `t.id` = `a_trips_id`;
 
-   CALL calc_duration(`a_trips_id`, `duration`)
+--    CALL calc_duration(`a_trips_id`, `duration`)
 
-   RETURN `fee` + `fee_per_minute` * `duration` + `penalty_fee` - `discount`;
-END
+--    RETURN `fee` + `fee_per_minute` * `duration` + `penalty_fee` - `discount`;
+-- END
 
 
 -- Procedure to show one trips details
