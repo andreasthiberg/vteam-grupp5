@@ -128,7 +128,8 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: async function (root, args) {
         const result = await tripModel.endTrip(args)
-        return result
+        // return result
+        return "Trip ended"
       }
     }
   })

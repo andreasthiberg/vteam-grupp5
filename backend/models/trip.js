@@ -40,24 +40,26 @@ const trip = {
 
     let discount = 0
     let penalty = 0
-    let newScooterCode
+    let end_pos = '[59.315016, 18.057147]';
+    let price = 152;
+    // let newScooterCode
   
-    let start_pos = "0,0"
-    let end_pos = "0,0"
-    let cityCode = 1
+    // let start_pos = "0,0"
+    // let end_pos = "0,0"
+    // let cityCode = 1
 
-    let startPosCode = calcModel.zoneCalculation(cityCode,start_pos)
-    let endPosCode = calcModel.zoneCalculation(cityCode,end_pos)
+    // let startPosCode = calcModel.zoneCalculation(cityCode,start_pos)
+    // let endPosCode = calcModel.zoneCalculation(cityCode,end_pos)
     
-    //Beräkna eventuell discount och ny status for scooter
-    if(endPosCode == 0){
-      penalty = 100
-      newScooterCode = 2
-    }
-    else if (startPosCode == 0 && endPosCode > 0){
-      discount = 100
-      newScooterCode = 3
-    }
+    // //Beräkna eventuell discount och ny status for scooter
+    // if(endPosCode == 0){
+    //   penalty = 100
+    //   newScooterCode = 2
+    // }
+    // else if (startPosCode == 0 && endPosCode > 0){
+    //   discount = 100
+    //   newScooterCode = 3
+    // }
 
     //Här ska det också göras en update med status till scootern beroende var den parkeras
     // Kanske kan finnas i procecdure?
@@ -66,8 +68,8 @@ const trip = {
     // Lägg till discount och penalty i procedure-anropeet
     const db = await dbModel.getDb()
     let res
-    const sql = "CALL update_trip(?,?,?,?)"
-    res = await db.query(sql, [args.id, args.end_time, args.end_pos, args.price])
+    const sql = "CALL update_trip(?,?,?,?,?)"
+    res = await db.query(sql, [args.id, end_pos, price, penalty, discount])
     db.end()
 
     return res
