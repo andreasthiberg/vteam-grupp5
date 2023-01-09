@@ -56,6 +56,12 @@ function chargeScooter(){
   setSelectedScooter(oldScooter)
 }
 
+function moveToChargingStation(){
+  console.log("moving to charging")
+
+  scooterModel.moveToCharging(selectedScooter.id);
+}
+
 return (
     <div className="selected-display">
         <h2>Cykel {selectedScooter.id}</h2>
@@ -66,7 +72,7 @@ return (
         <p>{selectedScooter.pos[1]}</p>
         <p>Batteri: {selectedScooter.battery}%</p>
         <p>Hyrs av: Kund {selectedTrip.id}</p>
-        <Buttons status={selectedScooter.status} chargeScooter={chargeScooter} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
+        <Buttons status={selectedScooter.status} chargeScooter={moveToChargingStation} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>
   );
 }
