@@ -52,6 +52,24 @@ const scooters = {
             query
         })
     });
+    },
+    moveToCharging: async function moveToCharging(scooterId){
+        const query = `
+        mutation {
+            updateScooter(id:${scooterId},status:${4})
+        }
+    `;
+
+    const response = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query
+        })
+    });
     }
 };
 

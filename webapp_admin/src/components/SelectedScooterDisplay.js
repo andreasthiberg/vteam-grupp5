@@ -10,6 +10,12 @@ function stopScooter(){
   scooterModel.stopScooter(selectedScooter.id)
 }
 
+function moveToChargingStation(){
+  console.log("moving to charging")
+
+  scooterModel.moveToCharging(selectedScooter.id);
+}
+
 return (
     <div className="selected-display">
         <h2>Cykel {selectedScooter.id}</h2>
@@ -21,7 +27,7 @@ return (
         <p>Hyrs av</p>
         <p>Hastighet?</p>
         <button onClick={stopScooter}>Stoppa cykel</button>
-        <button>Flytta till laddstation</button>
+        <button onClick={moveToChargingStation}>Flytta till laddstation</button>
         <button>Flytta till parkering</button>
     </div>
   );
