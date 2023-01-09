@@ -1,6 +1,6 @@
 import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Marker, TileLayer, MapContainer, Popup, Rectangle, useMap} from "react-leaflet";
+import { Marker, TileLayer, MapContainer, Rectangle, useMap} from "react-leaflet";
 import "../App.css";
 import ChargingStationList from '../components/ChargingStationList';
 import SelectedStationDisplay from '../components/SelectedStationDisplay';
@@ -111,6 +111,7 @@ export default function Map() {
     } else {
       setSelectedTrip(dummyTrip)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedScooter]);
 
   // Function to change current city

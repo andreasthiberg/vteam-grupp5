@@ -116,8 +116,7 @@ const RootMutationType = new GraphQLObjectType({
         price: { type: GraphQLFloat }
       },
       resolve: async function (root, args) {
-        const result = await tripModel.endTrip(args)
-        // return result
+        await tripModel.endTrip(args)
         return "Trip ended"
       }
     }

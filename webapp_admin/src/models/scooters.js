@@ -92,6 +92,7 @@ const scooters = {
         })
     });
     const result = await response.json();
+    console.log(result)
     let newScooterData = result.data.updateScooter
     newScooterData.pos = JSON.parse(newScooterData.pos)
     return newScooterData

@@ -62,10 +62,7 @@ class Scooter():
 
         # Scooter is charging
         if(self.status == 4):
-            print(self.battery)
-            print(self.id)
             if(self.battery < 100):
-                print("Laddar")
                 self.change_battery(1)
 
     # Change current lat and long with factors dLa and dLo
@@ -96,7 +93,6 @@ class Scooter():
         body = 'mutation {addScooter (pos:"%s",battery:100,status:1,city:"Stockholm")}'%(self.get_pos_as_coordinate_string())
 
         response = requests.post(url=url, json={"query": body})
-        print(response)
 
     def add_trip(self):
 
@@ -106,5 +102,4 @@ class Scooter():
         self.customerId,self.get_pos_as_coordinate_string(),self.city)
 
         response = requests.post(url=url, json={"query": body})
-        print(response)
         print("Trip for scooter with id " + str(self.id) + " added to database")

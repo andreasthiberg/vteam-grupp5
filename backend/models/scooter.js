@@ -63,7 +63,7 @@ const scooter = {
       pos = '[' + closestStation[0] + ',' + closestStation[1] + ']';
     }
 
-    const sql = "CALL update_scooter(?,?,?,?,?)"
+    const sql = "CALL update_scooter(?,?,?,?)"
     let res = await db.query(sql, [args.id, status, pos, battery])
     db.end()  
 

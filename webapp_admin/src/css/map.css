@@ -213,6 +213,10 @@
   .scooter-marker-out-of-batteries {
     filter: hue-rotate(180deg);
   }
+
+  .scooter-marker-out-of-disabled {
+    filter: grayscale(100%)
+  }
   
   .charging-popup {
     text-align: center;
