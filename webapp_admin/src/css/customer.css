@@ -22,3 +22,9 @@
     padding: 20px;
     margin-top: 10px;
 }
+
+.active-trip-div {
+    background-color: rgb(148, 193, 203);
+    padding: 20px;
+    margin-top: 10px;
+}
