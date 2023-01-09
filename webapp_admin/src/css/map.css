@@ -213,13 +213,11 @@
   .scooter-marker-out-of-batteries {
     filter: hue-rotate(180deg);
   }
-  
-  .charging-popup {
-    text-align: center;
-    font-size: 16px;
-    width: 60px;
-    font-weight: 600;
+
+  .scooter-marker-disabled {
+    filter: grayscale(100%)
   }
+  
 
   .charging-icon {
     filter: grayscale(100%)

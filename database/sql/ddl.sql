@@ -91,7 +91,7 @@ CREATE TABLE `scooter`
 CREATE TABLE `parking_zone`
     (
     `id` INT AUTO_INCREMENT,
-    `pos` CHAR(100),
+    `pos` CHAR(200),
     `city` CHAR(20),
 
     PRIMARY KEY (`id`),

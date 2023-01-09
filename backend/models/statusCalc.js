@@ -14,7 +14,7 @@ const statusCalc = {
     let parkingZones = mapModel.getParkingZones();
     let chargingStations = mapModel.getChargingStations();
 
-    positionCode = 0 // 0 = Utanför zoner, 1 = Parkeringszon, 2 = Laddningszon
+    let positionCode = 0 // 0 = Utanför zoner, 1 = Parkeringszon, 2 = Laddningszon
 
     // Undersök om koordinater är i zon
     // Sätt positionCode till relevant siffra.

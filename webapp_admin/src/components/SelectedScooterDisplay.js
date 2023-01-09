@@ -13,6 +13,8 @@ function Buttons({status, releaseScooter, stopScooter, moveToChargingStation,rem
     </>)
   } else if (status === 1){
     return(<button onClick={stopScooter}>Avsluta resa</button>)
+  } else if (status === 6){
+    <></>
   } else {
     return(
     <>
@@ -90,7 +92,7 @@ return (
         <p>{currentScooterInfo.pos[0].toString().slice(0,8)}</p>
         <p>{currentScooterInfo.pos[1].toString().slice(0,8)}</p>
         <p>Batteri: {selectedScooter.battery}%</p>
-        <p>Hyrs av: Kund {selectedTrip.id}</p>
+        {selectedTrip.id !== 0 ? <p>Hyrs av: Kund {selectedTrip.id}</p> : null}
         <Buttons removeScooterForService={removeScooterForService} status={selectedScooter.status} 
         moveToChargingStation={moveToChargingStation} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>

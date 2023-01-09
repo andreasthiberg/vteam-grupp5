@@ -1,7 +1,7 @@
 /* Colors for scooter status lights in list */
 
 .scooter-status-1 {
-    color:rgb(51, 101, 237);
+    color:#00B9FF
 }
 
 .scooter-status-2 {
@@ -21,7 +21,7 @@
 }
 
 .scooter-status-0 {
-    color:rgb(0, 0, 0);
+    color:rgb(97, 97, 97);
 }
 
 .scooter-status-6 {
