@@ -130,6 +130,7 @@ const scooters = {
             query
         })
     });
+}
 };
 
 export default scooters;
