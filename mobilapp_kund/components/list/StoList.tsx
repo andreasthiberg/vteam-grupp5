@@ -10,8 +10,7 @@ export default function StoList (props) {
   const [scooters, setScooters] = useState([]);
   // scooter button list
   const [scooterList, setScooterList] = useState([]);
-  // available scooters in Stockholm
-  //const [scootersSto, setScootersSto] = useState([]);
+  //const [stoScooters, setStoScooters] = useState([]);
 
   const SCOOTER_QUERY = gql`
     query ScooterQuery {
@@ -37,13 +36,14 @@ export default function StoList (props) {
     if (data) {
     setScooters(data.scooters);
 
-
-    const list = data.scooters
+    const stoScooters = data.scooters
     .filter(item => item.city === "Stockholm")
-    .filter(item => item.status == 2 || item.status == 3)
+    .filter(item => item.status == 2 || item.status == 3);
+
+    const list = stoScooters
     .map((item, index) => {
         return<Button
-            title={`Scooter ID: ${item.id.toString()}, Status: ${item.status}`}
+            title={`Scooter ID: ${item.id.toString()}`}
             key={index}
             onPress={() => {
               props.navigation.navigate('Details', {
@@ -57,7 +57,7 @@ export default function StoList (props) {
     });
     setScooterList(list);
     }
-}, [scooterData]);
+    }, [scooterData]);
 
   return (
       <ScrollView style={Base.base}>

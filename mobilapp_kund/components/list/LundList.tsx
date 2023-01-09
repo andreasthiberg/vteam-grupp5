@@ -31,13 +31,16 @@ export default function LundList (props) {
 
   useEffect(() => {
     if (data) {
-    setScooters(data.scooters)
-    const list = data.scooters
+    setScooters(data.scooters);
+
+    const lundScooters = data.scooters
     .filter(item => item.city === "Lund")
     .filter(item => item.status == 2 || item.status == 3)
+
+    const list = lundScooters
     .map((item, index) => {
         return<Button
-            title={`Scooter ID: ${item.id.toString()}, Status: ${item.status}`}
+            title={`Scooter ID: ${item.id.toString()}`}
             key={index}
             onPress={() => {
               props.navigation.navigate('Details', {
@@ -55,7 +58,7 @@ export default function LundList (props) {
 
 return (
   <ScrollView style={Base.base}>
-    <LundMap />
+    <LundMap scooters={scooters} />
     <View style={styles.list}>
       <Text style={Typography.header2}>Available Scooters</Text>
       {scooterList}

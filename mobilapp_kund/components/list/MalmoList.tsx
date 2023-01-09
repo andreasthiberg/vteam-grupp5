@@ -37,7 +37,7 @@ export default function MalmoList (props) {
     .filter(item => item.status == 2 || item.status == 3)
     .map((item, index) => {
         return<Button
-            title={`Scooter ID: ${item.id.toString()}, Status: ${item.status}`}
+            title={`Scooter ID: ${item.id.toString()}`}
             key={index}
             onPress={() => {
               props.navigation.navigate('Details', {
@@ -55,7 +55,7 @@ export default function MalmoList (props) {
 
 return (
   <ScrollView style={Base.base}>
-    <MalmoMap />
+    <MalmoMap scooters={scooters} />
     <View style={styles.list}>
       <Text style={Typography.header2}>Available Scooters</Text>
       {scooterList}

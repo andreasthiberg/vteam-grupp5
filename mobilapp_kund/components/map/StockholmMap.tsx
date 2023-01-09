@@ -23,8 +23,7 @@ export default function StockholmMap(props) {
         }
     `;
 
-    const sco = props.scooters;
-    //const [sco, setSco] = useState(props.scooters);
+    const stoSco = props.scooters;
     const [parkings, setParkings] = useState([]);
     const scooterMarker = [];
     const parkingMarker = [];
@@ -43,10 +42,8 @@ export default function StockholmMap(props) {
     //console.log("parking marker", parkingMarker);
 
     // Setting scooter location markers
-    if (sco !== undefined) {
-        sco
-        .filter(item => item.city === "Stockholm")
-        .filter(item => item.status == 2 || item.status == 3)
+    if (stoSco !== undefined) {
+        stoSco
         .map((item, index) => {
             const geo = item.pos.slice(1, -1).split(',');
             scooterMarker.push(
