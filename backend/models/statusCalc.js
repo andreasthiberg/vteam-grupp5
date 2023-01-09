@@ -1,6 +1,9 @@
 // Model for calculating status for scooters based on their location and different zones.
 
 const mapModel = require('./map')
+const scooterModel = require('./scooter')
+
+
 
 const statusCalc = {
   // Check if coordinates are in parking/charging zone at the end of trip
@@ -53,25 +56,34 @@ const statusCalc = {
   
     return inside;
   },
-  findClosestChargingStation: async function findClosestChargingStation(scooterCoords) {
-    // Hitta närmaste laddstation när en cykel ska flyttas dit av admin.
+  findClosestChargingStation: async function findClosestChargingStation(scooter) {
 
-    let point = new L.LatLng(scooterCoords);
+    // Hitta närmaste laddstation när en cykel ska flyttas dit av admin.
+    const geodist = require('geodist');
+
+    let coordinates = JSON.parse(scooter[0][0].pos);
 
     let closestChargingStation;
     let closestDistance = Infinity;
 
-    let chargingStations = mapModel.getChargingStations();
-    
-    for (let chargingStation of chargingStations) {
-      let distance = point.distanceTo(chargingStation);
+    let point = { lat: coordinates[0], lon: coordinates[1] };
+    let chargingStations = await mapModel.getChargingStations();
+
+    let stationsPos = chargingStations.map(row => row.pos);
+
+    for (let station of stationsPos) {
+      station = JSON.parse(station);
+      station = { lat: station[0], lon: station[1] };
+      let distance = geodist(point, station, { unit: 'meters' });
       if (distance < closestDistance) {
-        closestChargingStation = chargingStation;
         closestDistance = distance;
+        closestChargingStation = station;
       }
-  }
-  
-  return closestChargingStation;
+    }
+
+    let closestStation = [...Object.values(closestChargingStation)];
+
+    return closestStation;
   }
 }
 

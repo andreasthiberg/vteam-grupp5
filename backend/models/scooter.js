@@ -1,6 +1,8 @@
 // Model for writing and reading scooter info from database.
 
 const dbModel = require('./database.js')
+const calcModel = require('./statusCalc')
+
 
 const scooter = {
 
@@ -56,6 +58,11 @@ const scooter = {
     let status = args.hasOwnProperty("status") ? args.status : currentScooterData.status
     let pos = args.hasOwnProperty("pos") ? args.pos : currentScooterData.pos
     let battery = args.hasOwnProperty("battery") ? args.battery : currentScooterData.battery
+
+    if (status === 4) {
+      let closestStation = await calcModel.findClosestChargingStation(currentDbResult);
+      pos = '[' + closestStation[0] + ',' + closestStation[1] + ']';
+    }
 
     const sql = "CALL update_scooter(?,?,?,?)"
     console.log(args)
