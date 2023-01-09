@@ -18,17 +18,13 @@ const RootMutationType = require('./graphql/root_mutation.js')
 // Setup Public API route with schema
 const RootQueryTypePublic = require('./graphql/root_public.js')
 
-const schema = new GraphQLSchema({
+app.use(express.json());
+app.use(cors());
+
+let schema = new GraphQLSchema({
   query: RootQueryType,
   mutation: RootMutationType
 })
-
-const schemaPublic = new GraphQLSchema({
-  query: RootQueryTypePublic
-})
-
-app.use(express.json());
-app.use(cors());
 
 // Add GraphQL route
 app.use('/graphql', graphqlHTTP({
@@ -36,11 +32,19 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }))
 
-// Add GraphQL route
+schema = new GraphQLSchema({
+  query: RootQueryTypePublic
+})
+
 app.use('/v1/high5api', graphqlHTTP({
-  schemaPublic,
+  schema,
   graphiql: true
 }))
+
+
+
+// Add GraphQL route
+
 
 // Oauth router
 const authRouter = require('./routes/auth');

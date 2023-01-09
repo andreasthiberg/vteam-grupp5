@@ -42,7 +42,7 @@ class ScooterSimulation():
 
         # Create a scooter objects and appends them to the array
         for x in range(numberOfScooters):
-            newScooter = Scooter(startId+x,startCoords[2],1,"Stockholm",x+1)
+            newScooter = Scooter(startId+x,startCoords[2],1,"Stockholm",x+2)
             newScooter.add_to_database()
             newScooter.add_trip()
             self.scooterArray.append(newScooter)
