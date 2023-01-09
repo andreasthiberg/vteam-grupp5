@@ -17,9 +17,9 @@ export default function Customers() {
 
     return (
     <div>
-        <h1>Customer List Page</h1>
+        <h1>Kundlista</h1>
         <div className = "row">
-        <button className="btn btn-primary"> Add Customer</button>
+        <button className="btn btn-primary">Lägg till kund?</button>
         </div>
         <br></br>
             <div className = "row">
@@ -27,9 +27,9 @@ export default function Customers() {
                     <thead>
                         <tr>
                             <th> Id</th>
-                            <th> Customer name</th>
-                            <th> Customer mail</th>
-                            <th> Actions</th>
+                            <th> Namn</th>
+                            <th> E-mail</th>
+                            <th> Hantera</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,9 +41,9 @@ export default function Customers() {
                                         <td> {customer.last_name} {customer.first_name}</td>
                                         <td> {customer.email}</td>
                                         <td>
-                                            <button className="btn btn-info">Update </button>
-                                            <button className="btn btn-danger">Delete </button>
-                                            <button className="btn btn-info">View </button>
+                                            <button className="btn btn-info">Ändra</button>
+                                            <button className="btn btn-danger">Avaktivera </button>
+                                            <button className="btn btn-info">Se information </button>
                                         </td>
                                 </tr>
                             )

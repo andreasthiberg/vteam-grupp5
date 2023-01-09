@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 const Header = () => {
     return (
         <div className="header">
-            <h1>High5 Admin's Page</h1>
+            <h1>High5 Elsparkcyklar Administration</h1>
             <ul className="nav">
                 <li>
-                    <Link to='/'>Home</Link>
+                    <Link to='/'>Hem</Link>
                 </li>
                 <li>
-                    <Link to='/customers'>Customers</Link>
+                    <Link to='/customers'>Kunder</Link>
                 </li>
                 <li>
-                    <Link to='/map'>Map</Link>
+                    <Link to='/map'>Karta</Link>
                 </li>
             </ul>
         </div>

@@ -82,6 +82,7 @@ CREATE TABLE `scooter`
     `pos` CHAR(50),
     `battery` INT(3),
     `city` CHAR(20),
+    `station` INT(3),
 
     PRIMARY KEY (`id`),
     FOREIGN KEY(`city`) REFERENCES `city` (`name`)
@@ -165,11 +166,12 @@ DELIMITER ;;
 CREATE PROCEDURE add_scooter(
     `a_status` INT(3),
     `a_pos` CHAR(50),
-    `a_battery` INT(3)
+    `a_battery` INT(3),
+    `a_city` CHAR(20)
 )
 BEGIN
-    INSERT INTO scooter (`status`, `pos`, `battery`) 
-    VALUES (`a_status`, `a_pos`, `a_battery`);
+    INSERT INTO scooter (`status`, `pos`, `battery`,`city`) 
+    VALUES (`a_status`, `a_pos`, `a_battery`,`a_city`);
 END
 ;;
 DELIMITER ;

@@ -44,7 +44,6 @@ const scooter = {
   updateScooter: async function updateCustomer(args){
     const db = await dbModel.getDb()
 
-
     // !!!! Ta bort den här delen? Kanske en onödig kontroll, det kommer ju ändå ett felmeddelande från SQL om ID:t inte finns.
     let currentDbResult = await db.query("CALL get_one_scooter(?)",[args.id]);
 
@@ -64,14 +63,13 @@ const scooter = {
       pos = '[' + closestStation[0] + ',' + closestStation[1] + ']';
     }
 
-    const sql = "CALL update_scooter(?,?,?,?)"
-    console.log(args)
+    const sql = "CALL update_scooter(?,?,?,?,?)"
     let res = await db.query(sql, [args.id, status, pos, battery])
-    console.log(res) 
     db.end()  
 
-    return "Updates made to scooter."
+    return {id: args.id, status: status, pos: pos, battery: battery, city: currentScooterData.city}
   },
+
   // Recieves report from scooter brain with currentposition and battery
   reportScooter: async function reportScooter(args){
       const db = await dbModel.getDb()

@@ -72,13 +72,12 @@ const scooters = {
             posAsIntArray = JSON.parse(result.data["trips"][i].end_pos)
             result.data["trips"][i].end_pos = posAsIntArray
         }
-        
         return result.data;
     },
     changeScooterStatus: async function changeScooterStatus(scooterId,newStatus){
         const query = `
         mutation {
-            updateScooter(id:${scooterId},status:${newStatus}) 
+            updateScooter(id:${scooterId},status:${newStatus}){id,pos,status,city,battery} 
         }
     `;
 
@@ -92,45 +91,11 @@ const scooters = {
             query
         })
     });
-    return response;
-    },
-    moveScooterToChargingStation: async function moveScooterToChargingStation(scooterId){
-        const query = `
-        mutation {
-            chargeScooter(id:${scooterId}) 
-        }
-    `;
-
-    const response = await fetch('http://localhost:3000/graphql', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            query
-        })
-    });
-    return response;
-    },
-    moveToCharging: async function moveToCharging(scooterId){
-        const query = `
-        mutation {
-            updateScooter(id:${scooterId},status:${4})
-        }
-    `;
-
-    const response = await fetch('http://localhost:3000/graphql', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            query
-        })
-    });
-}
+    const result = await response.json();
+    let newScooterData = result.data.updateScooter
+    newScooterData.pos = JSON.parse(newScooterData.pos)
+    return newScooterData
+    }
 };
 
 export default scooters;

@@ -55,8 +55,7 @@ const scooters = {
             result.data["chargingStations"][i].pos = posAsIntArray
         }
         return result.data;
-    },
-
+    }
 };
 
 export default scooters;

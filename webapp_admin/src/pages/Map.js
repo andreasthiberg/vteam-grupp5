@@ -10,6 +10,7 @@ import mapModel from '../models/map';
 import createScooterIcon from '../assets/scooterIcons';
 import chargingStationIcons from '../assets/chargingStationIcons';
 import ScooterList from '../components/ScooterList';
+import StatusSymbols from '../components/StatusSymbols';
 
 function MapCenterChanger({mapCenter,selectedCity}) {
   const [panSelectedCity, setPanSelectedCity] = useState("Stockholm");
@@ -31,7 +32,6 @@ function SelectPan({selectedScooter,selectedStation}) {
     setPanSelectedScooterId(selectedScooter.id)
   }
   if(selectedStation.id !== panSelectedStationId && selectedStation.id !== 0){
-    console.log(selectedStation.pos)
     map.panTo(selectedStation.pos)
     setPanSelectedStationId(selectedStation.id)
   }
@@ -52,6 +52,7 @@ export default function Map() {
   const [selectedTrip, setSelectedTrip] = useState(dummyTrip);
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
   const [selectedMode, setSelectedMode] = useState("scooter");
+  const [chargingScooters, setChargingScooters] = useState([{scooterId:201,stationId:41}]);
 
   //Map data
   const [parkingZones, setParkingZones] = useState([]);
@@ -67,6 +68,7 @@ export default function Map() {
     updateZones()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   //Loads parking zones and charging stations from backend
   async function updateZones(city = selectedCity){
@@ -102,11 +104,8 @@ export default function Map() {
 
   // Get trip for selected scooter if there is one
   useEffect(() => {
-    console.log(tripData)
-    console.log(selectedScooter)
     let matchingTrips = tripData.filter((trip) => trip.scooter_id === selectedScooter.id)
     let trip = matchingTrips[0]
-    console.log(matchingTrips)
     if(trip !== undefined){
       setSelectedTrip(trip)
     } else {
@@ -157,9 +156,12 @@ export default function Map() {
       <div className="map-page-div">
       <div className="map-content-div">
       {selectedMode === "station" && selectedStation !== 0 ? 
-      <SelectedStationDisplay selectedStation={selectedStation}/>
+      <SelectedStationDisplay chargingScooters={chargingScooters} scootersInfo={scootersInfo} selectedStation={selectedStation}/>
       : selectedMode === "scooter" && selectedScooter !== 0 ?
-      <SelectedScooterDisplay setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter} selectedTrip={selectedTrip} />
+      <SelectedScooterDisplay setSelectedStation={setSelectedStation} setSelectedScooter={setSelectedScooter} 
+      chargingStations={chargingStations} selectedScooter={selectedScooter} selectedTrip={selectedTrip}
+      setSelectedMode={setSelectedMode} scootersInfo={scootersInfo} setChargingScooters={setChargingScooters}
+      chargingScooters={chargingScooters}/>
       : null
       }
       <div className="city-select-div">
@@ -181,7 +183,7 @@ export default function Map() {
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   />
-  {scootersInfo.map((scooter) => (
+  {scootersInfo.filter(scooter => scooter.status !== 4 && scooter.status !== 6).map((scooter) => (
     <Marker
       key={scooter.id}
       position={scooter.pos}
@@ -236,8 +238,8 @@ export default function Map() {
       :
       <ScooterList scooterData={scootersInfo} setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
       }
-
       </div>
+      <div className="status-symbol-div"><StatusSymbols /></div>
       </div>
       </div>
     </div>
