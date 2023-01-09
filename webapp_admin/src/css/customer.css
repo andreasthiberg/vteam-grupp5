@@ -1,0 +1,30 @@
+.customer-button {
+    font-weight: 500;
+    color: white;
+    background-color: #67AC5B;
+    border: none;
+    margin: 2px 20px 0 0;
+    width: 160px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.customer-info-div {
+    background-color: rgb(207, 235, 210);
+    padding: 20px;
+    width: 600px;
+}
+
+.single-trip-div {
+    background-color: rgb(207, 235, 210);
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.active-trip-div {
+    background-color: rgb(148, 193, 203);
+    padding: 20px;
+    margin-top: 10px;
+}

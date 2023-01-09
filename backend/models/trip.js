@@ -14,8 +14,7 @@ const trip = {
     const db = await dbModel.getDb()
 
     res = await db.query(sql)
-    db.end()
-
+    db.end() 
     return res[0]
   },
 
