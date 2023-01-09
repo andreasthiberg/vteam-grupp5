@@ -278,7 +278,7 @@ BEGIN
         `last_name` = `a_last_name`,
         `email` = `a_email`,
         `password`= `a_password`,
-        `balance` = `a_balance`docker 
+        `balance` = `a_balance`
     WHERE `id` = `a_id`
     ;
 END
