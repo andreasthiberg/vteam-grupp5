@@ -1,6 +1,3 @@
-
-
-
 const Start = () => {
 
     return (
