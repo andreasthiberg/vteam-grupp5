@@ -88,6 +88,18 @@ const RootMutationType = new GraphQLObjectType({
         return result
       }
     },
+    setCustomerStatus: {
+      type: GraphQLString,
+      description: 'Sets customer status',
+      args: {
+        id: { type: GraphQLInt, required: true},
+        status: { type: GraphQLInt, required: true }   
+      },
+      resolve: async function (root, args) {
+        const result = await customerModel.setCustomerStatus(args.id,args.status)
+        return result
+      }
+    },
     addTrip: {
       type: GraphQLString,
       description: 'Adds a new trip',
