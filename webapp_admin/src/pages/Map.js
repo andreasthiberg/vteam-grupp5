@@ -156,9 +156,9 @@ export default function Map() {
     <div>
       <div className="map-page-div">
       <div className="map-content-div">
-      {selectedMode === "station" && selectedStation !== 0 ? 
-      <SelectedStationDisplay chargingScooters={chargingScooters} scootersInfo={scootersInfo} selectedStation={selectedStation}/>
-      : selectedMode === "scooter" && selectedScooter !== 0 ?
+      {selectedMode === "station" && selectedStation.id !== 0 ? 
+      <SelectedStationDisplay chargingScooters={chargingScooters} scootersInfo={scootersInfo} selectedStation={selectedStation}/>
+      : selectedMode === "scooter" && selectedScooter.id !== 0 ?
       <SelectedScooterDisplay setSelectedStation={setSelectedStation} setSelectedScooter={setSelectedScooter} 
       chargingStations={chargingStations} selectedScooter={selectedScooter} selectedTrip={selectedTrip}
       setSelectedMode={setSelectedMode} scootersInfo={scootersInfo} setChargingScooters={setChargingScooters}
@@ -222,16 +222,6 @@ export default function Map() {
   </MapContainer>
 
       </div>
-      <div className="map-info-box">Vald scooter: {selectedScooter.id}<br/>
-      <ul>
-        <li>0 - Stopped by Admin</li>
-        <li style={{color:"blue"}}> 1 - Currently used </li>
-        <li style={{color:"green"}}>2 - Parked outside zones</li>
-        <li style={{color:"green"}}>3 - Parked in parking zone</li>
-        <li style={{color:"orange"}}>4 - Charging (not available)</li>
-        <li style={{color:"red"}}>5 - Out of batteries (and not in charging zone)</li>
-        <li>6 - Removed from map for maintenance</li>
-      </ul></div>
       <div className="map-list-div" id="unit-list-div">
       {selectedMode === "station" ? 
       <ChargingStationList stationData={chargingStations} setSelectedStation={setSelectedStation}
