@@ -56,12 +56,14 @@
     grid-row: 2 / 3;
 }
 
+/* Selected item display */
+
 .selected-display {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
     background-color: rgb(207, 235, 210);
     width: 200px;
-    height: 380px;
+    height: 400px;
     padding: 10px;
 }
 
@@ -82,13 +84,17 @@
 }
 
 .selected-display h2 {
-    text-align: left;
+    text-align: center;
     margin: 0;
     font-size: 20px;
 }
 
 .selected-display p {
     margin: 10px;
+}
+
+.display-label {
+    font-weight: 600;
 }
 
 /* Single station entry */

@@ -83,7 +83,7 @@ const scooter = {
       db.end()  
   
       return res[0][0].status;
-    }
+    },
 }
 
 module.exports = scooter

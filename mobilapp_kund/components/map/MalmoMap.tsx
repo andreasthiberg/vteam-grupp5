@@ -4,8 +4,8 @@ import { Base, Typography } from '../../styles';
 
 export default function MalmoMap() {
     return (
-        <View style={Base.base}>
-            <Text style={Typography.header2}>Malmö Map</Text>
+        <View>
+            {/* <Text style={Typography.header2}>Malmö Map</Text> */}
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
@@ -29,5 +29,7 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+        flex: 1,
+        height: 400,
     },
 });

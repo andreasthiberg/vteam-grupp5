@@ -15,10 +15,11 @@ const TripType = new GraphQLObjectType({
     scooter_id: { type: new GraphQLNonNull(GraphQLInt) },
     customer_id: { type: new GraphQLNonNull(GraphQLInt) },
     start_time: { type: new GraphQLNonNull(GraphQLString) },
-    end_time: { type: new GraphQLNonNull(GraphQLString) },
+    end_time: { type: GraphQLString },
     start_pos: { type: new GraphQLNonNull(GraphQLString) },
-    end_pos: { type: new GraphQLNonNull(GraphQLString) },
-    price: { type: new GraphQLNonNull(GraphQLInt) }
+    end_pos: { type: GraphQLString },
+    city: { type: new GraphQLNonNull(GraphQLString) },
+    price: { type: GraphQLInt }
   })
 })
 

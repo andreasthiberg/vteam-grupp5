@@ -22,11 +22,11 @@ const trip = {
   // Adds a new trip.
   addTrip: async function addTrip (args) {
 
-    const sql = "CALL add_trip(?,?,?)"
+    const sql = "CALL add_trip(?,?,?,?)"
 
     let res
     const db = await dbModel.getDb()
-    res = await db.query(sql, [args.scooter_id, args.customer_id, args.start_pos])
+    res = await db.query(sql, [args.scooter_id, args.customer_id, args.start_pos,args.city])
     db.end()
 
     return res

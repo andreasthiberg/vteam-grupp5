@@ -14,28 +14,42 @@ import ScooterList from '../components/ScooterList';
 function MapCenterChanger({mapCenter,selectedCity}) {
   const [panSelectedCity, setPanSelectedCity] = useState("Stockholm");
   const map = useMap()
-  if(selectedCity != panSelectedCity){
+  if(selectedCity !== panSelectedCity){
     map.panTo(mapCenter)
     setPanSelectedCity(selectedCity)
   }
   return null
 }
 
-function ScooterPan({selectedScooter}) {
-  const [panSelectedScooterId, setPanSelectedScooterId] = useState(1);
+function SelectPan({selectedScooter,selectedStation}) {
+  const [panSelectedScooterId, setPanSelectedScooterId] = useState(0);
+  const [panSelectedStationId, setPanSelectedStationId] = useState(0);
   const map = useMap()
-  if(selectedScooter.id != panSelectedScooterId){
+  if(selectedScooter.id !== panSelectedScooterId && selectedScooter.id !== 0){
+    console.log("Hej")
     map.panTo(selectedScooter.pos)
     setPanSelectedScooterId(selectedScooter.id)
+  }
+  if(selectedStation.id !== panSelectedStationId && selectedStation.id !== 0){
+    console.log(selectedStation.pos)
+    map.panTo(selectedStation.pos)
+    setPanSelectedStationId(selectedStation.id)
   }
   return null
 }
 
 export default function Map() {
+
+
+  const dummyScooter = {status:0,id:0,pos:[0,0],battery:100}
+  const dummyStation = {id:0,pos:[0,0]}
+  const dummyTrip = {id:0,start_pos:[0,0],end_pos:[0,0],start_time:"",end_time:"",cutomer_id:0,scooter_id:0,price:0}
+
   //Map changing
   const [selectedCity, setSelectedCity]  = useState("Stockholm");
-  const [selectedScooter, setSelectedScooter] = useState({status:0,id:1,pos:[0,0],battery:100});
-  const [selectedStation, setSelectedStation] = useState(0);
+  const [selectedScooter, setSelectedScooter] = useState(dummyScooter);
+  const [selectedStation, setSelectedStation] = useState(dummyStation);
+  const [selectedTrip, setSelectedTrip] = useState(dummyTrip);
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
   const [selectedMode, setSelectedMode] = useState("scooter");
 
@@ -43,11 +57,15 @@ export default function Map() {
   const [parkingZones, setParkingZones] = useState([]);
   const [chargingStations, setChargingStations] = useState([]);
   const [scootersInfo, setScootersInfo] = useState([]);
+  const [tripData, setTripData] = useState([]);
+
+
 
   //Load scooter info on load
   useEffect(() => {
     updateScooters()
     updateZones()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Loads parking zones and charging stations from backend
@@ -64,14 +82,37 @@ export default function Map() {
     setScootersInfo(response.scooters.filter(scooter => scooter.city === city));
   }
 
+  //Loads trip info from backend
+  async function updateTrips(city = selectedCity){
+    const response = await scooterModel.getAllTrips();
+    setTripData(response.trips.filter(trip => trip.city === city));
+  }
+
+
   // Interval to update scooter markers every x seconds
   useEffect(() => {
     const interval = setInterval(() => {
       updateScooters();
+      updateTrips();
     }, 2000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity]);
+
+  // Get trip for selected scooter if there is one
+  useEffect(() => {
+    console.log(tripData)
+    console.log(selectedScooter)
+    let matchingTrips = tripData.filter((trip) => trip.scooter_id === selectedScooter.id)
+    let trip = matchingTrips[0]
+    console.log(matchingTrips)
+    if(trip !== undefined){
+      setSelectedTrip(trip)
+    } else {
+      setSelectedTrip(dummyTrip)
+    }
+  }, [selectedScooter]);
 
   // Function to change current city
   function handleCityChange(e){
@@ -84,11 +125,15 @@ export default function Map() {
     setMapCenter(cityCenterCoords[e.target.value])
     updateScooters(e.target.value);
     updateZones(e.target.value);
+    setSelectedScooter(dummyScooter)
+    setSelectedStation(dummyStation)
   }
 
     // Function to change current mode
     function handleModeChange(e){
       setSelectedMode(e.target.value);
+      setSelectedScooter(dummyScooter)
+      setSelectedStation(dummyStation)
     }
 
   function scrollToSelectedStation(id){
@@ -114,7 +159,7 @@ export default function Map() {
       {selectedMode === "station" && selectedStation !== 0 ? 
       <SelectedStationDisplay selectedStation={selectedStation}/>
       : selectedMode === "scooter" && selectedScooter !== 0 ?
-      <SelectedScooterDisplay scooterData={scootersInfo} selectedScooter={selectedScooter}  />
+      <SelectedScooterDisplay setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter} selectedTrip={selectedTrip} />
       : null
       }
       <div className="city-select-div">
@@ -131,7 +176,7 @@ export default function Map() {
       <div className="map-display-div">
       <MapContainer center={mapCenter} zoom={14}>
       <MapCenterChanger mapCenter={mapCenter} selectedCity={selectedCity}/>
-      <ScooterPan scooterCoords={[54,54]} selectedScooter={selectedScooter}/>
+      <SelectPan selectedStation={selectedStation} selectedScooter={selectedScooter}/>
   <TileLayer
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -144,6 +189,7 @@ export default function Map() {
       eventHandlers={{
         click: (e) => {
           setSelectedScooter(scooter)
+          setSelectedMode("scooter")
           scrollToSelectedScooter(scooter.id)
         },
       }}>
@@ -158,17 +204,15 @@ export default function Map() {
   {chargingStations.map((zone) => (
                 <Marker
                 key={zone.id}
-                position={JSON.parse(zone.pos)}
-                icon={zone.id === selectedStation ? chargingStationIcons["selected"] : chargingStationIcons["standard"]}
+                position={zone.pos}
+                icon={zone.id === selectedStation.id ? chargingStationIcons["selected"] : chargingStationIcons["standard"]}
                 eventHandlers={{
                   click: (e) => {
-                    setSelectedStation(zone.id)
+                    setSelectedStation(zone)
+                    setSelectedMode("station")
                     scrollToSelectedStation(zone.id)
                   },
                 }}>
-                <Popup className="charging-popup">
-                  10
-                </Popup>
               </Marker>
   ))}
 

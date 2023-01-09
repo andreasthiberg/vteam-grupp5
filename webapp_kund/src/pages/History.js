@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-//import fetchGraphQL from './fetchGraphQL';
-import customerModel from '../models/customers';
 import historyModel from '../models/history';
 
 export default function History(props) {
@@ -13,26 +11,23 @@ export default function History(props) {
     (async () => {
       const response = await historyModel.getAllHistory();
       console.log(response);
-      //ユーザーでソートする
 
       setHistoryInfo(response.trips);
     })();
   }, []);
 
-
-     let historyList = historyInfo.map((trip, index) => <li key={index}>{trip.id},{trip.price}, {trip.scooter_id}</li>);
-
     return (
       <div className='history-container'>
         <h1>Usage History</h1>
-        {/* {historyList} */}
 
         <div className = "row">
             <table className = "table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th> Id</th>
-                        <th> Scooter id</th>
+                        <th> Date</th>
+                        <th> Scooter Id</th>
+                        <th> City</th>
                         <th> Price</th>
                     </tr>
                 </thead>
@@ -41,10 +36,16 @@ export default function History(props) {
                         historyInfo
                         //.filter(trip => trip.customer_id == userId)
                         .map(
-                            trip => 
+                            trip => {
+                              const date = new Date(parseInt(trip.start_time));
+                              const dateString = date.toString().substring(0,21);
+
+                            return (
                             <tr key = {trip.id}>
                                     <td> {trip.id} </td>
+                                    <td> {dateString}</td>
                                     <td> {trip.scooter_id}</td>
+                                    <td> {trip.city}</td>
                                     <td> {trip.price} sek</td>
                                     {/* <td>
                                         <button className="btn btn-info">Update </button>
@@ -52,7 +53,8 @@ export default function History(props) {
                                         <button className="btn btn-info">View </button>
                                     </td> */}
                             </tr>
-                        )
+                        );
+                      })
                     }
                 </tbody>
             </table>

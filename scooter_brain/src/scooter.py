@@ -9,26 +9,21 @@ import math
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
 
-    def __init__(self, id, pos):
+    def __init__(self, id, pos, status, customerId, city):
         self.id = id
+        self.customerId = customerId
+        self.city = city
         self.pos = pos
         self.battery = 100
         self.currentTrip = 0
-        self.status = 1
+        self.status = status
         self.direction = math.radians(random.randint(1, 360))
         self.xMovement = math.cos(self.direction)
         self.yMovement = math.sin(self.direction)
-        # 0 = stoppad av admin
-        # 1 = Kör
-        # 2 = Parkerad utanför zon
-        # 3 = Parkerad i parkeringszon
-        # 4 = Parkerad i laddningszon
-        # 5 = Slut på batterier och inte i laddningszon
-        # 6 = Under underhåll (borta från kartan)
+        self.batteryIncrement = 0
 
     # Sends update with current status and location to database
     def send_update(self):
-        print("Update from scooter with id " + str(self.id) + " in position " + str(self.pos))
         # Scooter is out of batteries
         if(self.battery <= 0):
             print("Slut på batterier.")
@@ -37,9 +32,11 @@ class Scooter():
         elif(self.status == 1):
              # Change location
             self.change_pos(self.xMovement*10,self.yMovement*10)
-
+            self.batteryIncrement += 1
             # Reduce battery by one percent
-            self.change_battery(-1)
+            if self.batteryIncrement > 9:
+                self.change_battery(-1)
+                self.batteryIncrement = 0
 
         # Scooter is charging
         elif(self.status == 4):
@@ -98,4 +95,15 @@ class Scooter():
         body = 'mutation {addScooter (pos:"%s",battery:100,status:1,city:"Stockholm")}'%(self.get_pos_as_coordinate_string())
 
         response = requests.post(url=url, json={"query": body})
-        print("response : ", response.content)
+        print("Scooter with id " + str(self.id) + " added to database")
+
+    def add_trip(self):
+
+        url = "http://backend:3000/graphql"
+        
+        body = 'mutation {addTrip (scooter_id:%s,customer_id:%s,start_pos:"%s",city:"%s")}'%(self.id,
+        self.customerId,self.get_pos_as_coordinate_string(),self.city)
+
+        response = requests.post(url=url, json={"query": body})
+        print(response)
+        print("Trip for scooter with id " + str(self.id) + " added to database")

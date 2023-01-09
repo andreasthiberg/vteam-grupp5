@@ -1,24 +1,24 @@
-// Fetch history info from graphql
+// Fetch customer's info from graphql
+import { IP } from "@env";
+import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
-const history = {
+const customers = {
     // baseUrl:
 
-    getAllHistory: async function getAllHistory() {
-        console.log("getAllHistory................");
+    getAllCustomers: async function getAllCustomers() {
         const query = `
             query {
-                trips {
-                    scooter_id
-                    customer_id
-                    start_time
+                customers {
                     id
-                    price
-                    city
+                    first_name
+                    last_name
+                    email
+                    balance
                 }
             }
         `;
 
-        const response = await fetch('http://localhost:3000/graphql', {
+        const response = await fetch(`http://${IP}:3000/graphql`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,4 +35,4 @@ const history = {
     }
 };
 
-export default history;
+export default customers;
