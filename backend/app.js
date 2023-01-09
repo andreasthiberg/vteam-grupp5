@@ -15,9 +15,16 @@ const port = process.env.NODE_DOCKER_PORT || 3000
 const RootQueryType = require('./graphql/root_query.js')
 const RootMutationType = require('./graphql/root_mutation.js')
 
+// Setup Public API route with schema
+const RootQueryTypePublic = require('./graphql/root_public.js')
+
 const schema = new GraphQLSchema({
   query: RootQueryType,
   mutation: RootMutationType
+})
+
+const schemaPublic = new GraphQLSchema({
+  query: RootQueryTypePublic
 })
 
 app.use(express.json());
@@ -26,6 +33,12 @@ app.use(cors());
 // Add GraphQL route
 app.use('/graphql', graphqlHTTP({
   schema,
+  graphiql: true
+}))
+
+// Add GraphQL route
+app.use('/v1/high5api', graphqlHTTP({
+  schemaPublic,
   graphiql: true
 }))
 

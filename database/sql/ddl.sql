@@ -134,11 +134,6 @@ CREATE TABLE `trip`
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
-
-
-
-
-
 -- Procedure to show all scooters
 DELIMITER ;;
 CREATE PROCEDURE get_all_scooters()
