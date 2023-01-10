@@ -41,6 +41,7 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: async function (root,args) {
         const result = await scooterModel.getOne(args.id)
+        await scooterModel.zoneCalc(result)
         return result;
       }
     },
