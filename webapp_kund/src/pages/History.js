@@ -8,8 +8,8 @@ export default function History(props) {
   const [selectedTrip, setSelectedTrip] = useState([]);
 
   const userId = props.user.id;
-  console.log("History id", userId)
-  console.log("selectedTrip", selectedTrip);
+  //console.log("History pase user-id", userId)
+  //console.log("selectedTrip", selectedTrip);
   const detailsRef = useRef(null);
 
   useEffect(() => {
