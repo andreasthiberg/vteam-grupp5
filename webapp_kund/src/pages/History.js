@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import historyModel from '../models/history';
 import HistoryDetails from './../components/HistoryDetails';
 
@@ -10,6 +10,7 @@ export default function History(props) {
   const userId = props.user.id;
   console.log("History id", userId)
   console.log("selectedTrip", selectedTrip);
+  const detailsRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -23,6 +24,7 @@ export default function History(props) {
   const handleClick = (trip) => {
     setShowDetails(true);
     setSelectedTrip(trip);
+    detailsRef.current.scrollIntoView({ behaviour: "smooth" });
   }
 
     return (
@@ -57,7 +59,8 @@ export default function History(props) {
                                     <td> {trip.city}</td>
                                     <td> {trip.price} sek</td>
                                     <td>
-                                        <button className="button1" onClick={(e) => handleClick(trip)}>View </button>
+                                        <button className="button1" onClick={(e) => handleClick(trip)}
+                                        >View </button>
                                     </td>
                             </tr>
                         );
@@ -65,9 +68,10 @@ export default function History(props) {
                     }
                 </tbody>
             </table>
-            { showDetails ?
-              <HistoryDetails selectedTrip={selectedTrip} /> : <></>
-            } 
+            <div ref={detailsRef}>
+              { showDetails ?
+                <HistoryDetails selectedTrip={selectedTrip} /> : <></>} 
+            </div>
         </div>
       </div>
     );

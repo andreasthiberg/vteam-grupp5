@@ -14,6 +14,7 @@
   justify-content: space-evenly;
 }
 h1 {
+  margin-top: 10px;
   color: rgb(249, 200, 4);
 }
 .button1 {
