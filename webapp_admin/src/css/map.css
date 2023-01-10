@@ -230,5 +230,12 @@
     padding: 20px;
   }
   
- 
+ /* Selected category */ 
 
+ .category-button {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 3px;
+    cursor: pointer;
+ }

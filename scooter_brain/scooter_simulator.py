@@ -4,6 +4,7 @@ import sys
 import requests
 import time
 import json
+import random
 from src.scooter import Scooter
 
 class ScooterSimulation():
@@ -35,14 +36,16 @@ class ScooterSimulation():
         # Get current highest ID of scooters in database
         lastScooterId = self.scooterArray[-1].get_id()
         startId = lastScooterId + 1
-        numberOfScooters = 30
+        numberOfScooters = 300
 
         # Coords for Lund, Malmö, Stockholm
-        startCoords = [[5570000, 1319000],[5560500, 1300380],[5933000, 1805500]]
+        coords = [5933000, 1805500]
 
         # Create a scooter objects and appends them to the array
         for x in range(numberOfScooters):
-            newScooter = Scooter(startId+x,startCoords[2],1,"Stockholm",x+2)
+            randomIntX = random.randint(5927099,5938191)
+            randomIntY = random.randint(1789754,1816411)
+            newScooter = Scooter(startId+x,[randomIntX,randomIntY],1,"Stockholm",x+2)
             newScooter.add_to_database()
             newScooter.add_trip()
             self.scooterArray.append(newScooter)
@@ -59,7 +62,7 @@ class ScooterSimulation():
         for scooter in self.scooterArray:
             scooter.send_update()
         print("Simulation update sent.")
-        time.sleep(2)
+        time.sleep(1)
         
     @staticmethod
     def quit():

@@ -18,8 +18,8 @@ class Scooter():
         self.currentTrip = 0
         self.status = status
         self.direction = math.radians(random.randint(1, 360))
-        self.xMovement = math.cos(self.direction)
-        self.yMovement = math.sin(self.direction)
+        self.xMovement = math.cos(self.direction)*4
+        self.yMovement = math.sin(self.direction)*4
         self.batteryIncrement = 0
 
     # Sends update with current status and location to database

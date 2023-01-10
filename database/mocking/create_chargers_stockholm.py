@@ -3,11 +3,12 @@ import random
 city = "Stockholm"
 separator = ","
 last_name = ""
-number_of_stations = 20
-start_lat = 59.320019
-end_lat = 59.340224
-start_lon = 18.050951
-end_lon = 18.072885
+number_of_stations = 100
+start_lat = 59.29111454588576
+end_lat = 59.36474994324031
+start_lon = 17.952050873611014
+end_lon = 18.14759556339954
+
 
 with open('../sql/insert4-charging-stations-stockholm.sql', 'w') as fh:
     fh.write("USE high5\n")
