@@ -35,9 +35,22 @@ export default function Home (props) {
             <div className="mypage-subcontainer2">
                 <div className="mypage-personalinfo">
                     <h1>Personal Info</h1>
-                    <p>Name: {props.user.first_name} {props.user.last_name}</p>
-                    <p>Email: {props.user.email}</p>
-                    {/* <p>Balance: {props.user.balance}</p> */}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>First Name:</td>
+                                <td>{props.user.first_name} </td>
+                            </tr>
+                            <tr>
+                                <td>Last Name:</td>
+                                <td>{props.user.last_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>{props.user.email}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div className="mypage-components">

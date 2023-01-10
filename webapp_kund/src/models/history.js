@@ -8,12 +8,15 @@ const history = {
         const query = `
             query {
                 trips {
+                    id
                     scooter_id
                     customer_id
                     start_time
-                    id
-                    price
+                    end_time
+                    start_pos
+                    end_pos
                     city
+                    price
                 }
             }
         `;
