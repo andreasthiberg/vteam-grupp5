@@ -12,6 +12,7 @@ export default function StoList (props) {
   const [scooterList, setScooterList] = useState([]);
   //const [stoScooters, setStoScooters] = useState([]);
 
+  // gql query for parking zones
   const SCOOTER_QUERY = gql`
     query ScooterQuery {
       scooters {
@@ -32,30 +33,31 @@ export default function StoList (props) {
 
   //console.log("query data:", data);
 
+  // Creating each scooters as a button
   useEffect(() => {
     if (data) {
-    setScooters(data.scooters);
+      setScooters(data.scooters);
 
-    const stoScooters = data.scooters
-    .filter(item => item.city === "Stockholm")
-    .filter(item => item.status == 2 || item.status == 3);
+      const stoScooters = data.scooters
+      .filter(item => item.city === "Stockholm")
+      .filter(item => item.status == 2 || item.status == 3);
 
-    const list = stoScooters
-    .map((item, index) => {
-        return<Button
-            title={`Scooter ID: ${item.id.toString()}`}
-            key={index}
-            onPress={() => {
-              props.navigation.navigate('Details', {
-                  item: item,
-                  running: props.running,
-                  setRunning: props.setRunning,
-                  setScooterId: props.setScooterId,
-              });
-          }}
-        />;
-    });
-    setScooterList(list);
+      const list = stoScooters
+      .map((item, index) => {
+          return<Button
+              title={`Scooter ID: ${item.id.toString()}`}
+              key={index}
+              onPress={() => {
+                props.navigation.navigate('Details', {
+                    item: item,
+                    running: props.running,
+                    setRunning: props.setRunning,
+                    setScooterId: props.setScooterId,
+                });
+            }}
+          />;
+      });
+      setScooterList(list);
     }
     }, [scooterData]);
 

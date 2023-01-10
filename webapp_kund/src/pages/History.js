@@ -34,7 +34,7 @@ export default function History(props) {
                 <tbody>
                     {
                         historyInfo
-                        //.filter(trip => trip.customer_id == userId)
+                        .filter(trip => trip.customer_id == userId)
                         .map(
                             trip => {
                               const date = new Date(parseInt(trip.start_time));

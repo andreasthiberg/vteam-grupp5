@@ -7,14 +7,29 @@ import { Marker } from "react-native-maps";
 import { useQuery, gql, ApolloProvider } from "@apollo/client";
 
 import high5 from './../../assets/high5_scooter_01small.png';
+import charging from './../../assets/charging.png';
 import parking from './../../assets/p_small.png';
 
 
 export default function StockholmMap(props) {
+    const sco = props.scooters;
+
+    // charging stations states
+    const [chargingData, setChargingData] = useState([]);
+    const [chargings, setChargings] = useState([]);
+
+    // parking zones states
+    //const [parkingData, setParkingData] = useState([]);
+    //const [parkings, setParkings] = useState([]);
+
+    // lists for saving map markers
+    const scooterMarker = [];
+    const chargingMarker = [];
+    //const parkingMarker = [];
     
-    // gql query for parking zones in Stockholm
-    const STO_PARKING_QUERY = gql`
-        query StoParkingQuery {
+    // gql query for parking zones
+    const PARKING_QUERY = gql`
+        query ParkingQuery {
             parkingZones {
                 id
                 pos
@@ -23,27 +38,54 @@ export default function StockholmMap(props) {
         }
     `;
 
-    const stoSco = props.scooters;
-    const [parkings, setParkings] = useState([]);
-    const scooterMarker = [];
-    const parkingMarker = [];
-
-    const { data:parking_data } = useQuery(STO_PARKING_QUERY);
-    //const parkings = parking_data.parkingZones;
-
-    //const { data:scooter_data } = useQuery(STO_SCOOTER_QUERY);
-    
-    useEffect(() => {
-        if (parking_data) {
-            setParkings(parking_data.parkingZones);
+    // gql query for charging stations
+    const CHARGING_QUERY = gql`
+        query ChargingQuery {
+            chargingStations {
+                id
+                pos
+                city
+            }
         }
-    }, []);
+    `;
 
-    //console.log("parking marker", parkingMarker);
+    const { data: charging_data } = useQuery(CHARGING_QUERY);
+    //const { data: parking_data } = useQuery(PARKING_QUERY);
+
+    useEffect(() => {
+        setChargingData(charging_data);
+    }, [charging_data]);
+
+    useEffect(() => {
+        if (charging_data) {
+          setChargings(charging_data.chargingStations);
+        }
+    }, [chargingData]);
+
+    // Set charging stations markers
+    if (chargings !== undefined) {
+        chargings
+        .filter(item => item.city === "Stockholm")
+        .map((item, index) => {
+            console.log(item.pos.slice(1, -1).split(','));
+            const geo = item.pos.slice(1, -1).split(',');
+            chargingMarker.push(
+                <Marker
+                    coordinate={{
+                        latitude: geo[0],
+                        longitude: geo[1]
+                    }}
+                    title={`Charging station: ${item.id.toString()}`}
+                    key={index}
+                    image={charging}
+                />
+            );
+        });
+    }
 
     // Setting scooter location markers
-    if (stoSco !== undefined) {
-        stoSco
+    if (sco !== undefined) {
+        sco
         .map((item, index) => {
             const geo = item.pos.slice(1, -1).split(',');
             scooterMarker.push(
@@ -60,25 +102,23 @@ export default function StockholmMap(props) {
         });
     }
 
-    //console.log("scooters:", scooters);
-
     // Setting parking location markers
-    if (parkings !== undefined) {
-        parkings.map((item, index) => {
-            const list = item.pos.split(',');
-            parkingMarker.push(
-                <Marker
-                    coordinate={{
-                        latitude: list[0],
-                        longitude: list[1]
-                    }}
-                    title="Parking"
-                    image={parking}
-                    key={index}
-                />
-            );
-        });
-    }
+    // if (parkings !== undefined) {
+    //     parkings.map((item, index) => {
+    //         const list = item.pos.split(',');
+    //         parkingMarker.push(
+    //             <Marker
+    //                 coordinate={{
+    //                     latitude: list[0],
+    //                     longitude: list[1]
+    //                 }}
+    //                 title="Parking"
+    //                 image={parking}
+    //                 key={index}
+    //             />
+    //         );
+    //     });
+    // }
 
     //console.log("scooter marker", scooterMarker)
 
@@ -94,15 +134,14 @@ export default function StockholmMap(props) {
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
                     }}>
-
                 {/* <Polygon
                     coordinates={state.coordinates}
                     strokeColor="blue"
                     fillColor="rgba(173,216,230, 0.3)"
                 /> */}
                 {scooterMarker}
+                {chargingMarker}
                 {/* {parkingMarker} */}
-                {/* {currentMarker} */}
                 </MapView>
             </View>
         </View>
