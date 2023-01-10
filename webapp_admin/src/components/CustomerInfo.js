@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function customerInfo({setSelectedCustomer,selectedCustomer,tripsInfo}) {
+export default function CustomerInfo({setSelectedCustomer,selectedCustomer,tripsInfo}) {
 
     const [matchingTrips,setMatchingTrips] = useState([]);
 
