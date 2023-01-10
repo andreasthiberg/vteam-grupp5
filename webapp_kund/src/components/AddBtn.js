@@ -1,47 +1,28 @@
 import { useState } from 'react';
-//import paymentModel from './../models/payment';
-import { gql, useMutation } from '@apollo/client';
+import paymentModel from './../models/payment';
+//import { gql, useMutation } from '@apollo/client';
 
 export default function AddBtn(props) {
     const [showFrom, setShowForm] = useState(false);
     const [selected, setSelected] = useState("");
     const [approved, setApproved] = useState(false);
-
-    const UPDATE_CUSTOMER = gql`
-            mutation UpdateCustomer($id: Int!, $balance: Int!) {
-                updateCustomer(id: $id, balance: $balance) {
-                    id
-                    balance
-                }
-            }
-        `;
-
+    
     function goToFrom() {
         setShowForm(true);
     }
 
-    function addBalance(event) {
-        event.preventDefault();
+    function addBalance() {
         setApproved(true);
     }
 
-    function complete(event) {
-        event.preventDefault();
+    function changeBalance() {
         let updatedBalance = parseInt(props.balance) + parseInt(selected)
+        console.log("updatedBalance", updatedBalance);
 
         props.setBalance(updatedBalance);
 
-        //paymentModel.updateBalance(updatedBalance);
-        updateCustomer({
-            variables: {
-                id: props.user.id, 
-                balance: updatedBalance
-            }
-        });
+        paymentModel.updateCustomer(props.user.id, updatedBalance);
     }
-
-    const [updateCustomer, { data }] = useMutation(UPDATE_CUSTOMER);
-    console.log("updated customer", data);
 
     function changeValue(event) {
         setSelected(event.target.value);
@@ -54,7 +35,7 @@ export default function AddBtn(props) {
                 <div>
                     <p>Swosh has authorized your money transfer to High5.</p>
                     <p>To complete the payment, please click the button.</p>
-                    <button className="button1" onClick={complete}>Complete</button>
+                    <button className="button1" onClick={() => changeBalance()}>Complete</button>
                 </div>
                 :
                 <>
