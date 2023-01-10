@@ -1,6 +1,6 @@
 import { React } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Marker, TileLayer, MapContainer, Rectangle, useMap} from "react-leaflet";
+import { Marker, TileLayer, MapContainer, Polygon, useMap} from "react-leaflet";
 import "../App.css";
 import ChargingStationList from '../components/ChargingStationList';
 import SelectedStationDisplay from '../components/SelectedStationDisplay';
@@ -52,6 +52,7 @@ export default function Map() {
   const [selectedTrip, setSelectedTrip] = useState(dummyTrip);
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
   const [selectedMode, setSelectedMode] = useState("scooter");
+  const [selectedCategory, setSelectedCategory] = useState(-1);
   const [chargingScooters, setChargingScooters] = useState([{scooterId:201,stationId:41}]);
 
   //Map data
@@ -201,7 +202,7 @@ export default function Map() {
   
   
   {parkingZones.map((zone) => (
-    <Rectangle key={zone.id} bounds={JSON.parse(zone.pos)} pathOptions={{color:"green",fillColor:"rgba(128, 177, 121, 1)"}}></Rectangle>
+    <Polygon key={zone.id} positions={JSON.parse(zone.pos)} pathOptions={{color:"green",fillColor:"rgba(128, 177, 121, 1)"}}></Polygon>
   ))}
 
   {chargingStations.map((zone) => (
@@ -227,7 +228,8 @@ export default function Map() {
       <ChargingStationList stationData={chargingStations} setSelectedStation={setSelectedStation}
       selectedStation={selectedStation} />
       :
-      <ScooterList scooterData={scootersInfo} setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
+      <ScooterList setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} scooterData={scootersInfo} 
+      setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
       }
       </div>
       <div className="status-symbol-div"><StatusSymbols /></div>
