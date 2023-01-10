@@ -2,7 +2,7 @@
 
 const payment = {
 
-    updatedBalance: async function updateBalance(newBalance) {
+    updatedCustomer: async function updateCustomer(newBalance) {
 
         const UPDATE_CUSTOMER = gql`
             mutation UpdateCustomer($id: Int!, $balance: Int!) {
