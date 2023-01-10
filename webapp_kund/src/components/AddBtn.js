@@ -49,29 +49,36 @@ export default function AddBtn(props) {
 
     if (showFrom) {
         return (
-            <form>
-                <label>Select how much you want to add to your balance:&nbsp;
-                    <select value={selected} onChange={changeValue}>
-                        <option value="0"></option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                        <option value="300">300</option>
-                        <option value="400">400</option>
-                        <option value="500">500</option>
-                        <option value="1000">1000</option>
-                    </select>
-                </label>
-                
-            {(approved===true) ?
+            <div>
+            {(approved === true) ?
                 <div>
                     <p>Swosh has authorized your money transfer to High5.</p>
                     <p>To complete the payment, please click the button.</p>
                     <button className="button1" onClick={complete}>Complete</button>
                 </div>
                 :
-                <button className="button1" onClick={addBalance}>Swosh</button>
+                <>
+                    <div>
+                        <form>
+                            <label>Select how much you want to add to your balance:&nbsp;
+                                <select value={selected} onChange={changeValue}>
+                                    <option value="0"></option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                </select>
+                            </label>
+                        </form>
+                </div>
+                <div>
+                    <button className="button1" onClick={addBalance}>Swosh</button>
+                </div>
+                </>
             }
-            </form>
+            </div>
         );
     } else {
         return (
