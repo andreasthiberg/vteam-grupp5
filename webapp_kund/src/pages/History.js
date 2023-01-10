@@ -1,11 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import historyModel from '../models/history';
+import HistoryDetails from './../components/HistoryDetails';
 
 export default function History(props) {
   const [historyInfo, setHistoryInfo] = useState([]);
+  const [showDetails, setShowDetails] = useState(false);
+  const [selectedTrip, setSelectedTrip] = useState([]);
 
   const userId = props.user.id;
   console.log("History id", userId)
+  console.log("selectedTrip", selectedTrip);
+  const detailsRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -16,6 +21,12 @@ export default function History(props) {
     })();
   }, []);
 
+  const handleClick = (trip) => {
+    setShowDetails(true);
+    setSelectedTrip(trip);
+    detailsRef.current.scrollIntoView({ behaviour: "smooth" });
+  }
+
     return (
       <div className='history-container'>
         <h1>Usage History</h1>
@@ -24,9 +35,9 @@ export default function History(props) {
             <table className = "table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th> Id</th>
+                        {/* <th> Id</th> */}
                         <th> Date</th>
-                        <th> Scooter Id</th>
+                        {/* <th> Scooter Id</th> */}
                         <th> City</th>
                         <th> Price</th>
                     </tr>
@@ -42,13 +53,14 @@ export default function History(props) {
 
                             return (
                             <tr key = {trip.id}>
-                                    <td> {trip.id} </td>
+                                    {/* <td> {trip.id} </td> */}
                                     <td> {dateString}</td>
-                                    <td> {trip.scooter_id}</td>
+                                    {/* <td> {trip.scooter_id}</td> */}
                                     <td> {trip.city}</td>
-                                    {/* <td> {trip.price} sek</td> */}
+                                    <td> {trip.price} sek</td>
                                     <td>
-                                        <button className="button1">View </button>
+                                        <button className="button1" onClick={(e) => handleClick(trip)}
+                                        >View </button>
                                     </td>
                             </tr>
                         );
@@ -56,6 +68,10 @@ export default function History(props) {
                     }
                 </tbody>
             </table>
+            <div ref={detailsRef}>
+              { showDetails ?
+                <HistoryDetails selectedTrip={selectedTrip} /> : <></>} 
+            </div>
         </div>
       </div>
     );
