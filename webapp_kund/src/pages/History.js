@@ -34,7 +34,7 @@ export default function History(props) {
                 <tbody>
                     {
                         historyInfo
-                        //.filter(trip => trip.customer_id == userId)
+                        .filter(trip => trip.customer_id == userId)
                         .map(
                             trip => {
                               const date = new Date(parseInt(trip.start_time));
@@ -46,12 +46,10 @@ export default function History(props) {
                                     <td> {dateString}</td>
                                     <td> {trip.scooter_id}</td>
                                     <td> {trip.city}</td>
-                                    <td> {trip.price} sek</td>
-                                    {/* <td>
-                                        <button className="btn btn-info">Update </button>
-                                        <button className="btn btn-danger">Delete </button>
-                                        <button className="btn btn-info">View </button>
-                                    </td> */}
+                                    {/* <td> {trip.price} sek</td> */}
+                                    <td>
+                                        <button className="button1">View </button>
+                                    </td>
                             </tr>
                         );
                       })
