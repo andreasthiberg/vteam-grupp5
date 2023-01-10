@@ -3,7 +3,7 @@ import { Text, ScrollView, Button } from 'react-native'
 import { Base, Typography } from '../styles';
 import { useState, useEffect } from 'react';
 
-export default function Scooters (props) {
+export default function ScooterList (props) {
   const [scooterData, setScooterData] = useState([]);
   const [scooters, setScooters] = useState([]);
   const [scooterList, setScooterList] = useState([]);
@@ -20,7 +20,9 @@ export default function Scooters (props) {
     }
   `;
 
-  const { data } = useQuery(SCOOTER_QUERY);
+  const { loading, error, data } = useQuery(SCOOTER_QUERY);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>
 
   useEffect(() => {
     setScooterData(data);
@@ -29,7 +31,7 @@ export default function Scooters (props) {
   //console.log("query data:", data);
 
   useEffect(() => {
-    if (data) {
+    if(data) {
     setScooters(data.scooters)
     const list = data.scooters
     .filter(item => item.status == 1)
