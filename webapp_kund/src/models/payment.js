@@ -1,14 +1,32 @@
-// Update payment info to graphql
+// Update balance in payment page
 
 const payment = {
 
-    updatedBalance: async function updateBalance(newBalance) {
+    updateCustomer: async function updateCustomer(id, balance) {
 
-        const UPDATE_CUSTOMER = gql`
-            mutation UpdateCustomer($id: Int!, $balance: Int!) {
-                updateCustomer(id: $id, balance: $balance)
+        console.log(id, balance);
+
+        const query = `
+            mutation {
+                updateCustomer(id:${id}, balance:${balance})
             }
         `;
+
+        const response = await fetch('http://localhost:3000/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query
+            })
+        });
+
+        const result = await response.json();
+        console.log(result)
+        
+        return result.data;
     }
 };
 

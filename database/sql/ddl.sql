@@ -263,7 +263,6 @@ CREATE PROCEDURE update_customer(
     `a_first_name` CHAR(20),
     `a_last_name` CHAR(30),
     `a_email` CHAR(50),
-    `a_password` CHAR(100),
     `a_balance` FLOAT
     )
 BEGIN
@@ -272,7 +271,6 @@ BEGIN
         `first_name` = `a_first_name`,
         `last_name` = `a_last_name`,
         `email` = `a_email`,
-        `password`= `a_password`,
         `balance` = `a_balance`
     WHERE `id` = `a_id`
     ;
