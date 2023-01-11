@@ -37,21 +37,20 @@ export default function DeactivateBtn({ item, setRunning, setScooterId }) {
     }, [tripData]);
 
     if ( trips !== undefined) {
-        //console.log(trips);
         trips
         .filter(item => item.scooter_id === scooterId)
         .map(item => {
             console.log(item.id);
             tripId = parseInt(item.id);
-            //setTripId(item.id);
         });
     }
 
-    // It works when I write in real number into tripId...
     const END_TRIP = gql`
-        mutation EndTrip {
+        mutation EndTrip(
+            $id: Int!
+        ){
             endTrip(
-                id: tripId
+                id: $id
             ){
                 scooter_id,
                 price
@@ -60,12 +59,8 @@ export default function DeactivateBtn({ item, setRunning, setScooterId }) {
     `;
 
     const [endTrip, { data }] = useMutation(END_TRIP);
-    console.log("endTrip mutation data", data);
-    console.log("id..............", tripId);
 
     function updateScooterState() {
-        console.log("Deactivate clicked.....");
-        console.log("id.......", tripId);
         setScooterId(0);
         setRunning(false);
     }
