@@ -7,9 +7,9 @@ const geodist = require('geodist');
 
 const statusCalc = {
   // Check if coordinates are in parking/charging zone at the end of trip
-  zoneCalculation: async function zoneCalculation (scooter) {
+  zoneCalculation: async function zoneCalculation (scooterCoords) {
 
-    let point = JSON.parse(scooter[0].pos);
+    let point = JSON.parse(scooterCoords);
 
     let parkingZones = await mapModel.getParkingZones();
     let parkingZonesCornersArray = parkingZones.map(row => row.pos);

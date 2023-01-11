@@ -44,6 +44,7 @@ DROP PROCEDURE IF EXISTS `get_all_trips`;
 DROP PROCEDURE IF EXISTS `get_one_trip`;
 DROP PROCEDURE IF EXISTS `add_trip`;
 DROP PROCEDURE IF EXISTS `update_trip`;
+DROP PROCEDURE IF EXISTS `update_trips_price`;
 
 DROP PROCEDURE IF EXISTS `get_trips_details`;
 DROP PROCEDURE IF EXISTS `get_trips_price_details`;
@@ -293,7 +294,7 @@ BEGIN
     ;
 END
 ;;
-DELIMITER 
+DELIMITER ;
 
 -- Procedure to show all parking zones
 DELIMITER ;;
@@ -383,11 +384,11 @@ DELIMITER ;
 -- Procedure to show one city
 DELIMITER ;;
 CREATE PROCEDURE get_one_city(
-    `a_id` INT
+    `a_name` CHAR(20)
 )
 BEGIN
     SELECT * FROM city
-    WHERE `id` = `a_id`;
+    WHERE `name` = `a_name`;
 END
 ;;
 DELIMITER ;
@@ -454,7 +455,6 @@ DELIMITER ;;
 CREATE PROCEDURE update_trip(
     `a_id` INT,
     `a_end_pos` CHAR(50),
-    `a_price` FLOAT,
     `a_penalty_fee` FLOAT,
     `a_discount` FLOAT
     )
@@ -463,9 +463,25 @@ BEGIN
     SET
         `end_time` = CURRENT_TIMESTAMP,
         `end_pos` = `a_end_pos`,
-        `price` = `a_price`,
         `penalty_fee` = `a_penalty_fee`,
         `discount` = `a_discount`
+    WHERE `id` = `a_id`
+    ;
+END
+;;
+DELIMITER ;
+
+
+-- Procedure to update one trips price
+DELIMITER ;;
+CREATE PROCEDURE update_trips_price(
+    `a_id` INT,
+    `a_price` FLOAT
+    )
+BEGIN
+    UPDATE trip
+    SET
+        `price` = `a_price`
     WHERE `id` = `a_id`
     ;
 END
@@ -545,10 +561,3 @@ BEGIN
 END
 ;;
 DELIMITER ;
-
-
-
--- delete scooter
--- delete customer
--- get scooters by position
--- triggers 

@@ -3,6 +3,9 @@
 const dbModel = require('./database')
 const calcModel = require('./statusCalc')
 const scooterModel = require('./scooter')
+const statusCalc = require('./statusCalc')
+const mapModel = require('./map')
+
 
 const trip = {
 
@@ -16,6 +19,18 @@ const trip = {
     res = await db.query(sql)
     db.end() 
     return res[0]
+  },
+
+  // Gets one trip from database.
+  getOne: async function getOne (tripId) {
+
+    const sql = "CALL get_one_trip(?)"
+    let res;
+    const db = await dbModel.getDb();
+
+    res = await db.query(sql, [tripId]);
+    db.end();
+    return res[0];
   },
 
   // Adds a new trip.
@@ -32,46 +47,80 @@ const trip = {
   },
 
   // Ends an existing trip.
-  endTrip: async function endTrip (args) {
+  endTrip: async function endTrip (tripId) {
 
-    //Här ska det finnas kod för att räkna ut penalty fee och discount baserat på scooterns
-    //start- och slutposition. Använder modellen statusCalc.js. Nedan är ej fungerande kod.
+    let id = tripId.id;
 
-    let discount = 0
-    let penalty = 0
-    let end_pos = '[59.315016, 18.057147]';
-    let price = 152;
-    // let newScooterCode
-  
-    // let start_pos = "0,0"
-    // let end_pos = "0,0"
-    // let cityCode = 1
+    let discount = 0;
+    let penalty = 0;
 
-    // let startPosCode = calcModel.zoneCalculation(cityCode,start_pos)
-    // let endPosCode = calcModel.zoneCalculation(cityCode,end_pos)
-    
-    // //Beräkna eventuell discount och ny status for scooter
-    // if(endPosCode == 0){
-    //   penalty = 100
-    //   newScooterCode = 2
-    // }
-    // else if (startPosCode == 0 && endPosCode > 0){
-    //   discount = 100
-    //   newScooterCode = 3
-    // }
+    let trip = await this.getOne(id);
+    let scooter = await scooterModel.getOne(trip[0].scooter_id);
+    let city = await mapModel.getOneCity(trip[0].city);
+
+    let cityFee = city[0].fee;
+    let cityFeePerMin = city[0].fee_per_min;
+
+    let cityPenaltyFee = city[0].penalty_fee;
+    let cityDiscount = city[0].discount;
+
+    let startPosCode = await statusCalc.zoneCalculation(trip[0].start_pos);
+
+    let endPos = scooter[0].pos;
+    let endPosCode = await statusCalc.zoneCalculation(endPos);
+
+    if((startPosCode === 0 && endPosCode === 1) 
+      || (startPosCode === 0 && endPosCode === 2) ){
+      discount = cityDiscount;
+    }
+
+    console.log("Discount: ", discount);
+
+    if( endPosCode === 0) {
+      penalty = cityPenaltyFee;
+    }
+
+    console.log("Penalty: ", penalty);
+
+    const db = await dbModel.getDb();
+    let res;
+    const sql = "CALL update_trip(?,?,?,?)";
+    await db.query(sql, [id, endPos, penalty, discount]);
+
+    let updatedTrip = await this.getOne(id);
+
+    let timeDiff = updatedTrip[0].end_time - updatedTrip[0].start_time;
+    let duration = Math.floor(timeDiff/1000/60);
+    console.log("Trips duration: ", duration);
+
+    let price = cityFee + cityFeePerMin * duration + penalty - discount;
+
+    if (price < cityFee) {
+      price = cityFee;
+    }
+
+    console.log("Price: ", price);
+
+    const sql1 = "CALL update_trips_price(?,?)";
+    res = await db.query(sql1, [id, price]);
 
     //Här ska det också göras en update med status till scootern beroende var den parkeras
-    // Kanske kan finnas i procecdure?
-    // scooterModel.updateScooter({status:newScooterCode})
 
-    // Lägg till discount och penalty i procedure-anropeet
-    const db = await dbModel.getDb()
-    let res
-    const sql = "CALL update_trip(?,?,?,?,?)"
-    res = await db.query(sql, [args.id, end_pos, price, penalty, discount])
-    db.end()
+    let newScooterStatus;
 
-    return res
+    if (endPosCode === 2) {
+      newScooterStatus = 4;
+    } else if (endPosCode === 1) {
+      newScooterStatus = 3
+    } else {
+      newScooterStatus = 2
+    }
+
+    let scooterId = scooter[0].id;
+    
+    await scooterModel.updateScooter({id: scooterId, status: newScooterStatus});
+    
+    return res;
   }
 }
 
