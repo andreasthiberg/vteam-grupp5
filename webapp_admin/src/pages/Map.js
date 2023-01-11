@@ -61,7 +61,7 @@ export default function Map () {
   // Interval to update scooter markers every x seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      updateScootersAndTrips()
+      updateScooters()
       updateTrips()
     }, 1000)
 
@@ -80,7 +80,6 @@ export default function Map () {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedScooter])
-
 
   // Function to change current city
   function handleCityChange (e) {
@@ -103,7 +102,6 @@ export default function Map () {
     setSelectedScooter(dummyScooter)
     setSelectedStation(dummyStation)
   }
-
 
   return (
     <div>
@@ -131,7 +129,7 @@ export default function Map () {
             <AdminMap
               mapCenter={mapCenter} selectedCity={selectedCity} selectedScooter={selectedScooter} scootersInfo={scootersInfo} parkingZones={parkingZones}
               chargingStations={chargingStations} selectedCategory={selectedCategory} selectedStation={selectedStation} setSelectedScooter={setSelectedScooter}
-              setSelectedMode={setSelectedMode}
+              setSelectedMode={setSelectedMode} setSelectedStation={setSelectedStation}
             />
           </div>
           <div className='right-panel'>

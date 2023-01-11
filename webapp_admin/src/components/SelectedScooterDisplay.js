@@ -53,7 +53,6 @@ export default function SelectedScooterDisplay ({
 
   async function stopScooter () {
     const tripReport = await scooterModel.endTrip(selectedTrip.id)
-    console.log(tripReport)
     const oldScooter = selectedScooter
     oldScooter.status = tripReport.new_scooter_status
     setSelectedScooter(oldScooter)

@@ -24,12 +24,12 @@ export default function ScooterList ({ scooterData, setSelectedScooter, selected
       listDiv.scrollTop = selectedDiv.offsetTop
     }
   }
-  
-    // Scroll to selected scooter when changed
-    useEffect(() => {
-      scrollToSelectedScooter(selectedScooter.id)
-    }, [selectedScooter])
-  
+
+  // Scroll to selected scooter when changed
+  useEffect(() => {
+    scrollToSelectedScooter(selectedScooter.id)
+  }, [selectedScooter])
+
   return (
     <>
       <div>
@@ -46,4 +46,3 @@ export default function ScooterList ({ scooterData, setSelectedScooter, selected
     </>
   )
 }
-

@@ -11,6 +11,7 @@ const scooters = {
                     battery
                     city
                     station
+                    zone
                 }
             }
         `
@@ -113,6 +114,7 @@ const scooters = {
       })
     })
     const result = await response.json()
+    console.log(result)
     return result.data.endTrip
   }
 }
