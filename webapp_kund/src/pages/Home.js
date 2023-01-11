@@ -62,19 +62,3 @@ export default function Home (props) {
     )
 
 }
-
-
-// return (
-//     <div className="mypage-container">
-//         <div className="personal-info">
-//             <h1>My page</h1>
-//             <p>Name: {props.user.first_name} {props.user.last_name}</p>
-//             <p>Email: {props.user.email}</p>
-//             <p>Balance: {props.user.balance}</p>
-//         </div>
-//         <div className="mypage-options">
-//             <button class="button1" onClick={() =>window.location.href='/history'}>Usage history</button>
-//             <button class="button1">Payment management</button>
-//         </div>
-//     </div>
-// )
