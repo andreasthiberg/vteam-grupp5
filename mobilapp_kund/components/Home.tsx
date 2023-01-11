@@ -1,8 +1,10 @@
 import { View, Text, Image } from 'react-native';
 import { Base, Typography } from '../styles';
+import { gql, useQuery } from '@apollo/client';
 import high5 from './../assets/high5circle01.png';
 import StopBtn from './StopBtn';
 import DeactivateBtn from './DeactivateBtn';
+import { useState, useEffect } from 'react';
 
 export default function Home(props) {
 

@@ -67,7 +67,7 @@ export default function StockholmMap(props) {
         chargings
         .filter(item => item.city === "Stockholm")
         .map((item, index) => {
-            console.log(item.pos.slice(1, -1).split(','));
+            //console.log(item.pos.slice(1, -1).split(','));
             const geo = item.pos.slice(1, -1).split(',');
             chargingMarker.push(
                 <Marker

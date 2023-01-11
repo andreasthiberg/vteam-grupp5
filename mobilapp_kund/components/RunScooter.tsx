@@ -6,8 +6,8 @@ import ActivateBtn from './ActivateBtn';
 export default function RunScooter({ route, setRunning, setScooterId, user }) {
     //console.log("came to RunScooter:", route.params);
     const { item } = route.params;
-    console.log("RunScooter: route.paramas::", item);
-    console.log("RunScooter: user::", user);
+    // console.log("RunScooter: route.paramas::", item);
+    // console.log("RunScooter: user::", user);
 
     return (
         <View style={Base.base}>

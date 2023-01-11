@@ -68,7 +68,7 @@ export default function MalmoMap(props) {
         chargings
         .filter(item => item.city === "Malmö")
         .map((item, index) => {
-            console.log(item.pos.slice(1, -1).split(','));
+            //console.log(item.pos.slice(1, -1).split(','));
             const geo = item.pos.slice(1, -1).split(',');
             chargingMarker.push(
                 <Marker

@@ -1,60 +1,77 @@
 import { View, Text, Button } from "react-native";
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Base } from "../styles";
-import tripModel from "./../models/trip";
+//import tripModel from "./../models/trip";
 import { useState, useEffect } from 'react';
 
 
 export default function DeactivateBtn({ item, setRunning, setScooterId }) {
-    // const { item } = route.params;
-    //console.log("DeactivateBtn props:", props);
-
-    const [ trips, setTrips ] = useState([]);
-    const [ tripId, setTripId ] = useState(0);
-
     const scooterId = item;
-    console.log("scooterId", scooterId);
 
-    const END_TRIP = gql`
-        mutation EndTrip($id: Int!) {
-            endTrip(id: $id)
-          }   
+    const [ tripData, setTripData ] = useState([]);
+    const [ trips, setTrips ] = useState([]);
+    //const [ tripId, setTripId ] = useState(null); //too many render error
+
+    let tripId = null;
+
+    const TRIP_QUERY = gql`
+        query TripQuery {
+            trips {
+                id
+                scooter_id
+            }
+        }
     `;
 
-    useState(() => {
-        (async() => {
-            const allTrips = await tripModel.getAllTrips();
-            setTrips(allTrips);
+    const { data: trip_data } = useQuery(TRIP_QUERY);
+    //console.log("query trip data", trip_data);
+
+    useEffect(() => {
+        setTripData(trip_data);
+    }, [trip_data]);
+
+    useEffect(() => {
+        if(trip_data) {
+            setTrips(trip_data.trips);
+        }
+    }, [tripData]);
+
+    if ( trips !== undefined) {
+        //console.log(trips);
+        trips
+        .filter(item => item.scooter_id === scooterId)
+        .map(item => {
+            console.log(item.id);
+            tripId = parseInt(item.id);
+            //setTripId(item.id);
         });
-    })
+    }
+
+    // It works when I write in real number into tripId...
+    const END_TRIP = gql`
+        mutation EndTrip {
+            endTrip(
+                id: tripId
+            ){
+                scooter_id,
+                price
+            }
+        }   
+    `;
 
     const [endTrip, { data }] = useMutation(END_TRIP);
-    console.log("changed status:", data);
+    console.log("endTrip mutation data", data);
+    console.log("id..............", tripId);
 
-    async function getTripId() {
-        const ongoingTrip = trips
-        .filter(item => item.scooter_id === scooterId);
-        setTripId(ongoingTrip.id);
-        console.log("tripId", tripId);
-    }
-    
     function updateScooterState() {
         console.log("Deactivate clicked.....");
+        console.log("id.......", tripId);
         setScooterId(0);
         setRunning(false);
     }
 
     return(
         <View style={Base.btn2}>
-            { tripId == 0 ?
-            <Button
-                title="Stop Running" 
-                color="white"
-                onPress={() => {
-                    getTripId();
-                }}
-            />
-            :
             <Button
                 title="Deactivate" 
                 color="white"
@@ -67,7 +84,6 @@ export default function DeactivateBtn({ item, setRunning, setScooterId }) {
                     updateScooterState();
                 }}
             />
-            }
         </View>
     )
 }
