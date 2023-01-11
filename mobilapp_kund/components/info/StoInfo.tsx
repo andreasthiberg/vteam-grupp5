@@ -11,8 +11,9 @@ export default function StoInfo(props) {
     const setScooters = props.setScooters;
     const scooters = props.scooters;
     const user = props.user;
+    const setCity = props.setCity;
 
-    props.setCity('Stockholm');
+    setCity('Stockholm');
 
     return (
         <Stack.Navigator initialRouteName="Scooters">

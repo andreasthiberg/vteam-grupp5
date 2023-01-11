@@ -1,28 +1,66 @@
 import { View, Text, Button } from "react-native";
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Base } from "../styles";
+//import tripModel from "./../models/trip";
+import { useState, useEffect } from 'react';
+
 
 export default function DeactivateBtn({ item, setRunning, setScooterId }) {
-    // const { item } = route.params;
-    //console.log("DeactivateBtn props:", props);
+    const scooterId = item;
 
-    
-    const scooter_id = item;
+    const [ tripData, setTripData ] = useState([]);
+    const [ trips, setTrips ] = useState([]);
+    //const [ tripId, setTripId ] = useState(null); //too many render error
 
-    console.log("DeactivateBtn: scooter_id:", scooter_id);
+    let tripId = null;
 
-    const CHANGE_STATUS = gql`
-        mutation UpdateScooter($id: Int!, $status: Int!) {
-            updateScooter(id: $id, status: $status)
-          }   
+    const TRIP_QUERY = gql`
+        query TripQuery {
+            trips {
+                id
+                scooter_id
+            }
+        }
     `;
 
-    const [updateScooter, { data }] = useMutation(CHANGE_STATUS);
-    console.log("changed status:", data);
-    //console.log("DeactivateBtn: scooter status", data.status);
-    
+    const { data: trip_data } = useQuery(TRIP_QUERY);
+    //console.log("query trip data", trip_data);
+
+    useEffect(() => {
+        setTripData(trip_data);
+    }, [trip_data]);
+
+    useEffect(() => {
+        if(trip_data) {
+            setTrips(trip_data.trips);
+        }
+    }, [tripData]);
+
+    if ( trips !== undefined) {
+        trips
+        .filter(item => item.scooter_id === scooterId)
+        .map(item => {
+            console.log(item.id);
+            tripId = parseInt(item.id);
+        });
+    }
+
+    const END_TRIP = gql`
+        mutation EndTrip(
+            $id: Int!
+        ){
+            endTrip(
+                id: $id
+            ){
+                scooter_id,
+                price
+            }
+        }   
+    `;
+
+    const [endTrip, { data }] = useMutation(END_TRIP);
+
     function updateScooterState() {
-        console.log("Deactivate clicked.....");
         setScooterId(0);
         setRunning(false);
     }
@@ -33,10 +71,9 @@ export default function DeactivateBtn({ item, setRunning, setScooterId }) {
                 title="Deactivate" 
                 color="white"
                 onPress={() => {
-                    updateScooter({
+                    endTrip({
                         variables: {
-                            id: scooter_id,
-                            status: 1
+                            id: tripId
                         }
                     });
                     updateScooterState();

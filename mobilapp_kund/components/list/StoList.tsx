@@ -59,7 +59,7 @@ export default function StoList (props) {
       });
       setScooterList(list);
     }
-    }, [scooterData]);
+  }, [scooterData]);
 
   return (
       <ScrollView style={Base.base}>
