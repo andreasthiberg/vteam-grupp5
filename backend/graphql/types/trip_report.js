@@ -24,7 +24,8 @@ const TripReportType = new GraphQLObjectType({
     city_fee_per_min: { type: GraphQLInt },
     duration: { type: GraphQLInt },
     discount: { type: GraphQLInt },
-    penalty: { type: GraphQLInt }
+    penalty: { type: GraphQLInt },
+    new_scooter_status:  { type: GraphQLInt }
   })
 })
 
