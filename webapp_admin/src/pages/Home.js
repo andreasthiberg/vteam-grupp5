@@ -1,24 +1,24 @@
 const Home = () => {
-    return( 
-    <div class="home-page-content-div">
-    <h1>Välkommen!</h1>
-    <p>På den här sidan kan du:</p>
-    <ul>    
+  return (
+    <div class='home-page-content-div'>
+      <h1>Välkommen!</h1>
+      <p>På den här sidan kan du:</p>
+      <ul>
         <li>
-            Se en översikt över alla cyklar i systemet.
+          Se en översikt över alla cyklar i systemet.
         </li>
         <li>
-            Flytta eller stänga av enskilda cyklar.
+          Flytta eller stänga av enskilda cyklar.
         </li>
         <li>
-            Se en översikt över alla kunder och deras resehistorik.
+          Se en översikt över alla kunder och deras resehistorik.
         </li>
         <li>
-            Stänga av eller aktivera enskilda cyklar.
+          Stänga av eller aktivera enskilda cyklar.
         </li>
-    </ul>
+      </ul>
     </div>
-    )
-};
+  )
+}
 
-export default Home;
+export default Home
