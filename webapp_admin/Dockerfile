@@ -2,6 +2,7 @@ FROM node:16
 
 WORKDIR /webapp_admin
 
-RUN npm install -g serve
+#RUN npm install -g serve
 
-CMD npx serve -s build
+CMD npm start
+#CMD npx serve -s build

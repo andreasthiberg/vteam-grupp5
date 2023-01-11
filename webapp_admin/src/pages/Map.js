@@ -1,42 +1,15 @@
 import { React } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Marker, TileLayer, MapContainer, Polygon, useMap } from 'react-leaflet'
 import '../App.css'
+import AdminMap from '../components/AdminMap'
 import ChargingStationList from '../components/ChargingStationList'
 import SelectedStationDisplay from '../components/SelectedStationDisplay'
 import SelectedScooterDisplay from '../components/SelectedScooterDisplay'
 import scooterModel from '../models/scooters'
 import mapModel from '../models/map'
-import createScooterIcon from '../assets/scooterIcons'
-import chargingStationIcons from '../assets/chargingStationIcons'
 import ScooterList from '../components/ScooterList'
 import CategogrySelect from '../components/CategorySelect'
 import StatusSymbols from '../components/StatusSymbols'
-
-function MapCenterChanger ({ mapCenter, selectedCity }) {
-  const [panSelectedCity, setPanSelectedCity] = useState('Stockholm')
-  const map = useMap()
-  if (selectedCity !== panSelectedCity) {
-    map.panTo(mapCenter)
-    setPanSelectedCity(selectedCity)
-  }
-  return null
-}
-
-function SelectPan ({ selectedScooter, selectedStation }) {
-  const [panSelectedScooterId, setPanSelectedScooterId] = useState(0)
-  const [panSelectedStationId, setPanSelectedStationId] = useState(0)
-  const map = useMap()
-  if (selectedScooter.id !== panSelectedScooterId && selectedScooter.id !== 0) {
-    map.panTo(selectedScooter.pos)
-    setPanSelectedScooterId(selectedScooter.id)
-  }
-  if (selectedStation.id !== panSelectedStationId && selectedStation.id !== 0) {
-    map.panTo(selectedStation.pos)
-    setPanSelectedStationId(selectedStation.id)
-  }
-  return null
-}
 
 export default function Map () {
   const dummyScooter = { status: 0, id: 0, pos: [0, 0], battery: 100 }
@@ -88,7 +61,7 @@ export default function Map () {
   // Interval to update scooter markers every x seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      updateScooters()
+      updateScootersAndTrips()
       updateTrips()
     }, 1000)
 
@@ -179,47 +152,11 @@ export default function Map () {
             <button value='station' className={`mode-select-button station-mode-button ${selectedMode === 'station' ? 'selected-button' : ''}`} onClick={handleModeChange} />
           </div>
           <div className='map-display-div'>
-            <MapContainer center={mapCenter} zoom={14}>
-              <MapCenterChanger mapCenter={mapCenter} selectedCity={selectedCity} />
-              <SelectPan selectedStation={selectedStation} selectedScooter={selectedScooter} />
-              <TileLayer
-                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              />
-              {scootersInfo.filter(scooter => scooter.status !== 4 && scooter.status !== 6 && (scooter.status === selectedCategory || selectedCategory === -1)).map((scooter) => (
-                <Marker
-                  key={scooter.id}
-                  position={scooter.pos}
-                  icon={createScooterIcon(scooter.status, (scooter.id === selectedScooter.id))}
-                  eventHandlers={{
-                    click: (e) => {
-                      setSelectedScooter(scooter)
-                      setSelectedMode('scooter')
-                    }
-                  }}
-                />
-              ))}
-
-              {parkingZones.map((zone) => (
-                <Polygon key={zone.id} positions={JSON.parse(zone.pos)} pathOptions={{ color: 'green', fillColor: 'rgba(128, 177, 121, 1)' }} />
-              ))}
-
-              {chargingStations.map((zone) => (
-                <Marker
-                  key={zone.id}
-                  position={zone.pos}
-                  icon={zone.id === selectedStation.id ? chargingStationIcons.selected : chargingStationIcons.standard}
-                  eventHandlers={{
-                    click: (e) => {
-                      setSelectedStation(zone)
-                      setSelectedMode('station')
-                    }
-                  }}
-                />
-              ))}
-
-            </MapContainer>
-
+            <AdminMap
+              mapCenter={mapCenter} selectedCity={selectedCity} selectedScooter={selectedScooter} scootersInfo={scootersInfo} parkingZones={parkingZones}
+              chargingStations={chargingStations} selectedCategory={selectedCategory} selectedStation={selectedStation} setSelectedScooter={setSelectedScooter}
+              setSelectedMode={setSelectedMode}
+            />
           </div>
           <div className='right-panel'>
             {selectedMode === 'station'
