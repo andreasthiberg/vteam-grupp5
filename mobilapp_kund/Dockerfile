@@ -8,5 +8,5 @@ EXPOSE 19000
 EXPOSE 19001
 EXPOSE 19002
 
-RUN npm install && npm install -g expo-cli
+RUN npm install --legacy-peer-deps && npm install -g expo-cli
 CMD ["npx", "expo", "start"]
