@@ -2,6 +2,7 @@
 
 const mapModel = require('./map')
 const geodist = require('geodist')
+const scooter = require('./scooter')
 
 const statusCalc = {
   // Check if coordinates are in parking/charging zone at the end of trip
@@ -16,16 +17,25 @@ const statusCalc = {
     const stationsPos = chargingStations.map(row => row.pos)
 
     let positionCode = 0 // 0 = Utanför zoner, 1 = Parkeringszon, 2 = Laddningszon
+    let category = ''
+    let zoneId = 0
 
     // Undersök om koordinater är i zon
     // Sätt positionCode till relevant siffra.
 
     // check if the point is within any of the parking zones
+    let zoneIndex = 0
     for (const parking of parkingArray) {
       if (this.pointInside(point, parking)) {
         positionCode = 1
+        category = 'zone'
         break
+      } else {
+        zoneIndex++
       }
+    }
+    if (parkingZones[zoneIndex]) {
+      zoneId = parkingZones[zoneIndex].id
     }
 
     // check if the point is on a charging station
@@ -35,9 +45,10 @@ const statusCalc = {
       const distance = geodist(point, station, { unit: 'meters' })
       if (distance < 1) {
         positionCode = 2
+        category = 'station'
       }
     }
-    return positionCode
+    return { code: positionCode, category, id: zoneId }
   },
   pointInside: function pointInside (point, parkings) {
     const x = point[0]; const y = point[1]

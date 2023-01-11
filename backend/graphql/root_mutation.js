@@ -124,6 +124,17 @@ const RootMutationType = new GraphQLObjectType({
         const tripReport = await tripModel.endTrip(args)
         return tripReport
       }
+    },
+    initialParkingCheck: {
+      type: GraphQLString,
+      description: 'Performs an initial check of scooters in zones.',
+      args: {
+        scooter_id: { type: GraphQLInt }
+      },
+      resolve: async function () {
+        const result = await scooterModel.initialParkingCheck()
+        return result
+      }
     }
   })
 })

@@ -55,10 +55,12 @@ const trip = {
     const cityPenaltyFee = city[0].penalty_fee
     const cityDiscount = city[0].discount
 
-    const startPosCode = await statusCalc.zoneCalculation(trip[0].start_pos)
+    const startPosCode = (await statusCalc.zoneCalculation(trip[0].start_pos)).code
 
     const endPos = scooter[0].pos
-    const endPosCode = await statusCalc.zoneCalculation(endPos)
+    const endPosCalc = await statusCalc.zoneCalculation(endPos)
+    console.log(endPosCalc)
+    const endPosCode = endPosCalc.code
 
     if ((startPosCode === 0 && endPosCode === 1) ||
       (startPosCode === 0 && endPosCode === 2)) {
@@ -94,13 +96,14 @@ const trip = {
     const sql1 = 'CALL update_trips_price(?,?)'
     await db.query(sql1, [id, price])
 
-    // Här ska det också göras en update med status till scootern beroende var den parkeras
-
+    // Update scooter status
     let newScooterStatus
 
     if (endPosCode === 2) {
       newScooterStatus = 4
     } else if (endPosCode === 1) {
+      const sql = 'CALL add_zone_to_scooter(?,?)'
+      const res = await db.query(sql, [scooter[0].id, endPosCalc.id])
       newScooterStatus = 3
     } else {
       newScooterStatus = 2
@@ -109,7 +112,8 @@ const trip = {
     const scooterId = scooter[0].id
 
     await scooterModel.updateScooter({ id: scooterId, status: newScooterStatus })
-
+    await scooterModel.updateScooter({ id: scooterId, status: newScooterStatus })
+    db.end()
     const tripReport = {
       trip_id: args.id,
       customer_id: trip[0].customer_id,
