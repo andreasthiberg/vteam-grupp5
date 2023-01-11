@@ -39,10 +39,10 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve: async function (root,args) {
+      resolve: async function (root, args) {
         const result = await scooterModel.getOne(args.id)
         await scooterModel.zoneCalc(result[0].pos)
-        return result[0];
+        return result[0]
       }
     },
     customer: {
@@ -51,7 +51,7 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         customerId: { type: GraphQLInt }
       },
-      resolve: async function (root,args) {
+      resolve: async function (root, args) {
         const customerArray = await customerModel.getAll()
         return customerArray.find(({ id }) => id === args.customerId)
       }
@@ -70,11 +70,9 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         tripId: { type: GraphQLInt }
       },
-      resolve: async function (root,args) {
-        // const tripArray = await tripModel.getAll()
-        // return tripArray.find(({ id }) => id === args.tripId)
-        const trip = await tripModel.getOne(tripId);
-        return trip[0];
+      resolve: async function (root, args) {
+        const trip = await tripModel.getOne(args.tripId)
+        return trip[0]
       }
     },
     trips: {
@@ -91,9 +89,9 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         cityName: { type: GraphQLString }
       },
-      resolve: async function (root,args) {
-        const city = await mapModel.getOneCity(args.cityName);
-        return city[0];
+      resolve: async function (root, args) {
+        const city = await mapModel.getOneCity(args.cityName)
+        return city[0]
       }
     },
     cities: {
@@ -126,9 +124,9 @@ const RootQueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve: async function (root,args) {
+      resolve: async function (root, args) {
         const chargingStations = await mapModel.getOneStation(args.id)
-        return chargingStations[0];
+        return chargingStations[0]
       }
     }
   })

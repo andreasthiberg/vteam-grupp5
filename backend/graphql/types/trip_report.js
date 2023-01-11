@@ -25,7 +25,7 @@ const TripReportType = new GraphQLObjectType({
     duration: { type: GraphQLInt },
     discount: { type: GraphQLInt },
     penalty: { type: GraphQLInt },
-    new_scooter_status:  { type: GraphQLInt }
+    new_scooter_status: { type: GraphQLInt }
   })
 })
 
