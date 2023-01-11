@@ -123,7 +123,7 @@ const trip = {
     let tripReport = {trip_id:args.id,customer_id:trip[0].customer_id,scooter_id:scooterId,scooter_status:newScooterStatus,
       price:price,city_fee:cityFee,city_fee_per_min:cityFeePerMin,penalty:penalty,discount:discount,
       start_pos:trip[0].start_pos,end_pos:endPos,start_time:updatedTrip[0].start_time,end_time:updatedTrip[0].end_time,
-      duration:duration,city:trip[0].city}
+      duration:duration,city:trip[0].city,new_scooter_status:newScooterStatus}
     return tripReport;
   }
 }
