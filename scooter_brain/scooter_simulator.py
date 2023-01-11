@@ -20,6 +20,13 @@ class ScooterSimulation():
         # Wait for backend to start fully
         time.sleep(5)
 
+        print("Requesting initial parking analysis...")
+
+        url = "http://backend:3000/graphql"        
+        body = "mutation{initialParkingCheck}"
+        response = requests.post(url=url, json={"query": body})
+        time.sleep(1)
+
         print("Starting scooter simulation...")
 
         # Create brains for scooters already in database

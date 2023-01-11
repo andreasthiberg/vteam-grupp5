@@ -22,6 +22,8 @@ DROP PROCEDURE IF EXISTS `get_one_scooter`;
 DROP PROCEDURE IF EXISTS `add_scooter`;
 DROP PROCEDURE IF EXISTS `update_scooter`;
 DROP PROCEDURE IF EXISTS `report_scooter`;
+DROP PROCEDURE IF EXISTS `add_zone_to_scooter`;
+DROP PROCEDURE IF EXISTS `add_station:_to_scooter`;
 
 DROP PROCEDURE IF EXISTS `get_all_customers`;
 DROP PROCEDURE IF EXISTS `get_one_customer`;
@@ -86,6 +88,7 @@ CREATE TABLE `scooter`
     `battery` INT(3),
     `city` CHAR(20),
     `station` INT(3) DEFAULT 0,
+    `zone` INT(3) DEFAULT 0,
     PRIMARY KEY (`id`),
     FOREIGN KEY(`city`) REFERENCES `city` (`name`)
     );
@@ -215,7 +218,7 @@ END
 ;;
 DELIMITER ;
 
--- Procedure to recieve update from scooter brain
+-- Procedure to add station Id to scooter
 DELIMITER ;;
 CREATE PROCEDURE add_station_to_scooter(
     `scooter_id` INT,
@@ -229,6 +232,25 @@ BEGIN
     ;
     SELECT `pos` FROM charging_station
     WHERE `id` = `station_id` 
+    ;
+END
+;;
+DELIMITER ;
+
+-- Procedure to add zone Id to scooter
+DELIMITER ;;
+CREATE PROCEDURE add_zone_to_scooter(
+    `scooter_id` INT,
+    `zone_id` CHAR(50)
+    )
+BEGIN
+    UPDATE scooter
+    SET
+		`zone` = `zone_id`
+	WHERE `id` = `scooter_id`
+    ;
+    SELECT `pos` FROM parking_zone
+    WHERE `id` = `zone_id` 
     ;
 END
 ;;

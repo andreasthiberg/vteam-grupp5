@@ -84,6 +84,22 @@ const scooter = {
     db.end()
 
     return { status: res[0][0].status, station: res[0][0].station }
+  },
+  // Changes initial scooters parked in zones to status 3
+  initialParkingCheck: async function initialParkingCheck () {
+    const scooters = await this.getAll()
+    const db = await dbModel.getDb()
+    for (const scooter of scooters) {
+      const calcResult = await calcModel.zoneCalculation(scooter.pos)
+      if (calcResult.code === 1) {
+        const sql = 'CALL add_zone_to_scooter(?,?)'
+        console.log(calcResult)
+        const res = await db.query(sql, [scooter.id, calcResult.id])
+        await this.updateScooter({ id: scooter.id, status: 3 })
+        console.log('Uppdaterat')
+      }
+    }
+    db.end()
   }
 }
 
