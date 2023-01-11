@@ -24,6 +24,16 @@ const map = {
     db.end()
     return res[0]
   },
+  // Get one charging station.
+  getOneStation: async function getOneStation (id) {
+    const sql = "CALL get_one_charging_station(?)"
+    let res
+    const db = await dbModel.getDb()
+
+    res = await db.query(sql,[id])
+    db.end()
+    return res[0]
+  },
   // Gets all cities.
   getCities: async function getCities () {
     const sql = "CALL get_all_cities()"

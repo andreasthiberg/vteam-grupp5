@@ -3,22 +3,13 @@ import { React } from 'react-router-dom';
 import "../App.css";
 
 
-export default function SelectedStationDisplay({scootersInfo, chargingScooters, selectedStation}) {
+export default function SelectedStationDisplay({scootersInfo, selectedStation}) {
 
 const [presentScooters,setPresentScooters] = useState([])
 
 
 useEffect(() => {
-  let matchingScooters = [];
-  for(let i = 0; i < chargingScooters.length; i++){
-    if(chargingScooters[i].stationId === selectedStation.id){
-      let filterResult = scootersInfo.filter(scooter => scooter.id === chargingScooters[i].scooterId);
-      let matchingScooter = filterResult[0]
-      matchingScooters.push(matchingScooter)
-    }
-  }
-  setPresentScooters(matchingScooters)
-
+  setPresentScooters(scootersInfo.filter(scooter => scooter.station === selectedStation.id))
 },[selectedStation,scootersInfo])
 
 return (
@@ -28,7 +19,7 @@ return (
         <p>{selectedStation.pos[0].toString().slice(0,8)}</p>
         <p>{selectedStation.pos[1].toString().slice(0,8)}</p>
         <p className="display-label">{presentScooters.length} Cyklar</p>
-        <div>{presentScooters.map((scooter) => (<div key={scooter.id}>{scooter.id} - {scooter.battery}% batteri.</div>))}</div>
+        <div>{presentScooters.map((scooter) => (<div key={scooter.id}>{scooter.id} - <span className={scooter.battery < 100 ? "battery-warning-text":null}>{scooter.battery}% batteri.</span></div>))}</div>
         <p></p>
     </div>
   );

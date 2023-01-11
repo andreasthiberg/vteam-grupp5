@@ -77,6 +77,8 @@ const statusCalc = {
 
     let stationsPos = chargingStations.map(row => row.pos);
 
+    let i = 0;
+    let stationIndex = 0;
     for (let station of stationsPos) {
       station = JSON.parse(station);
       station = { lat: station[0], lon: station[1] };
@@ -84,10 +86,12 @@ const statusCalc = {
       if (distance < closestDistance) {
         closestDistance = distance;
         closestChargingStation = station;
+        stationIndex = i;
       }
+      i++;
     }
 
-    let closestStation = [...Object.values(closestChargingStation)];
+    let closestStation = {pos:[...Object.values(closestChargingStation)],stationId:stationIndex+1};
 
     return closestStation;
   }

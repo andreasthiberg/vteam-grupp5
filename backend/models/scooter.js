@@ -62,9 +62,13 @@ const scooter = {
     let pos = args.hasOwnProperty("pos") ? args.pos : currentScooterData.pos
     let battery = args.hasOwnProperty("battery") ? args.battery : currentScooterData.battery
 
-    if (status === 4) {
+    //Move to charging station
+    if (currentScooterData.status !== 4 && args.status === 4) {
+      console.log("Changing to charging...")
       let closestStation = await calcModel.findClosestChargingStation(currentDbResult);
-      pos = '[' + closestStation[0] + ',' + closestStation[1] + ']';
+      pos = '[' + closestStation.pos[0] + ',' + closestStation.pos[1] + ']';
+      const sql = "CALL add_station_to_scooter(?,?)"
+      let res = await db.query(sql, [args.id, closestStation.stationId])
     }
 
     const sql = "CALL update_scooter(?,?,?,?)"
@@ -84,7 +88,7 @@ const scooter = {
       
       db.end()  
   
-      return res[0][0].status;
+      return {status:res[0][0].status,station:res[0][0].station}
     },
 }
 

@@ -27,7 +27,6 @@ function SelectPan({selectedScooter,selectedStation}) {
   const [panSelectedStationId, setPanSelectedStationId] = useState(0);
   const map = useMap()
   if(selectedScooter.id !== panSelectedScooterId && selectedScooter.id !== 0){
-    console.log("Hej")
     map.panTo(selectedScooter.pos)
     setPanSelectedScooterId(selectedScooter.id)
   }
@@ -43,7 +42,7 @@ export default function Map() {
 
   const dummyScooter = {status:0,id:0,pos:[0,0],battery:100}
   const dummyStation = {id:0,pos:[0,0]}
-  const dummyTrip = {id:0,start_pos:[0,0],end_pos:[0,0],start_time:"",end_time:"",cutomer_id:0,scooter_id:0,price:0}
+  const dummyTrip = {id:0,start_pos:[0,0],end_pos:[0,0],start_time:"",end_time:"",cutomer_id:0,scooter_id:0,price:0,station:0}
 
   //Map changing
   const [selectedCity, setSelectedCity]  = useState("Stockholm");
@@ -53,7 +52,6 @@ export default function Map() {
   const [mapCenter, setMapCenter] = useState([59.33, 18.055]);
   const [selectedMode, setSelectedMode] = useState("scooter");
   const [selectedCategory, setSelectedCategory] = useState(-1);
-  const [chargingScooters, setChargingScooters] = useState([{scooterId:201,stationId:41}]);
 
   //Map data
   const [parkingZones, setParkingZones] = useState([]);
@@ -115,6 +113,16 @@ export default function Map() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedScooter]);
 
+    // SCroll to selected scooter when changed
+    useEffect(() => {
+      scrollToSelectedScooter(selectedScooter.id)
+    }, [selectedScooter]);
+
+        // SCroll to selected station when changed
+        useEffect(() => {
+          scrollToSelectedStation(selectedStation.id)
+        }, [selectedStation]);
+
   // Function to change current city
   function handleCityChange(e){
     let cityCenterCoords = {
@@ -158,12 +166,11 @@ export default function Map() {
       <div className="map-page-div">
       <div className="map-content-div">
       {selectedMode === "station" && selectedStation.id !== 0 ? 
-      <SelectedStationDisplay chargingScooters={chargingScooters} scootersInfo={scootersInfo} selectedStation={selectedStation}/>
+      <SelectedStationDisplay scootersInfo={scootersInfo} selectedStation={selectedStation}/>
       : selectedMode === "scooter" && selectedScooter.id !== 0 ?
       <SelectedScooterDisplay setSelectedStation={setSelectedStation} setSelectedScooter={setSelectedScooter} 
       chargingStations={chargingStations} selectedScooter={selectedScooter} selectedTrip={selectedTrip}
-      setSelectedMode={setSelectedMode} scootersInfo={scootersInfo} setChargingScooters={setChargingScooters}
-      chargingScooters={chargingScooters}/>
+      setSelectedMode={setSelectedMode} scootersInfo={scootersInfo}/>
       : null
       }
       <div className="city-select-div">
@@ -194,7 +201,6 @@ export default function Map() {
         click: (e) => {
           setSelectedScooter(scooter)
           setSelectedMode("scooter")
-          scrollToSelectedScooter(scooter.id)
         },
       }}>
     </Marker>
@@ -214,7 +220,6 @@ export default function Map() {
                   click: (e) => {
                     setSelectedStation(zone)
                     setSelectedMode("station")
-                    scrollToSelectedStation(zone.id)
                   },
                 }}>
               </Marker>
@@ -226,7 +231,7 @@ export default function Map() {
       <div className="map-list-div" id="unit-list-div">
       {selectedMode === "station" ? 
       <ChargingStationList stationData={chargingStations} setSelectedStation={setSelectedStation}
-      selectedStation={selectedStation} />
+      selectedStation={selectedStation} scooterData={scootersInfo}/>
       :
       <ScooterList setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} scooterData={scootersInfo} 
       setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
