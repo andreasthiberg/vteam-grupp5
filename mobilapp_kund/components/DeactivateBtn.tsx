@@ -1,25 +1,42 @@
 import { View, Text, Button } from "react-native";
 import { gql, useMutation } from '@apollo/client';
 import { Base } from "../styles";
+import tripModel from "./../models/trip";
+import { useState, useEffect } from 'react';
+
 
 export default function DeactivateBtn({ item, setRunning, setScooterId }) {
     // const { item } = route.params;
     //console.log("DeactivateBtn props:", props);
 
-    
-    const scooter_id = item;
+    const [ trips, setTrips ] = useState([]);
+    const [ tripId, setTripId ] = useState(0);
 
-    console.log("DeactivateBtn: scooter_id:", scooter_id);
+    const scooterId = item;
+    console.log("scooterId", scooterId);
 
-    const CHANGE_STATUS = gql`
-        mutation UpdateScooter($id: Int!, $status: Int!) {
-            updateScooter(id: $id, status: $status)
+    const END_TRIP = gql`
+        mutation EndTrip($id: Int!) {
+            endTrip(id: $id)
           }   
     `;
 
-    const [updateScooter, { data }] = useMutation(CHANGE_STATUS);
+    useState(() => {
+        (async() => {
+            const allTrips = await tripModel.getAllTrips();
+            setTrips(allTrips);
+        });
+    })
+
+    const [endTrip, { data }] = useMutation(END_TRIP);
     console.log("changed status:", data);
-    //console.log("DeactivateBtn: scooter status", data.status);
+
+    async function getTripId() {
+        const ongoingTrip = trips
+        .filter(item => item.scooter_id === scooterId);
+        setTripId(ongoingTrip.id);
+        console.log("tripId", tripId);
+    }
     
     function updateScooterState() {
         console.log("Deactivate clicked.....");
@@ -29,19 +46,28 @@ export default function DeactivateBtn({ item, setRunning, setScooterId }) {
 
     return(
         <View style={Base.btn2}>
+            { tripId == 0 ?
+            <Button
+                title="Stop Running" 
+                color="white"
+                onPress={() => {
+                    getTripId();
+                }}
+            />
+            :
             <Button
                 title="Deactivate" 
                 color="white"
                 onPress={() => {
-                    updateScooter({
+                    endTrip({
                         variables: {
-                            id: scooter_id,
-                            status: 1
+                            id: tripId
                         }
                     });
                     updateScooterState();
                 }}
             />
+            }
         </View>
     )
 }

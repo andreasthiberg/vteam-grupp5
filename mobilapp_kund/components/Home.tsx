@@ -1,6 +1,7 @@
 import { View, Text, Image } from 'react-native';
 import { Base, Typography } from '../styles';
 import high5 from './../assets/high5circle01.png';
+import StopBtn from './StopBtn';
 import DeactivateBtn from './DeactivateBtn';
 
 export default function Home(props) {
