@@ -24,16 +24,26 @@ const map = {
     db.end()
     return res[0]
   },
-    // Gets all cities.
-    getCities: async function getCities () {
-      const sql = "CALL get_all_cities()"
-      let res
-      const db = await dbModel.getDb()
-  
-      res = await db.query(sql)
-      db.end()
-      return res[0]
-    }
+  // Gets all cities.
+  getCities: async function getCities () {
+    const sql = "CALL get_all_cities()"
+    let res
+    const db = await dbModel.getDb()
+
+    res = await db.query(sql)
+    db.end()
+    return res[0]
+  },
+  // Gets one city.
+  getOneCity: async function getOneCity (cityName) {
+    const sql = "CALL get_one_city(?)";
+    let res;
+    const db = await dbModel.getDb();
+
+    res = await db.query(sql,[cityName]);
+    db.end();
+    return res[0];
+  }
 }
 
 module.exports = map

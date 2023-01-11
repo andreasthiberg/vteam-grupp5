@@ -41,7 +41,8 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: async function (root,args) {
         const result = await scooterModel.getOne(args.id)
-        return result;
+        await scooterModel.zoneCalc(result[0].pos)
+        return result[0];
       }
     },
     customer: {
@@ -70,8 +71,10 @@ const RootQueryType = new GraphQLObjectType({
         tripId: { type: GraphQLInt }
       },
       resolve: async function (root,args) {
-        const tripArray = await tripModel.getAll()
-        return tripArray.find(({ id }) => id === args.tripId)
+        // const tripArray = await tripModel.getAll()
+        // return tripArray.find(({ id }) => id === args.tripId)
+        const trip = await tripModel.getOne(tripId);
+        return trip[0];
       }
     },
     trips: {
@@ -80,6 +83,17 @@ const RootQueryType = new GraphQLObjectType({
       resolve: async function () {
         const tripArray = await tripModel.getAll()
         return tripArray
+      }
+    },
+    city: {
+      type: CityType,
+      description: 'A single city',
+      args: {
+        cityName: { type: GraphQLString }
+      },
+      resolve: async function (root,args) {
+        const city = await mapModel.getOneCity(args.cityName);
+        return city[0];
       }
     },
     cities: {

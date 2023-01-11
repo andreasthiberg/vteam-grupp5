@@ -1,6 +1,7 @@
 // Model for writing and reading scooter info from database.
 
 const dbModel = require('./database.js')
+const statusCalc = require('./statusCalc')
 const calcModel = require('./statusCalc')
 
 
@@ -39,6 +40,9 @@ const scooter = {
     res = await db.query(sql,[args.status,args.pos,battery,args.city])
     db.end();
     return res[0]
+  },
+  zoneCalc: async function zoneC(scooterCoords) {
+    await statusCalc.zoneCalculation(scooterCoords)
   },
   // Updates an existing scooter based on arguments, using given ID.
   updateScooter: async function updateCustomer(args){

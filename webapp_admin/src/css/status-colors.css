@@ -36,3 +36,35 @@
 .status-symbol-div ul {
     list-style: none;
 }
+
+/* Category select colors */
+
+/* Colors for scooter status lights in list */
+
+.category-status-1 {
+    background-color:#00B9FF
+}
+
+.category-status-2 {
+    background-color:rgb(83, 221, 97);
+}
+
+.category-status-3 {
+    background-color:rgb(5, 77, 12);
+}
+
+.category-status-4 {
+    background-color:rgb(231, 237, 51);
+}
+
+.category-status-5 {
+    background-color:#FE7331
+}
+
+.category-status-0 {
+    background-color:rgb(97, 97, 97);
+}
+
+.category-status-6 {
+    background-color:rgb(255, 0, 238);
+}
