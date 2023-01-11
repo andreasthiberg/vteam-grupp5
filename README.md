@@ -6,7 +6,7 @@
 ## Beskrivning
 Projektrepo för kursen [vteam](https://dbwebb.se/kurser/vteam-v1/) på [BTH](https://bth.se/) under HT 2022. Företaget, Elsparkcyklar i Sverige AB, är ett fiktivt företag.
 
-Projektet har gått ut på att bygga ett komplett system för ett elsparkcykelföretag verksamt i 3 städer i Sverige.
+Projektet har gått ut på att bygga ett komplett system för ett elsparkcykelföretag verksamt i Sverige. 3 städer, mer än 1000 cyklar, mer än 1000 kunder. 
 
 
 ## Badges
@@ -16,10 +16,15 @@ Projektet har gått ut på att bygga ett komplett system för ett elsparkcykelf�
 
 ## Installation och uppstart
 ### Förutsättningar
-1. Du behöver ha [Docker](https://www.docker.com/). 
-2. Clona detta repo.
-3. Du behöver tillgång till `.env` med inlogg, den finns inlämnad på redovisningen av kursen på Canvas. I den behöver du även uppdatera ditt IP-nr
-4. Du behöver komplettera med ditt IP-nr i `.env` filen i [mobilapp_kund](/mobilapp_kund/) för att kunna köra appen
+1. Du behöver ha [Docker](https://www.docker.com/).
+2. Du behöver ha [Expo](https://expo.dev/).
+3. Clona detta repo.
+4. Du behöver komplettera miljövariablerna i repot. [.env_dummie](/.env_dummie) samt döpa om den till `.env`. Kontakta team High5 för mer information.
+    > Är du examinator på denna kurs har du fått en kopia i inlämningen.
+5. Du behöver uppdatera med ditt IP-nr i miljövariablerna i mobilappen. [.env_dummie](/mobilapp_kund/.env_dummie) samt döpa om den till `.env`.
+
+
+
 
 ### Uppstart
 ```
