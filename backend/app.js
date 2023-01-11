@@ -53,4 +53,4 @@ app.get('/', (req, res) => {
 })
 
 // Start server
-app.listen(port, () => console.log('Listening on port ' + port))
+app.listen(port)
