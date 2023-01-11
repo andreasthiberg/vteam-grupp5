@@ -34,6 +34,7 @@ export default function SelectedScooterDisplay({chargingStations, setSelectedSta
   useEffect(()=>{
     let filterResult = scootersInfo.filter(scooter => scooter.id === selectedScooter.id);
     let newScooterInfo = filterResult[0]
+    console.log(selectedTrip)
     if(filterResult.length > 0){
       setCurrentScooterInfo(newScooterInfo)
     }
@@ -90,7 +91,7 @@ return (
         <p>{currentScooterInfo.pos[0].toString().slice(0,8)}</p>
         <p>{currentScooterInfo.pos[1].toString().slice(0,8)}</p>
         <p>Batteri: {selectedScooter.battery}%</p>
-        {selectedTrip.id !== 0 ? <p>Hyrs av: Kund {selectedTrip.customerId}</p> : null}
+        {selectedTrip.id !== 0 ? <p>Hyrs av: Kund {selectedTrip.customer_id}</p> : null}
         <Buttons removeScooterForService={removeScooterForService} status={selectedScooter.status} 
         moveToChargingStation={moveToChargingStation} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>

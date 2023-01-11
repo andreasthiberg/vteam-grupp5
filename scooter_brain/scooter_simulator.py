@@ -31,7 +31,7 @@ class ScooterSimulation():
         
         for scooter in dbScooters:
             coordArray = json.loads(scooter["pos"])
-            newScooter = Scooter(scooter["id"],[coordArray[0]*100000,coordArray[1]*100000],scooter["status"],scooter["city"])
+            newScooter = Scooter(scooter["id"],[coordArray[0]*100000,coordArray[1]*100000],scooter["status"],scooter["city"],scooter["battery"])
             self.scooterArray.append(newScooter)
     
 
@@ -46,7 +46,7 @@ class ScooterSimulation():
         dx = endPoint[0] - startPoint[0]
         dy = endPoint[1] - startPoint[1]
         angle = math.atan2(dy, dx)
-        newScooter = Scooter(startId-1,[5932654, 1807415],1,"Stockholm",2,angle)
+        newScooter = Scooter(startId-1,[5932654, 1807415],1,"Stockholm",100,2,angle)
         newScooter.add_to_database()
         newScooter.add_trip()
         self.scooterArray.append(newScooter)
@@ -55,11 +55,12 @@ class ScooterSimulation():
         for x in range(numberOfScooters):
             randomIntX = random.randint(5927099,5938191)
             randomIntY = random.randint(1789754,1816411)
-            newScooter = Scooter(startId+x,[randomIntX,randomIntY],1,"Stockholm",x+3)
+            newScooter = Scooter(startId+x,[randomIntX,randomIntY],1,"Stockholm",100,x+3)
             newScooter.add_to_database()
             newScooter.add_trip()
             self.scooterArray.append(newScooter)
 
+        print("Scooters and trips added to database.")
         time.sleep(5)
 
         # Call update method continuously

@@ -6,7 +6,7 @@ export default function CustomerInfo({setSelectedCustomer,selectedCustomer,trips
 
     useEffect(() => {
         setMatchingTrips(tripsInfo.filter(trip => trip.customer_id === selectedCustomer.id))
-    },[tripsInfo])
+    },[tripsInfo,selectedCustomer])
 
     function convertTime(time){
         const date = new Date(parseInt(time));

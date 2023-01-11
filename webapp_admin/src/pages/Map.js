@@ -10,6 +10,7 @@ import mapModel from '../models/map';
 import createScooterIcon from '../assets/scooterIcons';
 import chargingStationIcons from '../assets/chargingStationIcons';
 import ScooterList from '../components/ScooterList';
+import CategogrySelect from '../components/CategorySelect';
 import StatusSymbols from '../components/StatusSymbols';
 
 function MapCenterChanger({mapCenter,selectedCity}) {
@@ -95,7 +96,7 @@ export default function Map() {
     const interval = setInterval(() => {
       updateScooters();
       updateTrips();
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,7 +193,7 @@ export default function Map() {
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   />
-  {scootersInfo.filter(scooter => scooter.status !== 4 && scooter.status !== 6).map((scooter) => (
+  {scootersInfo.filter(scooter => scooter.status !== 4 && scooter.status !== 6 && (scooter.status === selectedCategory || selectedCategory === -1)).map((scooter) => (
     <Marker
       key={scooter.id}
       position={scooter.pos}
@@ -228,6 +229,9 @@ export default function Map() {
   </MapContainer>
 
       </div>
+      <div className="right-panel">
+      {selectedMode === "station" ? null:
+      <CategogrySelect selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />}
       <div className="map-list-div" id="unit-list-div">
       {selectedMode === "station" ? 
       <ChargingStationList stationData={chargingStations} setSelectedStation={setSelectedStation}
@@ -237,11 +241,11 @@ export default function Map() {
       setSelectedScooter={setSelectedScooter} selectedScooter={selectedScooter}  />
       }
       </div>
+      </div>
       <div className="status-symbol-div"><StatusSymbols /></div>
       </div>
       </div>
-    </div>
-
+      </div>
   );
 }
 

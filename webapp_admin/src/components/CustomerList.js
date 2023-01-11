@@ -1,5 +1,4 @@
 import customerModel from '../models/customers';
-import { useState } from 'react';
 
 export default function CustomerList({customersInfo,reloadCustomers,setSelectedCustomer}) {
 

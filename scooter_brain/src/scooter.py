@@ -10,12 +10,12 @@ import json
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
 
-    def __init__(self, id, pos, status,city, customerId=0,direction = math.radians(random.randint(1, 360))):
+    def __init__(self, id, pos, status,city,battery, customerId=0,direction = math.radians(random.randint(1, 360))):
         self.id = id
         self.customerId = customerId
         self.city = city
         self.pos = pos
-        self.battery = 100
+        self.battery = battery
         self.currentTrip = 0
         self.status = status
         self.direction = direction
@@ -48,25 +48,21 @@ class Scooter():
         if( newStatus != self.status):
             self.change_status(newStatus)
             print("Status of scooter " + str(self.id) + " changed to " + str(newStatus))
-
-        # Scooter is out of batteries
-        if(self.battery <= 0):
-            print("Slut på batterier.")
-
+            
         # Scooter is moving
         elif(self.status == 1):
              # Change location
             self.change_pos(self.xMovement*10,self.yMovement*10)
             self.batteryIncrement += 1
             # Reduce battery by one percent
-            if self.batteryIncrement > 9:
+            if self.batteryIncrement > 5:
                 self.change_battery(-1)
                 self.batteryIncrement = 0
 
         # Scooter is charging
         if(self.status == 4):
             if(self.battery < 100):
-                self.change_battery(1)
+                self.change_battery(4)
             # Move position if charging
             if not self.movedToStation:
                     url = "http://backend:3000/graphql"
@@ -114,8 +110,8 @@ class Scooter():
         body = 'mutation {addTrip (scooter_id:%s,customer_id:%s,start_pos:"%s",city:"%s")}'%(self.id,
         self.customerId,self.get_pos_as_coordinate_string(),self.city)
 
-        response = requests.post(url=url, json={"query": body})
-        print("Trip for scooter with id " + str(self.id) + " and customer with id " + str(self.customerId) + " added to database")
+        requests.post(url=url, json={"query": body})
+        # print("Trip for scooter with id " + str(self.id) + " and customer with id " + str(self.customerId) + " added to database")
 
     def get_id(self):
         return self.id
