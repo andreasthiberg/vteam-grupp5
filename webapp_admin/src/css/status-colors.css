@@ -68,3 +68,8 @@
 .category-status-6 {
     background-color:rgb(255, 0, 238);
 }
+
+.selected-category-button {
+    outline: solid;
+}
+

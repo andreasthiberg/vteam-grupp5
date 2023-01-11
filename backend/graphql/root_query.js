@@ -119,6 +119,17 @@ const RootQueryType = new GraphQLObjectType({
         const chargingStationArray = await mapModel.getChargingStations()
         return chargingStationArray
       }
+    },
+    chargingStation: {
+      type: ChargingStationType,
+      description: 'A single charging station',
+      args: {
+        id: { type: GraphQLInt }
+      },
+      resolve: async function (root,args) {
+        const chargingStations = await mapModel.getOneStation(args.id)
+        return chargingStations[0];
+      }
     }
   })
 })

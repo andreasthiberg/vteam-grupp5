@@ -5,6 +5,7 @@ import requests
 import time
 import json
 import random
+import math
 from src.scooter import Scooter
 
 class ScooterSimulation():
@@ -27,25 +28,34 @@ class ScooterSimulation():
         response = requests.post(url=url, json={"query": body})
         responseJson = response.json()
         dbScooters = responseJson["data"]["scooters"]
-
+        
         for scooter in dbScooters:
             coordArray = json.loads(scooter["pos"])
             newScooter = Scooter(scooter["id"],[coordArray[0]*100000,coordArray[1]*100000],scooter["status"],scooter["city"])
             self.scooterArray.append(newScooter)
+    
 
         # Get current highest ID of scooters in database
         lastScooterId = self.scooterArray[-1].get_id()
-        startId = lastScooterId + 1
+        startId = lastScooterId + 2
         numberOfScooters = 300
 
-        # Coords for Lund, Malmö, Stockholm
-        coords = [5933000, 1805500]
+        # Create demonstration scooter simulation
+        endPoint=[5932558, 1807059]
+        startPoint=[5932655, 1807424]
+        dx = endPoint[0] - startPoint[0]
+        dy = endPoint[1] - startPoint[1]
+        angle = math.atan2(dy, dx)
+        newScooter = Scooter(startId-1,[5932654, 1807415],1,"Stockholm",2,angle)
+        newScooter.add_to_database()
+        newScooter.add_trip()
+        self.scooterArray.append(newScooter)
 
         # Create a scooter objects and appends them to the array
         for x in range(numberOfScooters):
             randomIntX = random.randint(5927099,5938191)
             randomIntY = random.randint(1789754,1816411)
-            newScooter = Scooter(startId+x,[randomIntX,randomIntY],1,"Stockholm",x+2)
+            newScooter = Scooter(startId+x,[randomIntX,randomIntY],1,"Stockholm",x+3)
             newScooter.add_to_database()
             newScooter.add_trip()
             self.scooterArray.append(newScooter)

@@ -1,7 +1,24 @@
+import { useEffect, useState } from 'react';
 import { React } from 'react-router-dom';
 import "../App.css";
 
-export default function ChargingStationList({stationData, setSelectedStation, selectedStation}) {
+export default function ChargingStationList({scooterData,stationData, setSelectedStation, selectedStation}) {
+
+const [chargingNumbers,setChargingNumbers] = useState({id:0,amount:0})
+
+useEffect(()=>{
+
+    let stationIdsInScooters = scooterData.map(scooter => scooter.station)
+    let counts = {}
+
+    for (const num of stationIdsInScooters) {
+        if(num === 0){
+            continue
+        }
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    setChargingNumbers(counts)
+},[scooterData])
 
 function handleStationChange(station){
     setSelectedStation(station)
@@ -13,7 +30,8 @@ return (
             <div className={`single-station-div ${station.id === selectedStation.id ? "selected-scooter-div" : ""}`} 
             key={station.id} onClick={() => handleStationChange(station)}
             id={`station-div-${station.id}`}>
-                <p>Laddstation {station.id}</p>
+                Laddstation {station.id} {chargingNumbers[station.id] ? <span className="station-scooter-number">{chargingNumbers[station.id]}st</span>:null}
+
             </div>
         ))}
     </div>

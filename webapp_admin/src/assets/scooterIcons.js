@@ -42,7 +42,7 @@ export default function createIcon(status,selected=false){
         zIndexOffset: zIndex  
     }),
     3: new L.Icon({
-        className: "scooter-marker-available" + selectedClass,
+        className: "scooter-marker-available-parking" + selectedClass,
         iconUrl: marker,
         iconRetinaUrl: marker,
         popupAnchor:  [-0, -10],

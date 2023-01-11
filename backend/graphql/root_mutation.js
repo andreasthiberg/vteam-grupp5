@@ -11,6 +11,7 @@ const {
 // Models for database communication
 const TripReportType = require('./types/trip_report.js')
 const ScooterType = require('./types/scooter.js')
+const ScooterReportType = require('./types/scooter_report.js')
 const scooterModel = require('../models/scooter.js')
 const customerModel = require('../models/customer.js')
 const tripModel = require('../models/trip')
@@ -49,7 +50,7 @@ const RootMutationType = new GraphQLObjectType({
       }
     },
     reportScooter: {
-      type: GraphQLInt,
+      type: ScooterReportType,
       description: 'Update a scooter',
       args: {
         id: { type: GraphQLInt },

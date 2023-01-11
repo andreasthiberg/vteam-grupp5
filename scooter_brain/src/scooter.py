@@ -5,11 +5,12 @@
 import requests
 import random
 import math
+import json
 
 class Scooter():
     """Class to simulate a single scooter, moving and getting/sending updates"""
 
-    def __init__(self, id, pos, status,city, customerId=0):
+    def __init__(self, id, pos, status,city, customerId=0,direction = math.radians(random.randint(1, 360))):
         self.id = id
         self.customerId = customerId
         self.city = city
@@ -17,15 +18,16 @@ class Scooter():
         self.battery = 100
         self.currentTrip = 0
         self.status = status
-        self.direction = math.radians(random.randint(1, 360))
+        self.direction = direction
         self.xMovement = math.cos(self.direction)*4
         self.yMovement = math.sin(self.direction)*4
         self.batteryIncrement = 0
+        self.movedToStation = False
 
     # Sends update with current status and location to database
     def send_update(self):
 
-        # Send pos/battery and get status update #
+        # Send pos/battery, get status update #
 
         url = "http://backend:3000/graphql"
         
@@ -35,12 +37,13 @@ class Scooter():
         body += self.get_pos_as_coordinate_string()
         body += '",battery:'
         body += str(self.battery)
-        body += ')}'
+        body += '){status,station}}'
 
         response = requests.post(url=url, json={"query": body})
 
         responseJson = response.json()
-        newStatus = responseJson["data"]["reportScooter"]
+        newStatus = responseJson["data"]["reportScooter"]["status"]
+        stationId = responseJson["data"]["reportScooter"]["station"]
 
         if( newStatus != self.status):
             self.change_status(newStatus)
@@ -64,6 +67,16 @@ class Scooter():
         if(self.status == 4):
             if(self.battery < 100):
                 self.change_battery(1)
+            # Move position if charging
+            if not self.movedToStation:
+                    url = "http://backend:3000/graphql"
+                    body = 'query {chargingStation(id:' + str(stationId) + '){id,pos}}'
+                    response = requests.post(url=url, json={"query": body})
+                    responseJson = response.json()
+                    stationPos = responseJson["data"]["chargingStation"]["pos"]
+                    posArray = json.loads(stationPos)
+                    self.pos = [math.floor(posArray[0]*100000),math.floor(posArray[1]*100000)]
+                    self.movedToStation = True
 
     # Change current lat and long with factors dLa and dLo
     def change_pos(self,dLa,dLo):
@@ -102,7 +115,7 @@ class Scooter():
         self.customerId,self.get_pos_as_coordinate_string(),self.city)
 
         response = requests.post(url=url, json={"query": body})
-        print("Trip for scooter with id " + str(self.id) + " added to database")
+        print("Trip for scooter with id " + str(self.id) + " and customer with id " + str(self.customerId) + " added to database")
 
     def get_id(self):
         return self.id

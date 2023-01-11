@@ -26,7 +26,7 @@ function Buttons({status, releaseScooter, stopScooter, moveToChargingStation,rem
 }
 
 export default function SelectedScooterDisplay({chargingStations, setSelectedStation, selectedScooter,
-  setSelectedMode,setSelectedScooter,selectedTrip,scootersInfo,setChargingScooters,chargingScooters}) {
+  setSelectedMode,setSelectedScooter,selectedTrip,scootersInfo}) {
 
   const dummyScooter = {status:0,id:0,pos:[0,0],battery:100}
   const [currentScooterInfo,setCurrentScooterInfo] = useState(dummyScooter);
@@ -49,10 +49,11 @@ export default function SelectedScooterDisplay({chargingStations, setSelectedSta
     6: "Hämtad för underhåll"
   }
 
-function stopScooter(){
-  scooterModel.changeScooterStatus(selectedScooter.id,0)
+async function stopScooter(){
+  let tripReport = await scooterModel.endTrip(selectedTrip.id)
+  console.log(tripReport)
   let oldScooter = selectedScooter;
-  oldScooter.status = 0;
+  oldScooter.status = tripReport.new_scooter_status;
   setSelectedScooter(oldScooter)
 }
 
@@ -72,11 +73,8 @@ function removeScooterForService(){
 
 async function moveToChargingStation(){
   let newScooterInfo = await scooterModel.changeScooterStatus(selectedScooter.id,4);
-
   let matchingStations = chargingStations.filter(station => station.pos.join() === newScooterInfo.pos.join())
   let newStation = matchingStations[0]
-  let oldChargingScooters = chargingScooters;
-  oldChargingScooters.push({scooterId:selectedScooter.id,stationId:newStation.id})
   setSelectedScooter(dummyScooter)
   setSelectedStation(newStation)
   setSelectedMode("station")
@@ -92,7 +90,7 @@ return (
         <p>{currentScooterInfo.pos[0].toString().slice(0,8)}</p>
         <p>{currentScooterInfo.pos[1].toString().slice(0,8)}</p>
         <p>Batteri: {selectedScooter.battery}%</p>
-        {selectedTrip.id !== 0 ? <p>Hyrs av: Kund {selectedTrip.id}</p> : null}
+        {selectedTrip.id !== 0 ? <p>Hyrs av: Kund {selectedTrip.customerId}</p> : null}
         <Buttons removeScooterForService={removeScooterForService} status={selectedScooter.status} 
         moveToChargingStation={moveToChargingStation} releaseScooter={releaseScooter} stopScooter={stopScooter}/>
     </div>

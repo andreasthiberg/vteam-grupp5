@@ -1,5 +1,4 @@
 // Fetch scooters's info from graphql
-
 const scooters = {
 
     getAllScooters: async function getAllScooters() {
@@ -11,6 +10,7 @@ const scooters = {
                     status
                     battery
                     city
+                    station
                 }
             }
         `;
@@ -35,7 +35,6 @@ const scooters = {
         
         return result.data;
     },
-
     getAllTrips: async function getAllTrips() {
         const query = `
             query {
@@ -92,10 +91,31 @@ const scooters = {
         })
     });
     const result = await response.json();
-    console.log(result)
     let newScooterData = result.data.updateScooter
     newScooterData.pos = JSON.parse(newScooterData.pos)
     return newScooterData
+    },
+    endTrip: async function endTrip(tripId){
+        const query = `
+        mutation {
+            endTrip(id:${tripId}){
+                new_scooter_status
+            }
+        }
+    `;
+
+    const response = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query
+        })
+    });
+    const result = await response.json();
+    return result.data.endTrip
     }
 };
 
