@@ -81,15 +81,6 @@ export default function Map () {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedScooter])
 
-  // Scroll to selected scooter when changed
-  useEffect(() => {
-    scrollToSelectedScooter(selectedScooter.id)
-  }, [selectedScooter])
-
-  // SCroll to selected station when changed
-  useEffect(() => {
-    scrollToSelectedStation(selectedStation.id)
-  }, [selectedStation])
 
   // Function to change current city
   function handleCityChange (e) {
@@ -113,21 +104,6 @@ export default function Map () {
     setSelectedStation(dummyStation)
   }
 
-  function scrollToSelectedStation (id) {
-    const listDiv = document.getElementById('unit-list-div')
-    const selectedDiv = document.getElementById('station-div-' + id)
-    if (listDiv !== null && selectedDiv !== null) {
-      listDiv.scrollTop = selectedDiv.offsetTop
-    }
-  }
-
-  function scrollToSelectedScooter (id) {
-    const listDiv = document.getElementById('unit-list-div')
-    const selectedDiv = document.getElementById('scooter-div-' + id)
-    if (listDiv !== null && selectedDiv !== null) {
-      listDiv.scrollTop = selectedDiv.offsetTop
-    }
-  }
 
   return (
     <div>

@@ -32,8 +32,6 @@ const customers = {
     return result.data
   },
   setCustomerStatus: async function setCustomerStatus (id, status) {
-    console.log(id)
-    console.log(status)
     const query = `
             mutation {
                 setCustomerStatus(id:${id},status:${status})
@@ -52,7 +50,6 @@ const customers = {
     })
 
     const result = await response.json()
-    console.log(result)
 
     return result.data
   }

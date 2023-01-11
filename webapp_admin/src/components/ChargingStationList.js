@@ -22,6 +22,20 @@ export default function ChargingStationList ({ scooterData, stationData, setSele
     setSelectedStation(station)
   }
 
+function scrollToSelectedStation (id) {
+  const listDiv = document.getElementById('unit-list-div')
+  const selectedDiv = document.getElementById('station-div-' + id)
+  if (listDiv !== null && selectedDiv !== null) {
+    listDiv.scrollTop = selectedDiv.offsetTop
+  }
+}
+
+  // SCroll to selected station when changed
+  useEffect(() => {
+    scrollToSelectedStation(selectedStation.id)
+  }, [selectedStation])
+  
+
   return (
     <div>
       {stationData.map((station) => (

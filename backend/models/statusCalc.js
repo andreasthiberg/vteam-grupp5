@@ -23,7 +23,6 @@ const statusCalc = {
     // check if the point is within any of the parking zones
     for (const parking of parkingArray) {
       if (this.pointInside(point, parking)) {
-        console.log('Point is inside the polygon')
         positionCode = 1
         break
       }
@@ -38,8 +37,6 @@ const statusCalc = {
         positionCode = 2
       }
     }
-
-    console.log('Position code: ', positionCode)
     return positionCode
   },
   pointInside: function pointInside (point, parkings) {
@@ -64,7 +61,7 @@ const statusCalc = {
 
     const coordinates = JSON.parse(scooter[0][0].pos)
 
-    let closestChargingStation
+    let closestChargingStation = 0
     let closestDistance = Infinity
 
     const point = { lat: coordinates[0], lon: coordinates[1] }

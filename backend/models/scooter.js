@@ -60,7 +60,6 @@ const scooter = {
 
     // Move to charging station
     if (currentScooterData.status !== 4 && args.status === 4) {
-      console.log('Changing to charging...')
       const closestStation = await calcModel.findClosestChargingStation(currentDbResult)
       pos = '[' + closestStation.pos[0] + ',' + closestStation.pos[1] + ']'
       const sql = 'CALL add_station_to_scooter(?,?)'
