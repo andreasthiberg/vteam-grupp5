@@ -9,10 +9,12 @@ const {
 
 
 // Models for database communication
+const TripReportType = require('./types/trip_report.js')
 const ScooterType = require('./types/scooter.js')
 const scooterModel = require('../models/scooter.js')
 const customerModel = require('../models/customer.js')
 const tripModel = require('../models/trip')
+
 
 const RootMutationType = new GraphQLObjectType({
   name: 'Mutation',
@@ -115,21 +117,15 @@ const RootMutationType = new GraphQLObjectType({
       }
     },
     endTrip: {
-      type: GraphQLString,
-      description: 'Ends a trip',
+      type: TripReportType,
+      description: 'Ends a trip, returns info',
       args: {
-        id: { type: GraphQLInt, required: true},
-        scooter_id: { type: GraphQLInt},
-        customer_id: { type: GraphQLInt },
-        start_time: { type: GraphQLString },
-        end_time: { type: GraphQLString },
-        start_pos: { type: GraphQLString },
-        end_pos: { type: GraphQLString },
-        price: { type: GraphQLFloat }
+        id: { type: GraphQLInt, required: true}
       },
       resolve: async function (root, args) {
-        await tripModel.endTrip(args)
-        return "Trip ended"
+        tripReport = await tripModel.endTrip(args)
+        console.log(tripReport)
+        return tripReport
       }
     }
   })
