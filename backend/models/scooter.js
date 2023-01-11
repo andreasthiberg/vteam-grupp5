@@ -41,8 +41,8 @@ const scooter = {
     db.end();
     return res[0]
   },
-  zoneCalc: async function zoneC(scooter) {
-    await statusCalc.zoneCalculation(scooter)
+  zoneCalc: async function zoneC(scooterCoords) {
+    await statusCalc.zoneCalculation(scooterCoords)
   },
   // Updates an existing scooter based on arguments, using given ID.
   updateScooter: async function updateCustomer(args){
