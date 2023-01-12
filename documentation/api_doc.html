@@ -2,44 +2,76 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/style.css">
-    <title>Dokumentation API - Elsparkcykelsystem (Under arbete)</title>
+    <title>Dokumentation High5 API</title>
 </head> 
 <body>
 <div class="page-container">
 <article class="content-div">
-<h1>Dokumentation för REST API - Elsparkcykelsystem - vteam grupp 5</h1>
-<p>Introtext!</p>
-
-<p>Mer text</p> 
+<h1>High5 Publikt API - Dokumentation</h1>
+<p>Välkommen till det publika API:t för High5 Elsparkcyklar AB!</p>
 
 <h2>Om API:t</h2>
 
-<p>Mer text</p> 
+<p>Via vårt publika API kan du som tredjepartslevernatör få tillgång till aktuell information om våra elsparckcyklars position och status.</p> 
+<p>API:t använder sig av ramverket GraphQL för att hantera begäran om data. För mer information om GraphQL, dess funktioner och dess fördelar, <a href="https://graphql.org/">klicka här.</a></p>
+<p>GraphQL innebär att du som användare specifikt anger vilken data du är intresserad av. Du gör detta genom att speficiera fält i din request, enligt exemplet nedan, som hämtar alla cyklars id och status:</p>
+
+
+<pre class="api-text">
+    GET /high5api/?query={scooters{id,status}}&api_key=[YOUR_API_KEY]
+</pre>
+
+<p>För de routes som hämtar en specifik enhet, anges ID:t som en parameter enligt nedan (ersätt [scooter_id] med en siffra):
+
+
+<pre class="api-text">
+    GET /high5api/?query={scooters(id:[scooter_id]){pos,status}}&api_key=[YOUR_API_KEY]
+</pre>
+
 
 <h2>Autentisering</h2>
+<p>För att kunna hämta data från API:t behöver du en API-nyckel. Detta är för att undvika överbelastning av system. </p>
+<p>Ta kontakt med High5 för att få en egen nyckel, och för att diskutera dina behov av datainhämtning med oss.</p>
 
-<p>Om autentisering - en separat version av dokumentet för tredjeparts-aktörer?</p> 
 <br>
-<h1>API</h1>
+<h1>Routes</h1>
 
 <h2>Elsparkcyklar</h2>
 
-<p>Introtext.</p>
-<p>En elsparkcykel har följande attribut:</p>
+<p>En elsparkcykel har följande möjliga attribut, som levereras i följande format. Zone och station refererar till ID:t för den parkeringszon respektiv laddstation som cykeln står parkerad vid.
+    I annat fall har de värdet 0.
+</p>
 
 <pre class="api-text">
-Attribut 1
-Attribut 2
-Attribut 3
+    id: Int
+    pos: String
+    status: Int
+    battery: Int
+    city: String
+    station: Int
+    zone: Int
 </pre>
+<br/>
+En cykel kan ha ett statusvärde på 0-6, vilket motsvarar följande:
+
+<pre class="api-text">
+    0 - Stoppad av Admin
+    1 - Uthyrd
+    2 - Parkerad utanför zoner
+    3 - Parkerad i parkeringszon
+    4 - Laddar vid laddstation
+    5 - Slut på batterier (och inte vid laddstation)
+    6 - Hämtad för underhåll
+</pre>
+
 
 
 <h3>Hämta information om alla cyklar</h3>
 
-<pre class="api-text">GET /scooters</pre>
-
+<pre class="api-text">GET /high5api/?query={scooters{[fields]}}&api_key=[YOUR_API_KEY]</pre>
+    
 <p>Resultat:</p>
-
+    
 <pre class="api-text">
 {
     "data": [
@@ -54,142 +86,55 @@ Attribut 3
             "att1": "?",
             "att2": "?",
             "att3": "?"
-        }
-    ]
-}
-    </pre>
-
-<h3>Hämta information om en cykel</h3>
-
-<pre class="api-text">GET /scooters/:scooter_id</pre>
-    
-<p>Resultat:</p>
-    
-<pre class="api-text">
-{
-    "data": [
-        {
-            "id": 1,
-            "att1": "?",
-            "att2": "?",
-            "att3": "?"
-        }
-    ]
-}
-</pre>
-
-<h3>Skicka uppdaterad information om en särskild cykel</h3>
-
-<pre class="api-text">PUT /scooters/:scooter_id</pre>
-    
-<p>Nödvändiga parametrar:</p>
-
-<pre class="api-text">
-id
-authetication?
-</pre>
-
-<p>Möjliga parametrar:</p>
-
-<pre class="api-text">
-position
-status
-etc  
-</pre>
-
-<h3>Skicka ett kommando till en cykel</h3>
-
-<pre class="api-text">POST /scooters/command/:scooter_id</pre>
-    
-<p>Nödvändiga parametrar:</p>
-
-<pre class="api-text">
-id
-authetication?
-</pre>
-
-<p>Möjliga parametrar:</p>
-
-<pre class="api-text">
-status
-command
-</pre>
-    
-<h2>Kartor</h2>
-
-<p>(Oklart om kartor ska ligga i databasen, eller bara zoner/laddstationer?)</p>
-
-<p>En karta har följande attribut:</p>
-
-<pre class="api-text">
-Attribut 1
-Attribut 2
-Attribut 3
-</pre>
-
-
-<h3>Hämta alla kartor</h3>
-
-<pre class="api-text">GET /maps</pre>
-
-<p>Resultat:</p>
-
-<pre class="api-text">
-    {
-        "data": [
-            {
-                "id": 1,
-                "att1": "?",
-                "att2": "?",
-                "att3": "?"
-            },
-            {
-                "id": 2,
-                "att1": "?",
-                "att2": "?",
-                "att3": "?"
-            }
-        ]
-    }
-</pre>
-
-<h3>Hämta en specific karta</h3>
-
-<pre class="api-text">GET /maps/:map_id</pre>
-
-<p>Resultat:</p>
-
-<pre class="api-text">
-{
-    "data": [
-        {
-            "id": 1,
-            "att1": "?",
-            "att2": "?",
-            "att3": "?"
         },
+        ....
     ]
 }
 </pre>
 
-<h2>Kunder</h2>
 
-<p>Introtext.</p>
-<p>En kund har följande attribut:</p>
+
+
+    
+<h3>Hämta information om en cykel med given ID</h3>
+
+<pre class="api-text">GET /high5api/?query={scooters(id:[scooter_id]{[fields]}}&api_key=[YOUR_API_KEY]</pre>
+    
+<p>Resultat:</p>
+    
+<pre class="api-text">
+{
+    "data": [
+        {
+            "id": [scooter_id],
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        }
+    ]
+}
+</pre>
+    
+<br/>
+<h2>Laddstationer</h2>
+
+<p>En laddstation har följande möjliga attribut, som levereras i följande format. Laddstationens position anges som en sträng
+    med latitud och longitud.
+</p>
 
 <pre class="api-text">
-Attribut 1
-Attribut 2
-Attribut 3
+    id: Int
+    pos: String (format: "[1,2]")
+    city: String
 </pre>
+<br/>
 
+<h3>Hämta information om alla laddstationer</h3>
 
-<h3>Hämta information om alla kunder</h3>
-
-<pre class="api-text">GET /customers</pre>
-
+<pre class="api-text">GET /high5api/?query={chargingStations{[fields]}}&api_key=[YOUR_API_KEY]</pre>
+    
 <p>Resultat:</p>
-
+    
 <pre class="api-text">
 {
     "data": [
@@ -204,17 +149,31 @@ Attribut 3
             "att1": "?",
             "att2": "?",
             "att3": "?"
-        }
+        },
+        ....
     ]
 }
-    </pre>
+</pre>
+<br/>
 
-<h3>Hämta information om en specific kund</h3>
+<h2>Parkeringszoner</h2>
 
-<pre class="api-text">GET /customers/:customer_id</pre>
+<p>En parkeringszoner har följande möjliga attribut, som levereras i följande format.
+    Zonernas positionsvärde anger koordinaterna för zonens fyra hörn.
+</p>
 
+<pre class="api-text">
+    id: Int
+    pos: String (format: "[[1,2],[2,3],[4,5],[5,6]])")
+    city: String
+</pre>
+
+<h3>Hämta information om alla parkeringszoner</h3>
+
+<pre class="api-text">GET /high5api/?query={parkingZones{[fields]}}&api_key=[YOUR_API_KEY]</pre>
+    
 <p>Resultat:</p>
-
+    
 <pre class="api-text">
 {
     "data": [
@@ -224,28 +183,40 @@ Attribut 3
             "att2": "?",
             "att3": "?"
         },
+        {
+            "id": 2,
+            "att1": "?",
+            "att2": "?",
+            "att3": "?"
+        },
+        ....
     ]
 }
 </pre>
 
-<h2>Reselogg</h2>
 
-<p>Introtext.</p>
-<p>En reselogg har följande attribut:</p>
+<h2>Resor</h2>
+
+<p>En resa har följande möjliga attribut, som levereras i följande format. Av integritetsskäl är den hyrande kundens identitet undantagen.
+</p>
 
 <pre class="api-text">
-Attribut 1
-Attribut 2
-Attribut 3
+    id: Int
+    scooter_id: Int
+    start_time: String
+    end_time: String
+    start_pos: String
+    end_pos: String
+    city: String
+    price: Int
 </pre>
-
 
 <h3>Hämta information om alla resor</h3>
 
-<pre class="api-text">GET /trips</pre>
-
+<pre class="api-text">GET /high5api/?query={trips{[fields]}}&api_key=[YOUR_API_KEY]</pre>
+    
 <p>Resultat:</p>
-
+    
 <pre class="api-text">
 {
     "data": [
@@ -260,50 +231,33 @@ Attribut 3
             "att1": "?",
             "att2": "?",
             "att3": "?"
-        }
+        },
+        ....
     ]
 }
-    </pre>
+</pre>
 
-<h3>Hämta information om en specific resa</h3>
+<h3>Hämta information om en resa med given ID</h3>
 
-<pre class="api-text">GET /trips/:trip</pre>
-
+<pre class="api-text">GET /high5api/?query={trip(id:[trip_id]){[fields]}}&api_key=[YOUR_API_KEY]</pre>
+    
 <p>Resultat:</p>
-
+    
 <pre class="api-text">
 {
     "data": [
         {
-            "id": 1,
+            "id": [trip_id],
             "att1": "?",
             "att2": "?",
             "att3": "?"
-        },
+        }
     ]
 }
 </pre>
 
-<h3>Skapa en ny resa</h3>
 
-<pre class="api-text">POST /trips/</pre>
-
-<p>Nödvändiga parametrar:</p>
-
-<pre class="api-text">
-att1
-att2
-</pre>
-
-<p>Möjliga parametrar:</p>
-
-<pre class="api-text">
-att3
-att4
-</pre>
-    
-
-
+<br/><br/><br/>
 </article>
 </div>
 </body>
