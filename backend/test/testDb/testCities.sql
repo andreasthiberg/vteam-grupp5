@@ -1,4 +1,4 @@
-USE high5;
+USE test;
 
 INSERT INTO city 
     (`name`, `fee`, `fee_per_min`, `penalty_fee`, `discount`) 

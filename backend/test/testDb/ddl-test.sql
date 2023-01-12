@@ -4,10 +4,6 @@ CREATE DATABASE IF NOT EXISTS test;
 
 USE test;
 
-GRANT ALL PRIVILEGES ON test.* TO 'user'@'localhost';
-
-FLUSH PRIVILEGES;
-
 DROP TABLE IF EXISTS `trip`;
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
@@ -625,9 +621,9 @@ END
 ;;
 DELIMITER ;
 
-source "testCities.sql";
-source "testCustomers.sql";
-source "testScooters.sql";
-source "testStations.sql";
-source "testTrips.sql";
-source "testZones.sql";
+source testCities.sql;
+source testCustomers.sql;
+source testScooters.sql;
+source testStations.sql;
+source testTrips.sql;
+source testZones.sql;

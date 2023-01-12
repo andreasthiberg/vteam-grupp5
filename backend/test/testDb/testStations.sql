@@ -1,4 +1,4 @@
-USE high5
+USE test;
 INSERT INTO charging_station
     ( `pos`, `city` )
 VALUES

@@ -1,4 +1,4 @@
-USE high5
+USE test;
 INSERT INTO scooter
     ( `status`, `pos`, `battery`, `city` )
 VALUES

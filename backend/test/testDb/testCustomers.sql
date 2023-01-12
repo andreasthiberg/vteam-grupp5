@@ -1,3 +1,5 @@
+USE test;
+
 insert into customer (first_name, last_name, email, password, balance) values ('Fulton', 'Boosey', 'fboosey@email.com', '1jYLZQoFYs4', 3000);
 insert into customer (first_name, last_name, email, password, balance) values ('Sharona', 'Readhead', 'sreadhead1@sbwire.com', 'X85wjY0', 1000);
 insert into customer (first_name, last_name, email, password, balance) values ('Lyell', 'Greggor', 'lgreggor2@hud.gov', 'QORyDyOjfs', 1000);
