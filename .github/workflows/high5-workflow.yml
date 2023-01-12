@@ -7,28 +7,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-  backend:
-
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
-    - run: npm install --legacy-peer-deps
-    - run: npm test
-    
   webapp_admin:
 
     runs-on: ubuntu-latest
@@ -48,5 +26,49 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: webapp_admin/package-lock.json
+    - run: npm ci
+    - run: npm test
+
+  webapp_kund:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./webapp_kund
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: webapp_kund/package-lock.json
+    - run: npm ci
+    - run: npm test
+  
+  mobilapp_kund:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mobilapp_kund
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: mobilapp_kund/package-lock.json
     - run: npm ci
     - run: npm test
