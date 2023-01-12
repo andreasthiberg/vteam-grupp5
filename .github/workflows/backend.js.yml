@@ -40,10 +40,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: backend/package-lock.
-      
-    - name: Setup database
-      working-directory: ./backend/test/testDb
-      run: mysql -e "source ddl-test.sql"
+
     
         
     - run: npm install --legacy-peer-deps
