@@ -2,6 +2,10 @@ DROP DATABASE IF EXISTS test;
 
 CREATE DATABASE IF NOT EXISTS test;
 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+
+flush privileges;
+
 USE test;
 
 DROP TABLE IF EXISTS `trip`;
