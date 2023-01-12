@@ -11,7 +11,13 @@ const clientId = '24530571d805bf20f230'
 const clientSecret = process.env.OAUTH_CLIENT_SECRET
 
 // Secret used for generating JWTs.
-const secret = process.env.JWT_SECRET
+let secret
+if(process.env.NODE_ENV === 'test'){
+  secret = "1234"
+} else {
+  secret = process.env.JWT_SECRET
+}
+
 
 // Hash password tools.
 const bcrypt = require('bcryptjs')
@@ -60,6 +66,7 @@ const auth = {
   // Creates and returns new JWT token when user login is approved.
   loginUser: async function loginUser (email, password = '') {
     const payload = { email, password }
+    console.log(clientSecret)
     const token = jwt.sign(payload, secret, { expiresIn: '1h' })
     return ({ loginMessage: 'Inloggad!', token, email })
   },
