@@ -48,7 +48,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: webapp_kund/package-lock.json
-    - run: npm install --legacy-peer-deps && npm install -g expo-cli
+    - run: npm ci
     - run: npm test
   
   mobilapp_kund:
@@ -70,5 +70,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: mobilapp_kund/package-lock.json
-    - run: npm ci
+    - run: npm install --legacy-peer-deps && npm install -g expo-cli
     - run: npm test
