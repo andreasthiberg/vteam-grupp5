@@ -21,7 +21,8 @@ const customerModel = require('../models/customer.js')
 const tripModel = require('../models/trip.js')
 const mapModel = require('../models/map.js')
 
-const RootQueryType = new GraphQLObjectType({
+
+const RootQueryType = new GraphQLObjectType ({
   name: 'Query',
   description: 'Root Query',
   fields: () => ({

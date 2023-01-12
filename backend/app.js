@@ -5,6 +5,7 @@ const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
 const { GraphQLSchema } = require('graphql')
 const cors = require('cors')
+const rateLimit = require('express-rate-limit')
 require('dotenv').config()
 
 // Setup express server
@@ -35,6 +36,16 @@ app.use('/graphql', graphqlHTTP({
 schema = new GraphQLSchema({
   query: RootQueryTypePublic
 })
+
+// Limit to 900 requests per 15 minutes for public API
+const apiLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 900, 
+	standardHeaders: true, 
+	legacyHeaders: false,
+})
+
+app.use('/v1/high5api',apiLimiter)
 
 app.use('/v1/high5api', graphqlHTTP({
   schema,
