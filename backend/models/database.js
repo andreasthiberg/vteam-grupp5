@@ -16,7 +16,8 @@ const database = {
       host: dbConfig.host,
       user: dbConfig.user,
       password: dbConfig.password,
-      database: dbConfig.database
+      database: dbConfig.database,
+      multipleStatements:true
     })
     return connection
   }

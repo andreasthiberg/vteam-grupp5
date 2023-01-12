@@ -2,11 +2,11 @@ DROP DATABASE IF EXISTS test;
 
 CREATE DATABASE IF NOT EXISTS test;
 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+
+flush privileges;
+
 USE test;
-
-GRANT ALL PRIVILEGES ON test.* TO 'user'@'localhost';
-
-FLUSH PRIVILEGES;
 
 DROP TABLE IF EXISTS `trip`;
 DROP TABLE IF EXISTS `scooter`;
@@ -625,9 +625,9 @@ END
 ;;
 DELIMITER ;
 
-source "testCities.sql";
-source "testCustomers.sql";
-source "testScooters.sql";
-source "testStations.sql";
-source "testTrips.sql";
-source "testZones.sql";
+source testCities.sql;
+source testCustomers.sql;
+source testScooters.sql;
+source testStations.sql;
+source testTrips.sql;
+source testZones.sql;

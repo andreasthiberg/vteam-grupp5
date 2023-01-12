@@ -1,4 +1,4 @@
-USE high5;
+USE test;
 
 INSERT INTO parking_zone
     ( `pos`, `city` )

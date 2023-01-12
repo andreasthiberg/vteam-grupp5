@@ -66,7 +66,6 @@ const auth = {
   // Creates and returns new JWT token when user login is approved.
   loginUser: async function loginUser (email, password = '') {
     const payload = { email, password }
-    console.log(clientSecret)
     const token = jwt.sign(payload, secret, { expiresIn: '1h' })
     return ({ loginMessage: 'Inloggad!', token, email })
   },
@@ -178,7 +177,6 @@ const auth = {
       loginResult = await this.loginUser(email)
       loginResult.loginMessage = 'Konto skapat!'
     }
-    console.log(loginResult)
     return loginResult
   }
 }
