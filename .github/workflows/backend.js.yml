@@ -36,7 +36,7 @@ jobs:
   
     - name: Setup database
       working-directory: ./backend/test/testDb
-    - run: mysql -e "source ddl-test.sql"
+      run: mysql -e "source ddl-test.sql"
     
     - name: Use Node.js ${{ matrixmygi.node-version }}
       uses: actions/setup-node@v3
@@ -44,6 +44,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: backend/package-lock.json
+        
     - run: npm install --legacy-peer-deps
     - run: npm test
 
