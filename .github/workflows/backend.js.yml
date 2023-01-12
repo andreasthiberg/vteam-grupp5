@@ -20,6 +20,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
+        
     services:
       mariadb:
         image: mariadb:latest
@@ -33,17 +34,13 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
         
     steps:
-
-    - name: Use Node.js ${{ matrixmygi.node-version }}
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: backend/package-lock.
-
-    
-        
+        cache-dependency-path: webapp_admin/package-lock.json
     - run: npm install --legacy-peer-deps
     - run: npm test
-
 
