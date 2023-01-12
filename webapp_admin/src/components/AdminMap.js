@@ -20,10 +20,10 @@ export default function AdminMap ({
       counts[num] = counts[num] ? counts[num] + 1 : 1
     }
     setZoneNumbers(counts)
-    console.log(zoneNumbers)
   }, [scootersInfo])
 
   return (
+    <div data-testid="leaflet-container-div">
     <MapContainer center={mapCenter} zoom={14}>
       <MapCenterChanger mapCenter={mapCenter} selectedCity={selectedCity} />
       <SelectPan selectedStation={selectedStation} selectedScooter={selectedScooter} />
@@ -70,6 +70,7 @@ export default function AdminMap ({
       ))}
 
     </MapContainer>
+    </div>
   )
 }
 

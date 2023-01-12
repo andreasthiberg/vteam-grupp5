@@ -8,6 +8,8 @@ const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 require('dotenv').config()
 
+const publicAPIModel = require('./models/publicAPI')
+
 // Setup express server
 const app = express()
 const port = process.env.NODE_DOCKER_PORT || 3000
@@ -33,16 +35,33 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }))
 
+
+//Public API
+
 schema = new GraphQLSchema({
   query: RootQueryTypePublic
 })
 
 // Limit to 900 requests per 15 minutes for public API
+
+const placeHolderAPIKey = process.env.API_KEY
+
 const apiLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
 	max: 900, 
 	standardHeaders: true, 
 	legacyHeaders: false,
+})
+
+app.use('/v1/high5api',(req,res,next)=>{
+  let ip = req.socket.remoteAddress;
+  publicAPIModel.addLogEntry(ip)
+  let key = req.query.api_key;
+  if(key===placeHolderAPIKey){
+    next()
+  } else {
+    res.send("Incorrect or no API key.")
+  }
 })
 
 app.use('/v1/high5api',apiLimiter)
@@ -52,7 +71,9 @@ app.use('/v1/high5api', graphqlHTTP({
   graphiql: true
 }))
 
-// Add GraphQL route
+
+
+
 
 // Oauth router
 const authRouter = require('./routes/auth')

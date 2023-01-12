@@ -8,14 +8,13 @@ GRANT ALL PRIVILEGES ON *.* TO 'root' @'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 
-
-
 DROP TABLE IF EXISTS `trip`;
 DROP TABLE IF EXISTS `scooter`;
 DROP TABLE IF EXISTS `customer`;
 DROP TABLE IF EXISTS `charging_station`;
 DROP TABLE IF EXISTS `parking_zone`;
 DROP TABLE IF EXISTS `city`;
+DROP TABLE IF EXISTS `api_log`;
 
 DROP PROCEDURE IF EXISTS `get_all_scooters`;
 DROP PROCEDURE IF EXISTS `get_one_scooter`;
@@ -23,7 +22,7 @@ DROP PROCEDURE IF EXISTS `add_scooter`;
 DROP PROCEDURE IF EXISTS `update_scooter`;
 DROP PROCEDURE IF EXISTS `report_scooter`;
 DROP PROCEDURE IF EXISTS `add_zone_to_scooter`;
-DROP PROCEDURE IF EXISTS `add_station:_to_scooter`;
+DROP PROCEDURE IF EXISTS `add_station_to_scooter`;
 
 DROP PROCEDURE IF EXISTS `get_all_customers`;
 DROP PROCEDURE IF EXISTS `get_one_customer`;
@@ -53,6 +52,9 @@ DROP PROCEDURE IF EXISTS `get_trips_details`;
 DROP PROCEDURE IF EXISTS `get_trips_price_details`;
 DROP PROCEDURE IF EXISTS `get_extra_price_details`;
 DROP PROCEDURE IF EXISTS `calc_duration`;
+
+DROP PROCEDURE IF EXISTS `add_api_log_entry`;
+
 
 
 
@@ -136,6 +138,15 @@ CREATE TABLE `trip`
     FOREIGN KEY(`customer_id`) REFERENCES `customer` (`id`),
     FOREIGN KEY(`city`) REFERENCES `city` (`name`)
     );
+
+
+CREATE TABLE `api_log`
+    (
+    `id` INT AUTO_INCREMENT,
+    `ip` CHAR(20),
+    `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
 
 -- ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
 
@@ -566,6 +577,7 @@ DELIMITER ;
 -- END
 
 
+
 -- Procedure to show one trips details
 DELIMITER ;;
 CREATE PROCEDURE get_trips_details(
@@ -597,6 +609,18 @@ CREATE PROCEDURE get_extra_price_details(
 )
 BEGIN
     SELECT `penalty_fee`, `discount` FROM `trip` WHERE `id` = `a_trips_id`;
+END
+;;
+DELIMITER ;
+
+-- Procedure to add a log entry for the public API
+DELIMITER ;;
+CREATE PROCEDURE add_api_log_entry(
+    `a_ip` CHAR(20)
+)
+BEGIN
+    INSERT INTO api_log (`ip`) 
+    VALUES (`a_ip`);
 END
 ;;
 DELIMITER ;

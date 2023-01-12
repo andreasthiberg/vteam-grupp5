@@ -1,6 +1,6 @@
 const Home = () => {
   return (
-    <div class='home-page-content-div'>
+    <div className='home-page-content-div'>
       <h1>Välkommen!</h1>
       <p>På den här sidan kan du:</p>
       <ul>

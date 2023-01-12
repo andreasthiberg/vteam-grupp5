@@ -14,12 +14,14 @@ const TripType = require('./types/trip.js')
 const CityType = require('./types/city.js')
 const ParkingZoneType = require('./types/parking_zone.js')
 const ChargingStationType = require('./types/charging_station.js')
+const LogEntryType = require('./types/log_entry.js')
 
 // Models for database communication
 const scooterModel = require('../models/scooter.js')
 const customerModel = require('../models/customer.js')
 const tripModel = require('../models/trip.js')
 const mapModel = require('../models/map.js')
+const publicAPIModel = require('../models/publicAPI.js')
 
 
 const RootQueryType = new GraphQLObjectType ({
@@ -128,6 +130,14 @@ const RootQueryType = new GraphQLObjectType ({
       resolve: async function (root, args) {
         const chargingStations = await mapModel.getOneStation(args.id)
         return chargingStations[0]
+      }
+    },
+    apiLog: {
+      type: new GraphQLList(LogEntryType),
+      description: 'Get public API log entries',
+      resolve: async function () {
+        const logEntries = await publicAPIModel.getAllEntries()
+        return logEntries
       }
     }
   })
