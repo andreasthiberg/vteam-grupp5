@@ -38,6 +38,7 @@ jobs:
     - name: Setup database
       working-directory: ./backend/test/testDb
       run: |
+        pwd
         sudo /etc/init.d/mysql start
         mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
     - run: mysql -e "source ddl-test.sql;" -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
