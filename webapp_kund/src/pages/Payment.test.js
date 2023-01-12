@@ -10,3 +10,10 @@ test('displays payment information', () => {
   expect(getByText(/Payment/i)).toBeInTheDocument();
   expect(getByText(`Balance: ${balance} sek`)).toBeInTheDocument();
 });
+
+test('Add button exists', () => {
+  const { container } = render(<Payment balance={100} setBalance={() => {}} user={{}} />);
+  const addBtn = container.querySelector('button');
+
+  expect(addBtn).toBeInTheDocument();
+});
