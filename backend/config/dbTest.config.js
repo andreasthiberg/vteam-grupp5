@@ -1,7 +1,7 @@
 // Configuration for test database
 module.exports = {
   host: "localhost",
-  user: "user",
-  password: "password",
+  user: "root",
+  password: "root",
   database: "test"
 }
