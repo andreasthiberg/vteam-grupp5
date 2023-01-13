@@ -93,10 +93,8 @@ const scooter = {
       const calcResult = await calcModel.zoneCalculation(scooter.pos)
       if (calcResult.code === 1) {
         const sql = 'CALL add_zone_to_scooter(?,?)'
-        console.log(calcResult)
         const res = await db.query(sql, [scooter.id, calcResult.id])
         await this.updateScooter({ id: scooter.id, status: 3 })
-        console.log('Uppdaterat')
       }
     }
     db.end()

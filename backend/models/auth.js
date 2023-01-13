@@ -173,7 +173,7 @@ const auth = {
     if (matchFound) {
       loginResult = await this.loginUser(email)
     } else {
-      await this.attemptRegistration({ email, password: 'password', first_name: 'OAuthUserFName', last_name: 'OAuthUserLName' })
+      await this.attemptRegistration({ email, password: 'password', first_name: 'Andreas', last_name: 'Thiberg' })
       loginResult = await this.loginUser(email)
       loginResult.loginMessage = 'Konto skapat!'
     }

@@ -6,14 +6,14 @@
 .map-content-div {
     display: grid;
     grid-template-columns: 250px 200px 800px 200px 250px;
-    grid-template-rows: 80px 400px 200px;
+    grid-template-rows: 80px 600px 200px;
     justify-content: center;
 }
 
 .map-display-div {
     display: flex;
     justify-content: center;
-    height: 400px;
+    height: 600px;
     width: 800px;
     grid-row: 2 / 3;
     grid-column: 3 / 4;
@@ -54,7 +54,7 @@
 }
 .map-list-div {
     position:relative;
-    height: 400px;
+    height: 600px;
     width: 200px;
     overflow-y: auto;
 }

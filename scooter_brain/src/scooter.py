@@ -82,7 +82,10 @@ class Scooter():
 
     # Change current battery by x
     def change_battery(self,x):
-        self.battery = self.battery + x
+        if((self.battery + x) > 100):
+            self.battery = 100
+        else:
+            self.battery = self.battery + x
 
     # Change current battery by x
     def change_status(self,x):
