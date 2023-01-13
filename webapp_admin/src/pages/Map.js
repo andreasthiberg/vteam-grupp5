@@ -113,7 +113,7 @@ export default function Map () {
               ? <SelectedScooterDisplay
                   setSelectedStation={setSelectedStation} setSelectedScooter={setSelectedScooter}
                   chargingStations={chargingStations} selectedScooter={selectedScooter} selectedTrip={selectedTrip}
-                  setSelectedMode={setSelectedMode} scootersInfo={scootersInfo}
+                  setSelectedMode={setSelectedMode} scootersInfo={scootersInfo} setSelectedTrip={setSelectedTrip}
                 />
               : null}
           <div className='city-select-div'>

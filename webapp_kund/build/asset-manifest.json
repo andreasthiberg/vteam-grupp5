@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9df4f780.css",
+    "main.js": "/static/js/main.dedfad93.js",
+    "static/js/787.42f3eaf8.chunk.js": "/static/js/787.42f3eaf8.chunk.js",
+    "static/media/high5_header01.png": "/static/media/high5_header01.35142da4d368309c7120.png",
+    "index.html": "/index.html",
+    "main.9df4f780.css.map": "/static/css/main.9df4f780.css.map",
+    "main.dedfad93.js.map": "/static/js/main.dedfad93.js.map",
+    "787.42f3eaf8.chunk.js.map": "/static/js/787.42f3eaf8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9df4f780.css",
+    "static/js/main.dedfad93.js"
+  ]
+}

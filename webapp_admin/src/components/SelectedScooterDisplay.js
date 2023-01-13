@@ -28,7 +28,8 @@ function Buttons ({ status, releaseScooter, stopScooter, moveToChargingStation, 
 
 export default function SelectedScooterDisplay ({
   chargingStations, setSelectedStation, selectedScooter,
-  setSelectedMode, setSelectedScooter, selectedTrip, scootersInfo
+  setSelectedMode, setSelectedScooter, selectedTrip, scootersInfo,
+  setSelectedTrip
 }) {
   const dummyScooter = { status: 0, id: 0, pos: [0, 0], battery: 100 }
   const [currentScooterInfo, setCurrentScooterInfo] = useState(dummyScooter)
@@ -56,6 +57,7 @@ export default function SelectedScooterDisplay ({
     const oldScooter = selectedScooter
     oldScooter.status = tripReport.new_scooter_status
     setSelectedScooter(oldScooter)
+    setSelectedTrip({id:0})
   }
 
   function releaseScooter () {
